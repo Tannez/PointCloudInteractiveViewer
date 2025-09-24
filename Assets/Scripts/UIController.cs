@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.Edl;
+using BAPointCloudRenderer.Loading;
 using BAPointCloudRenderer.ObjectCreation;
 using TMPro;
 using UnityEngine;
@@ -16,14 +17,17 @@ public class UIController : MonoBehaviour
     [Tooltip("Insert GameObject with a Dynamic Loader Script attached to it")]
     [SerializeField] private GameObject pointClouds;
 
+    // Loaders
+    PointCloudLoader pointCloudBygLoader;
+    PointCloudLoader pointCloudTerLoader;
+
+    // Mesh Configurations
     [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
 
-
-    private DynamicPointCloudSet dynamicPointCloudScript;
-
     [Header("Values")]
-    [SerializeField] public uint PCPointBudget;
+    [SerializeField] public uint PCPointBudget1;
+    [SerializeField] public uint PCPointBudget2;
     [SerializeField] public float EDLRadiusUI { get { return edlCamera._edlRadius; } set { edlCamera._edlRadius = EDLRadiusSlider.value; } }
     [SerializeField] public float EDLExpScaleUI { get { return edlCamera._edlExpScale; } set { edlCamera._edlExpScale = EDLExpScaleSlider.value; } }
     [SerializeField] public float EDLScaleUI { get { return edlCamera._edlScale; } set { edlCamera._edlScale = EDLScaleSlider.value; } }
@@ -63,21 +67,23 @@ public class UIController : MonoBehaviour
         // Access Main Camera
         cam = Camera.main;
 
-        dynamicPointCloudScript = pointClouds.GetComponent<DynamicPointCloudSet>();
-
-        PCPointBudget = dynamicPointCloudScript.pointBudget;
-
-        // Get EDL values from EdlCamera Script
-        EDLRadiusUI = edlCamera.EdlRadius;
-        EDLExpScaleUI = edlCamera.EdlExpScale;
-        EDLScaleUI = edlCamera.EdlScale;
-
         // Exploded View 
         pointCloudByg = GameObject.Find("KalkværkPCLoader");
         pointCloudTer = GameObject.Find("KalkværkPCLoader2");
 
         pointCloudByg.transform.position = new Vector3(1.27f, -4.43f, 1.0f);
         pointCloudTer.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+
+        pointCloudBygLoader = pointCloudByg.GetComponent<PointCloudLoader>();
+        pointCloudTerLoader = pointCloudTer.GetComponent<PointCloudLoader>();
+
+        PCPointBudget1 = pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget;
+        PCPointBudget2 = pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget;
+
+        // Get EDL values from EdlCamera Script
+        EDLRadiusUI = edlCamera.EdlRadius;
+        EDLExpScaleUI = edlCamera.EdlExpScale;
+        EDLScaleUI = edlCamera.EdlScale;
 
         // Set Slider values
         EDLRadiusSlider.value = EDLRadiusUI;
@@ -102,10 +108,44 @@ public class UIController : MonoBehaviour
 
     public void PCValueChangeCheck()
     {
-        PCPointBudget = (uint)pointBudgetSlider.value;
-        pointBudgetSliderText.text = PCPointBudget.ToString();
-        Debug.Log(dynamicPointCloudScript.PointRenderer.GetPointCount());
+        GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
+        GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+        PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_bygværk_converted").GetComponent<PointCloudLoader>();
+        PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_terræn_converted").GetComponent<PointCloudLoader>();
+        
+        // Remove Clouds
+        pointCloudBygLoader.RemovePointCloud();
+        pointCloudTerLoader.RemovePointCloud();
+
+        // ShutDown V2 Renderer
+        pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+        pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+
+        // Disable DynamicPointCloudSet Component
+        pointCloudByg.SetActive(false);
+        pointCloudTer.SetActive(false);
+
+        // Change Value Of Point Budget
+        PCPointBudget1 = (uint)pointBudgetSlider.value;
+        pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
+        PCPointBudget2 = (uint)pointBudgetSlider.value;
+        pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
+        pointBudgetSliderText.text = PCPointBudget1.ToString();
+
+        // Enable DynamicPointCloudSet
+        pointCloudByg.SetActive(true);
+        pointCloudTer.SetActive(true);pointCloudBygLoader.RemovePointCloud();
+        pointCloudTerLoader.RemovePointCloud();
+
+        // // Show V2 Renderer
+        pointCloudBygLoader.LoadPointCloud();
+        pointCloudTerLoader.LoadPointCloud();
+
+        // Load Clouds
+        pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
+        pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
     }
+
     public void EDLRadiusChangeCheck()
     {
         EDLRadiusUI = EDLRadiusSlider.value;
