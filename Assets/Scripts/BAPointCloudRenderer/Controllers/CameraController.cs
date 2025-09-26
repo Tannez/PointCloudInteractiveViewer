@@ -37,7 +37,7 @@ namespace BAPointCloudRenderer.Controllers {
                 MouseClickOnScene = true;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(1))
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
