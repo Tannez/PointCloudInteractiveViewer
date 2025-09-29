@@ -8,6 +8,7 @@ Shader "Custom/PointShader"
 	*/
 	SubShader
 	{
+		Tags {"Queue" = "Geometry"}
 		LOD 200
 
 		Pass

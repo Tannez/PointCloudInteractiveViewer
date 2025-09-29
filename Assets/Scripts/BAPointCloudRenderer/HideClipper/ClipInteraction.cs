@@ -9,7 +9,7 @@ public class ClipInteraction : MonoBehaviour
     // Primitive Variables
     [SerializeField] private GameObject primitiveGO;
     [SerializeField] private Material primitiveMaterial;
-    private bool primitiveIsSelected = false;
+    // private bool primitiveIsSelected = false;
 
     // Position Variables
 
@@ -22,21 +22,14 @@ public class ClipInteraction : MonoBehaviour
         primitiveMaterial = new Material(Shader.Find("Unlit/HideObject")); 
     }
 
-    void Update()
-    {
-        if (primitiveIsSelected)
-        {
-            primitiveMaterial.SetFloat("_Toloerance", 1);
-        }
-        else
-        {
-            primitiveMaterial.SetFloat("_Toloerance", 0);
-        }
-    }
+    // void Update()
+    // {
+        
+    // }
 
     void OnMouseDown()
     {
-        primitiveIsSelected = true;
+        // primitiveIsSelected = true;
 
         screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
@@ -50,8 +43,8 @@ public class ClipInteraction : MonoBehaviour
         transform.position = curPosition;
     }
 
-    void OnMouseUp()
-    {
-        primitiveIsSelected = false;
-    }
+    // void OnMouseUp()
+    // {
+    //     // primitiveIsSelected = false;
+    // }
 }

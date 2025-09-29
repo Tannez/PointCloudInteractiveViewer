@@ -16,11 +16,12 @@ Shader "Custom/QuadGeoWorldSizeShader"
 
 	SubShader
 	{
+		Tags {"Queue" = "Geometry"}
 		LOD 200
 
 		Pass
 		{
-			Cull off
+			Cull Front
 
 			CGPROGRAM
 			#pragma vertex vert

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - UI
+  - ToolCamera
   layers:
   - Default
   - TransparentFX

@@ -11,7 +11,7 @@ Shader "Hidden/ScreenBlit"
   {
     Pass
     {
-      Tags{ "Queue" = "Overlay" }
+      Tags{ "Queue" = "Geometry" }
       ZTest Always
       Cull Off
       ZWrite Off
