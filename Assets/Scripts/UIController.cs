@@ -57,6 +57,13 @@ public class UIController : MonoBehaviour
     private GameObject pointCloudByg;
     private GameObject pointCloudTer;
 
+    [Header("Clipper Buttons")]
+    private GameObject Clipper;
+    private bool activeBoxClipper = false;
+    private bool activeSphereClipper = false;
+    [SerializeField] Button boxClipButton;
+    [SerializeField] Button sphereClipButton;
+
 
 
     [Header("Exploded View Control")]
@@ -267,6 +274,34 @@ public class UIController : MonoBehaviour
 
     public void BoxMeshClipper(GameObject clippingBox)
     {
-        Instantiate(clippingBox, new Vector3(0,0,0), Quaternion.identity);
+        if (!activeBoxClipper)
+        {
+            Clipper = Instantiate(clippingBox, new Vector3(0, 0, 0), Quaternion.identity);
+            activeBoxClipper = true;
+            boxClipButton.image.color = Color.red;
+
+        }
+        else if (activeBoxClipper)
+        {
+            GameObject.Destroy(Clipper);
+            activeBoxClipper = false;
+            boxClipButton.image.color = Color.white;
+        }
+    }
+    public void SphereMeshClipper(GameObject clippingSphere)
+    {
+        if (!activeSphereClipper)
+        {
+            Clipper = Instantiate(clippingSphere, new Vector3(0, 0, 0), Quaternion.identity);
+            activeSphereClipper = true;
+            sphereClipButton.image.color = Color.red;
+
+        }
+        else if (activeSphereClipper)
+        {
+            GameObject.Destroy(Clipper);
+            activeSphereClipper = false;
+            sphereClipButton.image.color = Color.white;
+        }
     }
 }

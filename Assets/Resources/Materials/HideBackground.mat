@@ -21,18 +21,17 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: HideBackground
-  m_Shader: {fileID: -6465566751694194690, guid: d7151f65d07656b429b5c4d2c0205d84, type: 3}
+  m_Shader: {fileID: 4800000, guid: 68958bfd8e4c96545a4e8ec79815ca29, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _BUILTIN_SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -84,6 +83,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_afbd756e0fb74796a4a917173dd3697b_Out_0_Texture2D:
         m_Texture: {fileID: 8400000, guid: 8ae6a3f98c50130419c7e2a4bec7cb46, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture3DAsset_654bef2cd60a44a698b39a351cdb9a82_Out_0_Texture3D:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
