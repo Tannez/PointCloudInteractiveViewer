@@ -55,7 +55,7 @@ public class UIController : MonoBehaviour
 
     //Exploded View GO's 
     private GameObject pointCloudByg;
-    private GameObject pointCloudTer; 
+    private GameObject pointCloudTer;
 
 
 
@@ -112,7 +112,7 @@ public class UIController : MonoBehaviour
         GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
         PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_bygværk_converted").GetComponent<PointCloudLoader>();
         PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_terræn_converted").GetComponent<PointCloudLoader>();
-        
+
         // Remove Clouds
         pointCloudBygLoader.RemovePointCloud();
         pointCloudTerLoader.RemovePointCloud();
@@ -134,7 +134,7 @@ public class UIController : MonoBehaviour
 
         // Enable DynamicPointCloudSet
         pointCloudByg.SetActive(true);
-        pointCloudTer.SetActive(true);pointCloudBygLoader.RemovePointCloud();
+        pointCloudTer.SetActive(true); pointCloudBygLoader.RemovePointCloud();
         pointCloudTerLoader.RemovePointCloud();
 
         // // Show V2 Renderer
@@ -253,7 +253,7 @@ public class UIController : MonoBehaviour
             defaultMeshConfiguration.pointRadius += 0.25f;
             defaultMeshConfiguration.reload = true;
             // Debug.Log("Point Radius Increased");
-        }        
+        }
     }
     public void PointSizeDown()
     {
@@ -263,5 +263,10 @@ public class UIController : MonoBehaviour
             defaultMeshConfiguration.reload = true;
             // Debug.Log("Point Radius Decreased");
         }
+    }
+
+    public void BoxMeshClipper(GameObject clippingBox)
+    {
+        Instantiate(clippingBox, new Vector3(0,0,0), Quaternion.identity);
     }
 }
