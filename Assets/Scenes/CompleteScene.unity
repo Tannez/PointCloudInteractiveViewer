@@ -731,54 +731,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135345050}
   m_CullTransparentMesh: 1
---- !u!1 &152051731
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 152051733}
-  - component: {fileID: 152051732}
-  m_Layer: 0
-  m_Name: "N028_kalkv\xE6rksvej_terr\xE6n_converted"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &152051732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152051731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 830a9d4c15accb94ba7628d60d43cda9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.PointCloudLoader
-  cloudPath: "C:\\Users\\marku\\Desktop\\Uni\\MED 9\\Project\\PCBygv\xE6rkWithEDL\\Assets\\Resources\\PointCloudData\\NordV\xE6rkPCs\\N028_kalkv\xE6rksvej_terr\xE6n_converted"
-  streamingAssetsAsRoot: 0
-  setController: {fileID: 1244217036}
-  loadOnStart: 1
---- !u!4 &152051733
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152051731}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &180084071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,7 +1529,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_terr\xE6n_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &368540013
@@ -2605,7 +2557,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_terr\xE6n_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &558067075
@@ -2718,6 +2670,54 @@ RectTransform:
   m_AnchoredPosition: {x: 5, y: 0}
   m_SizeDelta: {x: -10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &565724693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 565724695}
+  - component: {fileID: 565724694}
+  m_Layer: 0
+  m_Name: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &565724694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565724693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830a9d4c15accb94ba7628d60d43cda9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.PointCloudLoader
+  cloudPath: "C:\\Users\\marku\\Documents\\GitHub\\PointCloudInteractiveViewer\\Assets\\Resources\\PointCloudData\\ClassifiedPointClouds\\N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
+  streamingAssetsAsRoot: 0
+  setController: {fileID: 1122173187}
+  loadOnStart: 1
+--- !u!4 &565724695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565724693}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &575857084
 GameObject:
   m_ObjectHideFlags: 0
@@ -2872,10 +2872,34 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 609243450}
+  m_TargetGraphic: {fileID: 954932790}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1939044085}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: HidePC
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1939044085}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: HidePC
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1939044085}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: IntensityConversion
@@ -2890,26 +2914,14 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1939044085}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: HidePC
+        m_MethodName: ShowPC
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_bygv\xE6rk_converted"
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1939044085}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: HidePC
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_terr\xE6n_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1939044085}
@@ -2921,7 +2933,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_class_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &609243450
@@ -4616,6 +4628,30 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1939044085}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: HidePC
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1939044085}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: HidePC
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1939044085}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: RGBConversion
         m_Mode: 1
         m_Arguments:
@@ -4635,7 +4671,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_bygv\xE6rk_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1939044085}
@@ -4647,19 +4683,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_terr\xE6n_converted"
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1939044085}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: HidePC
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_class_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &954932790
@@ -5613,7 +5637,7 @@ MonoBehaviour:
   pointRadius: 1
   renderCircles: 0
   screenSize: 1
-  interpolation: 0
+  interpolation: 2
   colorMode: 0
   reload: 0
   renderCamera: {fileID: 1729378589}
@@ -6501,10 +6525,34 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1242239699}
+  m_TargetGraphic: {fileID: 954932790}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1939044085}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: HidePC
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1939044085}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: HidePC
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1939044085}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: ClassificationConversion
@@ -6519,26 +6567,14 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1939044085}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: HidePC
+        m_MethodName: ShowPC
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_bygv\xE6rk_converted"
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1939044085}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: HidePC
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_terr\xE6n_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1939044085}
@@ -6550,7 +6586,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_class_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1242239699
@@ -6704,7 +6740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6677daf0b515a345860ff455af0edc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.DirectoryLoader
-  path: "Assets/Resources/PointCloudData/NordV\xE6rkPCs"
+  path: Assets/Resources/PointCloudData/ClassifiedPointClouds
   streamingAssetsAsRoot: 0
   pointset: {fileID: 1122173187}
 --- !u!1 &1273356991
@@ -6810,102 +6846,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 24286993}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1306904067
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1306904069}
-  - component: {fileID: 1306904068}
-  m_Layer: 0
-  m_Name: "N028_kalkv\xE6rksvej_class_converted"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1306904068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306904067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 830a9d4c15accb94ba7628d60d43cda9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.PointCloudLoader
-  cloudPath: "C:\\Users\\marku\\Desktop\\Uni\\MED 9\\Project\\PCBygv\xE6rkWithEDL\\Assets\\Resources\\PointCloudData\\NordV\xE6rkPCs\\N028_kalkv\xE6rksvej_class_converted"
-  streamingAssetsAsRoot: 0
-  setController: {fileID: 1122173187}
-  loadOnStart: 0
---- !u!4 &1306904069
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306904067}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1320775195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1320775197}
-  - component: {fileID: 1320775196}
-  m_Layer: 0
-  m_Name: "N028_kalkv\xE6rksvej_bygv\xE6rk_converted"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1320775196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320775195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 830a9d4c15accb94ba7628d60d43cda9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.PointCloudLoader
-  cloudPath: "C:\\Users\\marku\\Desktop\\Uni\\MED 9\\Project\\PCBygv\xE6rkWithEDL\\Assets\\Resources\\PointCloudData\\NordV\xE6rkPCs\\N028_kalkv\xE6rksvej_bygv\xE6rk_converted"
-  streamingAssetsAsRoot: 0
-  setController: {fileID: 1122173187}
-  loadOnStart: 1
---- !u!4 &1320775197
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320775195}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1337475756
 GameObject:
@@ -7840,7 +7780,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_bygv\xE6rk_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1479930263
@@ -9006,7 +8946,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "N028_kalkv\xE6rksvej_bygv\xE6rk_converted"
+          m_StringArgument: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1715500237
@@ -10230,6 +10170,54 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2047100422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2047100424}
+  - component: {fileID: 2047100423}
+  m_Layer: 0
+  m_Name: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2047100423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047100422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830a9d4c15accb94ba7628d60d43cda9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.PointCloudLoader
+  cloudPath: "C:\\Users\\marku\\Documents\\GitHub\\PointCloudInteractiveViewer\\Assets\\Resources\\PointCloudData\\ClassifiedPointClouds\\N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
+  streamingAssetsAsRoot: 0
+  setController: {fileID: 1244217036}
+  loadOnStart: 1
+--- !u!4 &2047100424
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047100422}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2093649174
 GameObject:
   m_ObjectHideFlags: 0
@@ -10772,6 +10760,5 @@ SceneRoots:
   - {fileID: 1939044086}
   - {fileID: 1008741687}
   - {fileID: 1498553262}
-  - {fileID: 1320775197}
-  - {fileID: 1306904069}
-  - {fileID: 152051733}
+  - {fileID: 565724695}
+  - {fileID: 2047100424}
