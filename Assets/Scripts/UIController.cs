@@ -58,11 +58,13 @@ public class UIController : MonoBehaviour
     private GameObject pointCloudTer;
 
     [Header("Clipper Buttons")]
-    private GameObject Clipper;
+    private GameObject[] Clipper = new GameObject[3];
     private bool activeBoxClipper = false;
     private bool activeSphereClipper = false;
+    private bool activeCylinderClipper = false;
     [SerializeField] Button boxClipButton;
     [SerializeField] Button sphereClipButton;
+    [SerializeField] Button cylinderClipButton;
 
 
 
@@ -276,14 +278,14 @@ public class UIController : MonoBehaviour
     {
         if (!activeBoxClipper)
         {
-            Clipper = Instantiate(clippingBox, new Vector3(0, 0, 0), Quaternion.identity);
+            Clipper[0] = Instantiate(clippingBox, new Vector3(0, 0, 0), Quaternion.identity);
             activeBoxClipper = true;
             boxClipButton.image.color = Color.red;
 
         }
         else if (activeBoxClipper)
         {
-            GameObject.Destroy(Clipper);
+            GameObject.DestroyImmediate(Clipper[0],true);
             activeBoxClipper = false;
             boxClipButton.image.color = Color.white;
         }
@@ -292,16 +294,33 @@ public class UIController : MonoBehaviour
     {
         if (!activeSphereClipper)
         {
-            Clipper = Instantiate(clippingSphere, new Vector3(0, 0, 0), Quaternion.identity);
+            Clipper[1] = Instantiate(clippingSphere, new Vector3(0, 0, 0), Quaternion.identity);
             activeSphereClipper = true;
             sphereClipButton.image.color = Color.red;
 
         }
         else if (activeSphereClipper)
         {
-            GameObject.Destroy(Clipper);
+            GameObject.DestroyImmediate(Clipper[1],true);
             activeSphereClipper = false;
             sphereClipButton.image.color = Color.white;
+        }
+    }
+
+    public void CylinderMeshClipper(GameObject clippingCylinder)
+    {
+        if (!activeCylinderClipper)
+        {
+            Clipper[2] = Instantiate(clippingCylinder, new Vector3(0, 0, 0), Quaternion.identity);
+            activeCylinderClipper = true;
+            cylinderClipButton.image.color = Color.red;
+
+        }
+        else if (activeCylinderClipper)
+        {
+            GameObject.DestroyImmediate(Clipper[2],true);
+            activeCylinderClipper = false;
+            cylinderClipButton.image.color = Color.white;
         }
     }
 }
