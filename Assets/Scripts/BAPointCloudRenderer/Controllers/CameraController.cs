@@ -32,12 +32,12 @@ namespace BAPointCloudRenderer.Controllers {
                 Cursor.visible = true;
             }
 
-            else if (Input.GetKey(KeyCode.Escape) && MouseClickOnScene == false)
-            {
-                MouseClickOnScene = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
+            // else if (Input.GetKey(KeyCode.Escape) && MouseClickOnScene == false)
+            // {
+            //     MouseClickOnScene = true;
+            //     Cursor.lockState = CursorLockMode.Locked;
+            //     Cursor.visible = false;
+            // }
 
             if (Input.GetMouseButtonDown(1))
             {
