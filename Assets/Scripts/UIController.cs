@@ -119,8 +119,8 @@ public class UIController : MonoBehaviour
     {
         GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
         GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
-        PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_bygværk_converted").GetComponent<PointCloudLoader>();
-        PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_terræn_converted").GetComponent<PointCloudLoader>();
+        PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+        PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
 
         // Remove Clouds
         pointCloudBygLoader.RemovePointCloud();

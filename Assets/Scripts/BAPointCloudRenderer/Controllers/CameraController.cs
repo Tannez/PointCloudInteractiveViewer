@@ -23,7 +23,8 @@ namespace BAPointCloudRenderer.Controllers {
             Cursor.visible = false;
         }
 
-        void Update() {
+        void Update()
+        {
             if (Input.GetKey(KeyCode.Escape) && MouseClickOnScene == true)
             {
                 MouseClickOnScene = false;
@@ -52,7 +53,15 @@ namespace BAPointCloudRenderer.Controllers {
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                 }
-            }        
+            }      
+
+            if (Input.GetKeyDown("space"))
+                {
+                    Camera.main.transform.position = new Vector3(-23.8f, 11.7f, -15.4f);
+                    // Camera.main.transform.eulerAngles = new Vector3(20.75f, 53.5f, 0f);
+                    pitch = 20.75f;
+                    yaw = 53.5f;
+                }  
         }
 
         void FixedUpdate()
@@ -80,13 +89,6 @@ namespace BAPointCloudRenderer.Controllers {
                 yaw += 5 * Input.GetAxis("Mouse X");
                 pitch -= 5 * Input.GetAxis("Mouse Y");
 
-                if (Input.GetKeyDown("space"))
-                {
-                    Camera.main.transform.position = new Vector3(-23.8f, 11.7f, -15.4f);
-                    // Camera.main.transform.eulerAngles = new Vector3(20.75f, 53.5f, 0f);
-                    pitch = 20.75f;
-                    yaw = 53.5f;
-                }
                 transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
             }
         }
