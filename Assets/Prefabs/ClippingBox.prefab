@@ -172,4 +172,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a49fe7904a22843b8b0f86b798eeec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClipRenderQueue
-  m_queues: e8030000
+  m_queues: f4010000

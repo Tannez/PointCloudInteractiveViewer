@@ -16,6 +16,7 @@ public class UIController : MonoBehaviour
     //Reference to pointcloud gameobject and its script
     [Tooltip("Insert GameObject with a Dynamic Loader Script attached to it")]
     [SerializeField] private GameObject pointClouds;
+    [SerializeField] private GameObject clippingPlane;
 
     // Loaders
     PointCloudLoader pointCloudBygLoader;
@@ -182,17 +183,20 @@ public class UIController : MonoBehaviour
 
     public void SkyBoxButton()
     {
+        clippingPlane.SetActive(false);
         cam.clearFlags = CameraClearFlags.Skybox;
         Debug.Log("SkyBox Button Pressed!");
     }
     public void BlackButton()
     {
+        clippingPlane.SetActive(true);
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = Color.black;
         Debug.Log("Black Button Pressed!");
     }
     public void WhiteButton()
     {
+        clippingPlane.SetActive(true);
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = Color.white;
         Debug.Log("White Button Pressed!");

@@ -478,6 +478,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 65268371}
   m_CullTransparentMesh: 1
+--- !u!1001 &65366082
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1729378592}
+    m_Modifications:
+    - target: {fileID: 2630553830034664690, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_Name
+      value: ClippingPlane
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+--- !u!4 &65366083 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+  m_PrefabInstance: {fileID: 65366082}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &79413894
 GameObject:
   m_ObjectHideFlags: 0
@@ -7911,6 +7973,11 @@ RectTransform:
   m_AnchoredPosition: {x: -13.831421, y: -32.75753}
   m_SizeDelta: {x: 495.297, y: 43.519}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1493748271 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2630553830034664690, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+  m_PrefabInstance: {fileID: 65366082}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1498553258
 GameObject:
   m_ObjectHideFlags: 0
@@ -9217,6 +9284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11c4f65283b3534c89d8b94952e9730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MouseClickOnScene: 1
   normalSpeed: 10
 --- !u!4 &1729378592
 Transform:
@@ -9230,7 +9298,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 65366083}
   m_Father: {fileID: 24286993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1805810715
@@ -9894,6 +9963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   pointClouds: {fileID: 1122173186}
+  clippingPlane: {fileID: 1493748271}
   pointMeshConfiguration: {fileID: 0}
   defaultMeshConfiguration: {fileID: 1132043804}
   PCPointBudget1: 0
