@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 444378346836156725}
   - component: {fileID: 8562574706377937693}
   - component: {fileID: 3651097722195411270}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ClippingPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

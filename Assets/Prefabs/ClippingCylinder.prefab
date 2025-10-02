@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6424157898767909367}
   - component: {fileID: -8162665548445745137}
   - component: {fileID: 9016881925883782229}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ClippingCylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

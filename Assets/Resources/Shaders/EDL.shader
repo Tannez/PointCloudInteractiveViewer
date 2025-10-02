@@ -25,7 +25,7 @@ Shader "Hidden/EDL"
       ZTest Always
       Cull Off
       ZWrite Off
-      //ZWrite On
+      // ZWrite On
 
       CGPROGRAM
 #pragma vertex vert_img
