@@ -1524,8 +1524,7 @@ MonoBehaviour:
   clippingPlane: {fileID: 852252639}
   pointMeshConfiguration: {fileID: 0}
   defaultMeshConfiguration: {fileID: 218944853}
-  PCPointBudget1: 0
-  PCPointBudget2: 0
+  PCPointBudget: 
   pointBudgetSlider: {fileID: 724714772}
   pointBudgetSliderText: {fileID: 1893383707}
   EDLRadiusSliderParent: {fileID: 268249655}
