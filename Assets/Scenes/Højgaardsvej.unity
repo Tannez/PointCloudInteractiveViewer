@@ -1521,10 +1521,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   pointClouds: []
   cloudInstantiator: {fileID: 1053416182}
+  InitialCloudLoader: {fileID: 818226982}
   clippingPlane: {fileID: 852252639}
   pointMeshConfiguration: {fileID: 0}
   defaultMeshConfiguration: {fileID: 218944853}
-  PCPointBudget: 
+  PCPointBudget: 0
   pointBudgetSlider: {fileID: 724714772}
   pointBudgetSliderText: {fileID: 1893383707}
   EDLRadiusSliderParent: {fileID: 268249655}

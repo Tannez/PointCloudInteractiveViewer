@@ -18,6 +18,7 @@ public class UIController : MonoBehaviour
     [Tooltip("Insert GameObject with a Dynamic Loader Script attached to it")]
     [SerializeField] public List<GameObject> pointClouds = new List<GameObject>();
     [SerializeField] CloudInstantiator cloudInstantiator;
+    [SerializeField] GameObject InitialCloudLoader;
     DirectoryLoader directoryLoader;
     [SerializeField] private GameObject clippingPlane;
 
@@ -30,7 +31,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
 
     [Header("Point Budget Values")]
-    [SerializeField] public List<uint> PCPointBudget = new List<uint>();
+    [SerializeField] public uint PCPointBudget;
     [SerializeField] public float EDLRadiusUI { get { return edlCamera._edlRadius; } set { edlCamera._edlRadius = EDLRadiusSlider.value; } }
     [SerializeField] public float EDLExpScaleUI { get { return edlCamera._edlExpScale; } set { edlCamera._edlExpScale = EDLExpScaleSlider.value; } }
     [SerializeField] public float EDLScaleUI { get { return edlCamera._edlScale; } set { edlCamera._edlScale = EDLScaleSlider.value; } }
@@ -86,25 +87,12 @@ public class UIController : MonoBehaviour
         directoryLoader = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryLoader>();
         pointClouds = directoryLoader.pointClouds;
 
-        // // Exploded View 
-
-        // pointCloudByg = GameObject.Find("KalkværkPCLoader");
-        // pointCloudTer = GameObject.Find("KalkværkPCLoader2");
-
-        // pointCloudByg.transform.position = new Vector3(1.27f, -4.43f, 1.0f);
-        // pointCloudTer.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-
-        // pointCloudBygLoader = pointCloudByg.GetComponent<PointCloudLoader>();
-        // pointCloudTerLoader = pointCloudTer.GetComponent<PointCloudLoader>();
-
-
+        PCPointBudget = InitialCloudLoader.GetComponent<DynamicPointCloudSet>().pointBudget;
         // Point Budget <- JEG ARBEJDER HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // foreach (GameObject PC in pointClouds)
-        // {
-        //     PCPointBudget.Add(PC.GetComponent<DynamicPointCloudSet>().pointBudget);
-        // }
-        // PCPointBudget1 = pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget;
-        // PCPointBudget2 = pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget;
+        foreach (GameObject cloud in pointClouds)
+        {
+            cloud.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
+        }
 
         // Point Budget <- JEG ARBEJDER HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -141,43 +129,42 @@ public class UIController : MonoBehaviour
     public void PCValueChangeCheck()
     {
         // Remove Clouds
-        pointCloudBygLoader.RemovePointCloud();
-        pointCloudTerLoader.RemovePointCloud();
+        foreach (GameObject cloud in pointClouds)
+            {
+                // Remove Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
 
-        // ShutDown V2 Renderer
-        pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-        pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                // ShutDown V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
 
-        // Disable DynamicPointCloudSet Component
-        pointCloudByg.SetActive(false);
-        pointCloudTer.SetActive(false);
+                // Disable DynamicPointCloudSet Component
+                cloud.SetActive(false);
+            }
 
         // Change Value Of Point Budget
-        // foreach (uint PCPB in PCPointBudget)
-        // {
-        //     PCPointBudget = (uint)pointBudgetSlider.value;
+        PCPointBudget = (uint)pointBudgetSlider.value; 
 
-        //     PCPointBudget.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
-        // }
-                        // PCPointBudget1 = (uint)pointBudgetSlider.value;
-                        // pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
-                        // PCPointBudget2 = (uint)pointBudgetSlider.value;
-                        // pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
+
+        foreach (GameObject cloud in pointClouds)
+        {
+            cloud.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
+        }
 
         pointBudgetSliderText.text = PCPointBudget.ToString();
 
-        // Enable DynamicPointCloudSet
-        pointCloudByg.SetActive(true);
-        pointCloudTer.SetActive(true); pointCloudBygLoader.RemovePointCloud();
-        pointCloudTerLoader.RemovePointCloud();
+        //Enable Clouds
+        foreach (GameObject cloud in pointClouds)
+            {
+                // Enable DynamicPointCloudSet Component
+                cloud.SetActive(true);
 
-        // // Show V2 Renderer
-        pointCloudBygLoader.LoadPointCloud();
-        pointCloudTerLoader.LoadPointCloud();
+                // Enable Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
 
-        // Load Clouds
-        pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
-        pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
+                // Show V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+
+            }
     }
 
     // Methods For EDL Parameters
