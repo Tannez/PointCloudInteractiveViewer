@@ -200,11 +200,13 @@ public class UIController : MonoBehaviour
     // Method For Explod View 
     public void ExplodedViewSpread()
     {
-        GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
-        GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+        int cloudRuns = 0; 
 
-        pointCloudByg.transform.position = new Vector3(1.275f, -4.43f - ExplodedViewSlider.value * 2, 1.0f);
-        pointCloudTer.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * 2, 0.0f);
+        foreach (GameObject cloud in pointClouds)
+        {
+            cloud.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * (pointClouds.Count - cloudRuns), 0.0f);
+            cloudRuns++;
+        }
     }
 
     // Methods For Changing Skybox/Background Color In Scene
@@ -391,37 +393,6 @@ public class UIController : MonoBehaviour
                 cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
 
             }
-
-            // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                // // Remove Clouds
-                // pointCloudBygLoader.RemovePointCloud();
-                // pointCloudTerLoader.RemovePointCloud();
-
-                // // ShutDown V2 Renderer
-                // pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                // pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
-                // // Disable DynamicPointCloudSet Component
-                // pointCloudByg.SetActive(false);
-                // pointCloudTer.SetActive(false);
-
-                // // Change ColorMode
-                // RGBConversion();
-
-                // // Enable DynamicPointCloudSet
-                // pointCloudByg.SetActive(true);
-                // pointCloudTer.SetActive(true);
-                // pointCloudBygLoader.RemovePointCloud();
-                // pointCloudTerLoader.RemovePointCloud();
-
-                // // // Show V2 Renderer
-                // pointCloudBygLoader.LoadPointCloud();
-                // pointCloudTerLoader.LoadPointCloud();
-
-                // // Load Clouds
-                // pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
-                // pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
         }
 
         else if (colorModeDropDown.value == 1)
@@ -455,37 +426,6 @@ public class UIController : MonoBehaviour
                 cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
 
             }
-
-            // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                // // Remove Clouds
-                // pointCloudBygLoader.RemovePointCloud();
-                // pointCloudTerLoader.RemovePointCloud();
-
-                // // ShutDown V2 Renderer
-                // pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                // pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
-                // // Disable DynamicPointCloudSet Component
-                // pointCloudByg.SetActive(false);
-                // pointCloudTer.SetActive(false);
-
-                // // Change ColorMode
-                // RGBConversion();
-
-                // // Enable DynamicPointCloudSet
-                // pointCloudByg.SetActive(true);
-                // pointCloudTer.SetActive(true);
-                // pointCloudBygLoader.RemovePointCloud();
-                // pointCloudTerLoader.RemovePointCloud();
-
-                // // // Show V2 Renderer
-                // pointCloudBygLoader.LoadPointCloud();
-                // pointCloudTerLoader.LoadPointCloud();
-
-                // // Load Clouds
-                // pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
-                // pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
         }
         else if (colorModeDropDown.value == 2)
         {
@@ -518,37 +458,6 @@ public class UIController : MonoBehaviour
                 cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
 
             }
-
-            // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                // // Remove Clouds
-                // pointCloudBygLoader.RemovePointCloud();
-                // pointCloudTerLoader.RemovePointCloud();
-
-                // // ShutDown V2 Renderer
-                // pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                // pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
-                // // Disable DynamicPointCloudSet Component
-                // pointCloudByg.SetActive(false);
-                // pointCloudTer.SetActive(false);
-
-                // // Change ColorMode
-                // RGBConversion();
-
-                // // Enable DynamicPointCloudSet
-                // pointCloudByg.SetActive(true);
-                // pointCloudTer.SetActive(true);
-                // pointCloudBygLoader.RemovePointCloud();
-                // pointCloudTerLoader.RemovePointCloud();
-
-                // // // Show V2 Renderer
-                // pointCloudBygLoader.LoadPointCloud();
-                // pointCloudTerLoader.LoadPointCloud();
-
-                // // Load Clouds
-                // pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
-                // pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
         }
     }
 }
