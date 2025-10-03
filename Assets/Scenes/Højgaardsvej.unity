@@ -3720,54 +3720,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 728695744}
   m_CullTransparentMesh: 1
---- !u!1 &758445694
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 758445696}
-  - component: {fileID: 758445695}
-  m_Layer: 0
-  m_Name: "N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &758445695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758445694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 830a9d4c15accb94ba7628d60d43cda9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.PointCloudLoader
-  cloudPath: "C:\\Users\\marku\\Documents\\GitHub\\PointCloudInteractiveViewer\\Assets\\Resources\\PointCloudData\\ClassifiedPointClouds\\N028_kalkv\xE6rksvej_class_2_terr\xE6n_converted"
-  streamingAssetsAsRoot: 0
-  setController: {fileID: 936808060}
-  loadOnStart: 1
---- !u!4 &758445696
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758445694}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &852252637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7261,54 +7213,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448232867}
   m_CullTransparentMesh: 1
---- !u!1 &1450625397
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1450625399}
-  - component: {fileID: 1450625398}
-  m_Layer: 0
-  m_Name: "N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1450625398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450625397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 830a9d4c15accb94ba7628d60d43cda9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.PointCloudLoader
-  cloudPath: "C:\\Users\\marku\\Documents\\GitHub\\PointCloudInteractiveViewer\\Assets\\Resources\\PointCloudData\\ClassifiedPointClouds\\N028_kalkv\xE6rksvej_class_1_bygv\xE6rk_converted"
-  streamingAssetsAsRoot: 0
-  setController: {fileID: 1464103336}
-  loadOnStart: 1
---- !u!4 &1450625399
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450625397}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1464103335
 GameObject:
   m_ObjectHideFlags: 0
@@ -12023,12 +11927,10 @@ RectTransform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 758445696}
+  - {fileID: 1199940555}
   - {fileID: 362844566}
   - {fileID: 428297931}
   - {fileID: 1731869388}
   - {fileID: 1687997822}
-  - {fileID: 1450625399}
   - {fileID: 1420463295}
   - {fileID: 457688580}
-  - {fileID: 1199940555}
