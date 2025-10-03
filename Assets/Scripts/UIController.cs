@@ -4,6 +4,7 @@ using BAPointCloudRenderer.Edl;
 using BAPointCloudRenderer.Loading;
 using BAPointCloudRenderer.ObjectCreation;
 using TMPro;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -26,7 +27,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
 
-    [Header("Values")]
+    [Header("Point Budget Values")]
     [SerializeField] public uint PCPointBudget1;
     [SerializeField] public uint PCPointBudget2;
     [SerializeField] public float EDLRadiusUI { get { return edlCamera._edlRadius; } set { edlCamera._edlRadius = EDLRadiusSlider.value; } }
@@ -39,7 +40,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider pointBudgetSlider;
     [SerializeField] private TextMeshProUGUI pointBudgetSliderText;
 
-    [Header("EDL GameObjects")]
+    [Header("EDL Slider Parents")]
     [SerializeField] private GameObject EDLRadiusSliderParent;
     [SerializeField] private GameObject EDLScaleSliderParent;
     [SerializeField] private GameObject EDLExpScaleSliderParent;
@@ -54,23 +55,26 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider EDLScaleSlider;
     [SerializeField] private TextMeshProUGUI EDLScaleSliderText;
 
-    //Exploded View GO's 
-    private GameObject pointCloudByg;
-    private GameObject pointCloudTer;
+    [Header("Color Mode Dropdown")]
+    [SerializeField] private TMP_Dropdown colorModeDropDown;
 
-    [Header("Clipper Buttons")]
+    [Header("Clipper Components")]
     private GameObject[] Clipper = new GameObject[3];
     private bool activeBoxClipper = false;
     private bool activeSphereClipper = false;
     private bool activeCylinderClipper = false;
+
+    [Header("Clipper Buttons")]
     [SerializeField] Button boxClipButton;
     [SerializeField] Button sphereClipButton;
     [SerializeField] Button cylinderClipButton;
 
-
-
     [Header("Exploded View Control")]
     [SerializeField] private Slider ExplodedViewSlider;
+
+    //Exploded View GO's 
+    private GameObject pointCloudByg;
+    private GameObject pointCloudTer;
 
     void Start()
     {
@@ -109,6 +113,9 @@ public class UIController : MonoBehaviour
         EDLExpScaleSlider.onValueChanged.AddListener(delegate { EDLExpScaleChangeCheck(); });
         EDLScaleSlider.onValueChanged.AddListener(delegate { EDLScaleChangeCheck(); });
         ExplodedViewSlider.onValueChanged.AddListener(delegate { ExplodedViewSpread(); });
+
+        // Color Mode 
+        colorModeDropDown.onValueChanged.AddListener(delegate { DropdownColorModeChange(); });
     }
 
     void Update()
@@ -116,6 +123,7 @@ public class UIController : MonoBehaviour
 
     }
 
+    // Method For Changing Point Budget Of Point Clouds
     public void PCValueChangeCheck()
     {
         GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
@@ -156,6 +164,7 @@ public class UIController : MonoBehaviour
         pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
     }
 
+    // Methods For EDL Parameters
     public void EDLRadiusChangeCheck()
     {
         EDLRadiusUI = EDLRadiusSlider.value;
@@ -172,6 +181,7 @@ public class UIController : MonoBehaviour
         EDLScaleSliderText.text = EDLScaleUI.ToString();
     }
 
+    // Method For Explod View 
     public void ExplodedViewSpread()
     {
         GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
@@ -181,6 +191,7 @@ public class UIController : MonoBehaviour
         pointCloudTer.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * 2, 0.0f);
     }
 
+    // Methods For Changing Skybox/Background Color In Scene
     public void SkyBoxButton()
     {
         clippingPlane.SetActive(false);
@@ -202,13 +213,13 @@ public class UIController : MonoBehaviour
         Debug.Log("White Button Pressed!");
     }
 
+    // Methods For Loading And Removing Point Clouds
     public void HidePC(string CloudToHide)
     {
         GameObject PointCloudHidden = GameObject.Find(CloudToHide);
         PointCloudHidden.GetComponent<PointCloudLoader>().RemovePointCloud();
         Debug.Log($"{CloudToHide} is hidden");
     }
-
     public void ShowPC(string CloudToShow)
     {
         GameObject PointCloudLoaded = GameObject.Find(CloudToShow);
@@ -216,6 +227,8 @@ public class UIController : MonoBehaviour
         Debug.Log($"{CloudToShow} is shown");
     }
 
+    // Methods For Changing Color Mode Of Point Clouds.
+    // NOTE: Ensure that Clouds are Reloaded after conversion
     public void ClassificationConversion()
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("CustomRenderTexture/Classification"));
@@ -224,7 +237,6 @@ public class UIController : MonoBehaviour
         defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Classification;
         Debug.Log("Showing Classification");
     }
-
     public void RGBConversion()
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
@@ -232,7 +244,6 @@ public class UIController : MonoBehaviour
         defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.RGBA;
         Debug.Log("Showing Classification");
     }
-
     public void IntensityConversion()
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
@@ -241,6 +252,7 @@ public class UIController : MonoBehaviour
         Debug.Log("Showing Intensity");
     }
 
+    // Method For EDL Toggle
     public void EDLToggleChange()
     {
         if (EDLToggle.isOn)
@@ -259,6 +271,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    // Methods For Point Size Control
     public void PointSizeUp()
     {
         if (defaultMeshConfiguration.pointRadius < 5.0f)
@@ -278,6 +291,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    // Methods For Insantiating Primitves With Hide-Object Shader
     public void BoxMeshClipper(GameObject clippingBox)
     {
         if (!activeBoxClipper)
@@ -289,7 +303,7 @@ public class UIController : MonoBehaviour
         }
         else if (activeBoxClipper)
         {
-            GameObject.DestroyImmediate(Clipper[0],true);
+            GameObject.DestroyImmediate(Clipper[0], true);
             activeBoxClipper = false;
             boxClipButton.image.color = Color.white;
         }
@@ -305,12 +319,11 @@ public class UIController : MonoBehaviour
         }
         else if (activeSphereClipper)
         {
-            GameObject.DestroyImmediate(Clipper[1],true);
+            GameObject.DestroyImmediate(Clipper[1], true);
             activeSphereClipper = false;
             sphereClipButton.image.color = Color.white;
         }
     }
-
     public void CylinderMeshClipper(GameObject clippingCylinder)
     {
         if (!activeCylinderClipper)
@@ -322,9 +335,126 @@ public class UIController : MonoBehaviour
         }
         else if (activeCylinderClipper)
         {
-            GameObject.DestroyImmediate(Clipper[2],true);
+            GameObject.DestroyImmediate(Clipper[2], true);
             activeCylinderClipper = false;
             cylinderClipButton.image.color = Color.white;
+        }
+    }
+
+    // Method For Changing Color Mode Via DropDown In UI
+    public void DropdownColorModeChange()
+    {
+        if (colorModeDropDown.value == 0)
+        {
+            GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
+            GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+
+            PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+            PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+
+            // Remove Clouds
+            pointCloudBygLoader.RemovePointCloud();
+            pointCloudTerLoader.RemovePointCloud();
+
+            // ShutDown V2 Renderer
+            pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+            pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+
+            // Disable DynamicPointCloudSet Component
+            pointCloudByg.SetActive(false);
+            pointCloudTer.SetActive(false);
+
+            // Change ColorMode
+            RGBConversion();
+
+            // Enable DynamicPointCloudSet
+            pointCloudByg.SetActive(true);
+            pointCloudTer.SetActive(true);
+            pointCloudBygLoader.RemovePointCloud();
+            pointCloudTerLoader.RemovePointCloud();
+
+            // // Show V2 Renderer
+            pointCloudBygLoader.LoadPointCloud();
+            pointCloudTerLoader.LoadPointCloud();
+
+            // Load Clouds
+            pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
+            pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
+        }
+
+        else if (colorModeDropDown.value == 1)
+        {
+            GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
+            GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+
+            PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+            PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+
+            // Remove Clouds
+            pointCloudBygLoader.RemovePointCloud();
+            pointCloudTerLoader.RemovePointCloud();
+
+            // ShutDown V2 Renderer
+            pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+            pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+
+            // Disable DynamicPointCloudSet Component
+            pointCloudByg.SetActive(false);
+            pointCloudTer.SetActive(false);
+
+            // Change ColorMode
+            ClassificationConversion();
+
+            // Enable DynamicPointCloudSet
+            pointCloudByg.SetActive(true);
+            pointCloudTer.SetActive(true);
+            pointCloudBygLoader.RemovePointCloud();
+            pointCloudTerLoader.RemovePointCloud();
+
+            // // Show V2 Renderer
+            pointCloudBygLoader.LoadPointCloud();
+            pointCloudTerLoader.LoadPointCloud();
+
+            // Load Clouds
+            pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
+            pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
+        }
+        else if (colorModeDropDown.value == 2)
+        {
+            GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
+            GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+
+            PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+            PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+
+            // Remove Clouds
+            pointCloudBygLoader.RemovePointCloud();
+            pointCloudTerLoader.RemovePointCloud();
+
+            // ShutDown V2 Renderer
+            pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+            pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+
+            // Disable DynamicPointCloudSet Component
+            pointCloudByg.SetActive(false);
+            pointCloudTer.SetActive(false);
+
+            // Change ColorMode
+            IntensityConversion();
+
+            // Enable DynamicPointCloudSet
+            pointCloudByg.SetActive(true);
+            pointCloudTer.SetActive(true);
+            pointCloudBygLoader.RemovePointCloud();
+            pointCloudTerLoader.RemovePointCloud();
+
+            // // Show V2 Renderer
+            pointCloudBygLoader.LoadPointCloud();
+            pointCloudTerLoader.LoadPointCloud();
+
+            // Load Clouds
+            pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
+            pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
         }
     }
 }
