@@ -69,7 +69,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Button sphereClipButton;
     [SerializeField] Button cylinderClipButton;
 
-    [Header("Exploded View Control")]
+    [Header("Exploded View Control")] 
     [SerializeField] private Slider ExplodedViewSlider;
 
     //Exploded View GO's 
@@ -81,18 +81,18 @@ public class UIController : MonoBehaviour
         // Access Main Camera
         cam = Camera.main;
 
-        // Exploded View 
-        pointCloudByg = GameObject.Find("KalkværkPCLoader");
-        pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+        // // Exploded View 
+        // pointCloudByg = GameObject.Find("KalkværkPCLoader");
+        // pointCloudTer = GameObject.Find("KalkværkPCLoader2");
 
-        pointCloudByg.transform.position = new Vector3(1.27f, -4.43f, 1.0f);
-        pointCloudTer.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+        // pointCloudByg.transform.position = new Vector3(1.27f, -4.43f, 1.0f);
+        // pointCloudTer.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
 
-        pointCloudBygLoader = pointCloudByg.GetComponent<PointCloudLoader>();
-        pointCloudTerLoader = pointCloudTer.GetComponent<PointCloudLoader>();
+        // pointCloudBygLoader = pointCloudByg.GetComponent<PointCloudLoader>();
+        // pointCloudTerLoader = pointCloudTer.GetComponent<PointCloudLoader>();
 
-        PCPointBudget1 = pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget;
-        PCPointBudget2 = pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget;
+        // PCPointBudget1 = pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget;
+        // PCPointBudget2 = pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget;
 
         // Get EDL values from EdlCamera Script
         EDLRadiusUI = edlCamera.EdlRadius;

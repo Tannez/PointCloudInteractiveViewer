@@ -830,6 +830,58 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!1 &218944851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 218944852}
+  - component: {fileID: 218944853}
+  m_Layer: 0
+  m_Name: MeshConfig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &218944852
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218944851}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1053416183}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &218944853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218944851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426ae4860d7da4a842b646949c76c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.ObjectCreation.DefaultMeshConfiguration
+  pointRadius: 1
+  renderCircles: 0
+  screenSize: 1
+  interpolation: 2
+  colorMode: 0
+  reload: 0
+  renderCamera: {fileID: 563378512}
+  displayLOD: 0
 --- !u!1 &220403061
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,58 +1490,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291149664}
   m_CullTransparentMesh: 1
---- !u!1 &310656510
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 310656512}
-  - component: {fileID: 310656511}
-  m_Layer: 0
-  m_Name: MeshConfigKalk
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &310656511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310656510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9426ae4860d7da4a842b646949c76c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.ObjectCreation.DefaultMeshConfiguration
-  pointRadius: 1
-  renderCircles: 0
-  screenSize: 1
-  interpolation: 2
-  colorMode: 0
-  reload: 0
-  renderCamera: {fileID: 563378512}
-  displayLOD: 0
---- !u!4 &310656512
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310656510}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1731869388}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &362844564
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,10 +1519,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c33ff3bff2708040a64e8725bd5d9ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  pointClouds: {fileID: 1464103335}
+  pointClouds: {fileID: 818226982}
   clippingPlane: {fileID: 852252639}
   pointMeshConfiguration: {fileID: 0}
-  defaultMeshConfiguration: {fileID: 310656511}
+  defaultMeshConfiguration: {fileID: 218944853}
   PCPointBudget1: 0
   PCPointBudget2: 0
   pointBudgetSlider: {fileID: 724714772}
@@ -2198,59 +2198,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454660516}
   m_CullTransparentMesh: 1
---- !u!1 &457688578
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 457688580}
-  - component: {fileID: 457688579}
-  m_Layer: 0
-  m_Name: Point Cloud Set
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &457688579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457688578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7dc43c468520bc4eb64eceb8593c5b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveCenterToTransformPosition: 1
-  showBoundingBox: 0
-  meshConfiguration: {fileID: 0}
-  pointBudget: 1000000
-  minNodeSize: 10
-  nodesLoadedPerFrame: 15
-  nodesGOsPerFrame: 30
-  cacheSizeInPoints: 1000000
-  userCamera: {fileID: 563378512}
---- !u!4 &457688580
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457688578}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &472944922
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,6 +3667,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 728695744}
   m_CullTransparentMesh: 1
+--- !u!1 &818226982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 818226984}
+  - component: {fileID: 818226983}
+  m_Layer: 0
+  m_Name: InitialCloudLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &818226983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818226982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7dc43c468520bc4eb64eceb8593c5b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.DynamicPointCloudSet
+  moveCenterToTransformPosition: 1
+  showBoundingBox: 0
+  meshConfiguration: {fileID: 218944853}
+  pointBudget: 1000000
+  minNodeSize: 10
+  nodesLoadedPerFrame: 15
+  nodesGOsPerFrame: 30
+  cacheSizeInPoints: 1000000
+  userCamera: {fileID: 563378512}
+--- !u!4 &818226984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818226982}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1053416183}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &852252637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3731,6 +3731,10 @@ PrefabInstance:
     - target: {fileID: 2630553830034664690, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
       propertyPath: m_Name
       value: ClippingPlane
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630553830034664690, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5606631510891375248, guid: f09150946a9396c4ab13aa06076131c4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4412,122 +4416,6 @@ RectTransform:
   m_AnchoredPosition: {x: 5, y: 0}
   m_SizeDelta: {x: -10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &924400464
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 924400465}
-  - component: {fileID: 924400467}
-  - component: {fileID: 924400466}
-  m_Layer: 0
-  m_Name: "Kalkv\xE6rkPC"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &924400465
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 924400464}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1731869388}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &924400466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 924400464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 310af5b2c831ec147918db010748b537, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.Preview
-  SetToPreview: {fileID: 1464103336}
-  ShowPoints: 0
-  PointBudget: 65000
---- !u!114 &924400467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 924400464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6677daf0b515a345860ff455af0edc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.DirectoryLoader
-  path: Assets/Resources/PointCloudData/ClassifiedPointClouds
-  streamingAssetsAsRoot: 0
-  pointset: {fileID: 1464103336}
---- !u!1 &936808058
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 936808059}
-  - component: {fileID: 936808060}
-  m_Layer: 0
-  m_Name: "Kalkv\xE6rkPCLoader2"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &936808059
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936808058}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1731869388}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &936808060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936808058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7dc43c468520bc4eb64eceb8593c5b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.DynamicPointCloudSet
-  moveCenterToTransformPosition: 1
-  showBoundingBox: 1
-  meshConfiguration: {fileID: 310656511}
-  pointBudget: 1000000
-  minNodeSize: 10
-  nodesLoadedPerFrame: 15
-  nodesGOsPerFrame: 30
-  cacheSizeInPoints: 1000000
-  userCamera: {fileID: 563378512}
 --- !u!1 &970275160
 GameObject:
   m_ObjectHideFlags: 0
@@ -5227,6 +5115,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013777535}
   m_CullTransparentMesh: 1
+--- !u!1 &1053416181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1053416183}
+  - component: {fileID: 1053416182}
+  m_Layer: 0
+  m_Name: CloudInstantiation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1053416182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053416181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c2525b06d32c5b4da6336111b61c1dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  uIContoller: {fileID: 362844565}
+  DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jgaardsvej_Classified"
+  DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: c708f65e35538114887b9dc759365e76, type: 3}
+  DirectoryLoaderGO: {fileID: 0}
+  InitialCloudLoader: {fileID: 818226982}
+  CloudLoaderPrefab: {fileID: 30419154946572939, guid: b392dddfc89e09c46a59892af92db8c0, type: 3}
+--- !u!4 &1053416183
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053416181}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 219.02335, y: 0, z: 2995.2864}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 818226984}
+  - {fileID: 218944852}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1067508103
 GameObject:
   m_ObjectHideFlags: 0
@@ -7213,59 +7153,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448232867}
   m_CullTransparentMesh: 1
---- !u!1 &1464103335
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1464103337}
-  - component: {fileID: 1464103336}
-  m_Layer: 0
-  m_Name: "Kalkv\xE6rkPCLoader"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1464103336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1464103335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7dc43c468520bc4eb64eceb8593c5b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.DynamicPointCloudSet
-  moveCenterToTransformPosition: 1
-  showBoundingBox: 1
-  meshConfiguration: {fileID: 310656511}
-  pointBudget: 1000000
-  minNodeSize: 10
-  nodesLoadedPerFrame: 15
-  nodesGOsPerFrame: 30
-  cacheSizeInPoints: 1000000
-  userCamera: {fileID: 563378512}
---- !u!4 &1464103337
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1464103335}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1731869388}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1485470993
 GameObject:
   m_ObjectHideFlags: 0
@@ -8840,41 +8727,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695185919}
   m_CullTransparentMesh: 1
---- !u!1 &1731869387
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1731869388}
-  m_Layer: 0
-  m_Name: "Kalkv\xE6rk"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1731869388
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731869387}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 924400465}
-  - {fileID: 1464103337}
-  - {fileID: 936808059}
-  - {fileID: 310656512}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1738866138
 GameObject:
   m_ObjectHideFlags: 0
@@ -11930,7 +11782,6 @@ SceneRoots:
   - {fileID: 1199940555}
   - {fileID: 362844566}
   - {fileID: 428297931}
-  - {fileID: 1731869388}
   - {fileID: 1687997822}
   - {fileID: 1420463295}
-  - {fileID: 457688580}
+  - {fileID: 1053416183}

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using BAPointCloudRenderer.ObjectCreation;
 using UnityEngine;
 
 namespace BAPointCloudRenderer.CloudController {
@@ -28,17 +30,27 @@ namespace BAPointCloudRenderer.CloudController {
         //may include streaming assets path
         private string fullPath;
 
+        // Count Cloud Loaders Created for Cloud Instantiator <- Added
+        [HideInInspector] public int cloudsInDirectory = 0;
+
+        [SerializeField] GameObject CloudLoaderPrefab;
+        
         /// <summary>
         /// Creates PointCloudLoader objects for all the point clouds in the given path.
         /// </summary>
-        public void LoadAll() {
+        public void LoadAll()
+        {
             if (streamingAssetsAsRoot) fullPath = Application.streamingAssetsPath + "/" + path;
             else { fullPath = path; }
 
             DirectoryInfo dir = new DirectoryInfo(fullPath);
-            foreach (DirectoryInfo sub in dir.GetDirectories()) {
+            foreach (DirectoryInfo sub in dir.GetDirectories())
+            {
                 GameObject go = new GameObject(sub.Name);
                 PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
+
+                GameObject dynamicLoader = Instantiate(CloudLoaderPrefab);
+
                 if (streamingAssetsAsRoot)
                 {
                     loader.streamingAssetsAsRoot = true;
@@ -49,7 +61,12 @@ namespace BAPointCloudRenderer.CloudController {
                     loader.cloudPath = sub.FullName;
                 }
 
-                loader.setController = pointset;
+                //loader.setController = pointset;
+                loader.setController = dynamicLoader.GetComponent<DynamicPointCloudSet>();
+                dynamicLoader.GetComponent<DynamicPointCloudSet>().meshConfiguration = GameObject.Find("MeshConfig").GetComponent<DefaultMeshConfiguration>();
+                dynamicLoader.GetComponent<DynamicPointCloudSet>().userCamera = Camera.main;
+
+                cloudsInDirectory++;
             }
         }
     }
