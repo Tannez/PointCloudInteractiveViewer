@@ -15,7 +15,6 @@ public class CloudInstantiator : MonoBehaviour
     [Header("Cloud Loader")]
     [SerializeField] public GameObject InitialCloudLoader;
     [SerializeField] public GameObject CloudLoaderPrefab;
-    private GameObject[] PointClouds = new GameObject[0];
 
     void Awake()
     {

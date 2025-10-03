@@ -720,7 +720,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &200706672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1519,7 +1519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c33ff3bff2708040a64e8725bd5d9ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  pointClouds: {fileID: 818226982}
+  pointClouds: []
+  cloudInstantiator: {fileID: 1053416182}
   clippingPlane: {fileID: 852252639}
   pointMeshConfiguration: {fileID: 0}
   defaultMeshConfiguration: {fileID: 218944853}
@@ -8165,7 +8166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1639445938
 RectTransform:
   m_ObjectHideFlags: 0

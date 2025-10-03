@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using BAPointCloudRenderer.ObjectCreation;
 using UnityEngine;
@@ -34,7 +35,9 @@ namespace BAPointCloudRenderer.CloudController {
         [HideInInspector] public int cloudsInDirectory = 0;
 
         [SerializeField] GameObject CloudLoaderPrefab;
-        
+
+        public List<GameObject> pointClouds = new List<GameObject>();
+
         /// <summary>
         /// Creates PointCloudLoader objects for all the point clouds in the given path.
         /// </summary>
@@ -46,10 +49,15 @@ namespace BAPointCloudRenderer.CloudController {
             DirectoryInfo dir = new DirectoryInfo(fullPath);
             foreach (DirectoryInfo sub in dir.GetDirectories())
             {
+                GameObject parentGO = new GameObject("Cloud: " + cloudsInDirectory);
                 GameObject go = new GameObject(sub.Name);
                 PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
-
                 GameObject dynamicLoader = Instantiate(CloudLoaderPrefab);
+
+                go.transform.SetParent(parentGO.transform);
+                dynamicLoader.transform.SetParent(parentGO.transform);
+
+                pointClouds.Add(parentGO);
 
                 if (streamingAssetsAsRoot)
                 {
@@ -68,6 +76,8 @@ namespace BAPointCloudRenderer.CloudController {
 
                 cloudsInDirectory++;
             }
+            
+            Debug.Log("Clouds Loaded: " + cloudsInDirectory);
         }
     }
 }

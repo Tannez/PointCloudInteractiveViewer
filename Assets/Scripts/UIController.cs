@@ -16,7 +16,9 @@ public class UIController : MonoBehaviour
 
     //Reference to pointcloud gameobject and its script
     [Tooltip("Insert GameObject with a Dynamic Loader Script attached to it")]
-    [SerializeField] private GameObject pointClouds;
+    [SerializeField] public List<GameObject> pointClouds = new List<GameObject>();
+    [SerializeField] CloudInstantiator cloudInstantiator;
+    DirectoryLoader directoryLoader;
     [SerializeField] private GameObject clippingPlane;
 
     // Loaders
@@ -28,8 +30,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
 
     [Header("Point Budget Values")]
-    [SerializeField] public uint PCPointBudget1;
-    [SerializeField] public uint PCPointBudget2;
+    [SerializeField] public List<uint> PCPointBudget = new List<uint>();
     [SerializeField] public float EDLRadiusUI { get { return edlCamera._edlRadius; } set { edlCamera._edlRadius = EDLRadiusSlider.value; } }
     [SerializeField] public float EDLExpScaleUI { get { return edlCamera._edlExpScale; } set { edlCamera._edlExpScale = EDLExpScaleSlider.value; } }
     [SerializeField] public float EDLScaleUI { get { return edlCamera._edlScale; } set { edlCamera._edlScale = EDLScaleSlider.value; } }
@@ -81,7 +82,12 @@ public class UIController : MonoBehaviour
         // Access Main Camera
         cam = Camera.main;
 
+        // Get Cloud objects
+        directoryLoader = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryLoader>();
+        pointClouds = directoryLoader.pointClouds;
+
         // // Exploded View 
+
         // pointCloudByg = GameObject.Find("KalkværkPCLoader");
         // pointCloudTer = GameObject.Find("KalkværkPCLoader2");
 
@@ -91,8 +97,16 @@ public class UIController : MonoBehaviour
         // pointCloudBygLoader = pointCloudByg.GetComponent<PointCloudLoader>();
         // pointCloudTerLoader = pointCloudTer.GetComponent<PointCloudLoader>();
 
+
+        // Point Budget <- JEG ARBEJDER HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // foreach (GameObject PC in pointClouds)
+        // {
+        //     PCPointBudget.Add(PC.GetComponent<DynamicPointCloudSet>().pointBudget);
+        // }
         // PCPointBudget1 = pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget;
         // PCPointBudget2 = pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget;
+
+        // Point Budget <- JEG ARBEJDER HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // Get EDL values from EdlCamera Script
         EDLRadiusUI = edlCamera.EdlRadius;
@@ -126,11 +140,6 @@ public class UIController : MonoBehaviour
     // Method For Changing Point Budget Of Point Clouds
     public void PCValueChangeCheck()
     {
-        GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
-        GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
-        PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-        PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
-
         // Remove Clouds
         pointCloudBygLoader.RemovePointCloud();
         pointCloudTerLoader.RemovePointCloud();
@@ -144,11 +153,18 @@ public class UIController : MonoBehaviour
         pointCloudTer.SetActive(false);
 
         // Change Value Of Point Budget
-        PCPointBudget1 = (uint)pointBudgetSlider.value;
-        pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
-        PCPointBudget2 = (uint)pointBudgetSlider.value;
-        pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
-        pointBudgetSliderText.text = PCPointBudget1.ToString();
+        // foreach (uint PCPB in PCPointBudget)
+        // {
+        //     PCPointBudget = (uint)pointBudgetSlider.value;
+
+        //     PCPointBudget.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
+        // }
+                        // PCPointBudget1 = (uint)pointBudgetSlider.value;
+                        // pointCloudByg.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
+                        // PCPointBudget2 = (uint)pointBudgetSlider.value;
+                        // pointCloudTer.GetComponent<DynamicPointCloudSet>().pointBudget = (uint)pointBudgetSlider.value;
+
+        pointBudgetSliderText.text = PCPointBudget.ToString();
 
         // Enable DynamicPointCloudSet
         pointCloudByg.SetActive(true);
@@ -346,115 +362,193 @@ public class UIController : MonoBehaviour
     {
         if (colorModeDropDown.value == 0)
         {
-            GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
-            GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+            //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            foreach (GameObject cloud in pointClouds)
+            {
+                // Remove Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
 
-            PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-            PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+                // ShutDown V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
 
-            // Remove Clouds
-            pointCloudBygLoader.RemovePointCloud();
-            pointCloudTerLoader.RemovePointCloud();
-
-            // ShutDown V2 Renderer
-            pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-            pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
-            // Disable DynamicPointCloudSet Component
-            pointCloudByg.SetActive(false);
-            pointCloudTer.SetActive(false);
+                // Disable DynamicPointCloudSet Component
+                cloud.SetActive(false);
+            }
 
             // Change ColorMode
-            RGBConversion();
+                RGBConversion();
 
-            // Enable DynamicPointCloudSet
-            pointCloudByg.SetActive(true);
-            pointCloudTer.SetActive(true);
-            pointCloudBygLoader.RemovePointCloud();
-            pointCloudTerLoader.RemovePointCloud();
+            // Enable Clouds
+            foreach (GameObject cloud in pointClouds)
+            {
+                // Enable DynamicPointCloudSet Component
+                cloud.SetActive(true);
 
-            // // Show V2 Renderer
-            pointCloudBygLoader.LoadPointCloud();
-            pointCloudTerLoader.LoadPointCloud();
+                // Enable Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
 
-            // Load Clouds
-            pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
-            pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
+                // Show V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+
+            }
+
+            // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                // // Remove Clouds
+                // pointCloudBygLoader.RemovePointCloud();
+                // pointCloudTerLoader.RemovePointCloud();
+
+                // // ShutDown V2 Renderer
+                // pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                // pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+
+                // // Disable DynamicPointCloudSet Component
+                // pointCloudByg.SetActive(false);
+                // pointCloudTer.SetActive(false);
+
+                // // Change ColorMode
+                // RGBConversion();
+
+                // // Enable DynamicPointCloudSet
+                // pointCloudByg.SetActive(true);
+                // pointCloudTer.SetActive(true);
+                // pointCloudBygLoader.RemovePointCloud();
+                // pointCloudTerLoader.RemovePointCloud();
+
+                // // // Show V2 Renderer
+                // pointCloudBygLoader.LoadPointCloud();
+                // pointCloudTerLoader.LoadPointCloud();
+
+                // // Load Clouds
+                // pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
+                // pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
         }
 
         else if (colorModeDropDown.value == 1)
         {
-            GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
-            GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+            //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            foreach (GameObject cloud in pointClouds)
+            {
+                // Remove Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
 
-            PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-            PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+                // ShutDown V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
 
-            // Remove Clouds
-            pointCloudBygLoader.RemovePointCloud();
-            pointCloudTerLoader.RemovePointCloud();
-
-            // ShutDown V2 Renderer
-            pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-            pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
-            // Disable DynamicPointCloudSet Component
-            pointCloudByg.SetActive(false);
-            pointCloudTer.SetActive(false);
+                // Disable DynamicPointCloudSet Component
+                cloud.SetActive(false);
+            }
 
             // Change ColorMode
-            ClassificationConversion();
+                ClassificationConversion();
 
-            // Enable DynamicPointCloudSet
-            pointCloudByg.SetActive(true);
-            pointCloudTer.SetActive(true);
-            pointCloudBygLoader.RemovePointCloud();
-            pointCloudTerLoader.RemovePointCloud();
+            // Enable Clouds
+            foreach (GameObject cloud in pointClouds)
+            {
+                // Enable DynamicPointCloudSet Component
+                cloud.SetActive(true);
 
-            // // Show V2 Renderer
-            pointCloudBygLoader.LoadPointCloud();
-            pointCloudTerLoader.LoadPointCloud();
+                // Enable Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
 
-            // Load Clouds
-            pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
-            pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
+                // Show V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+
+            }
+
+            // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                // // Remove Clouds
+                // pointCloudBygLoader.RemovePointCloud();
+                // pointCloudTerLoader.RemovePointCloud();
+
+                // // ShutDown V2 Renderer
+                // pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                // pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+
+                // // Disable DynamicPointCloudSet Component
+                // pointCloudByg.SetActive(false);
+                // pointCloudTer.SetActive(false);
+
+                // // Change ColorMode
+                // RGBConversion();
+
+                // // Enable DynamicPointCloudSet
+                // pointCloudByg.SetActive(true);
+                // pointCloudTer.SetActive(true);
+                // pointCloudBygLoader.RemovePointCloud();
+                // pointCloudTerLoader.RemovePointCloud();
+
+                // // // Show V2 Renderer
+                // pointCloudBygLoader.LoadPointCloud();
+                // pointCloudTerLoader.LoadPointCloud();
+
+                // // Load Clouds
+                // pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
+                // pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
         }
         else if (colorModeDropDown.value == 2)
         {
-            GameObject pointCloudByg = GameObject.Find("KalkværkPCLoader");
-            GameObject pointCloudTer = GameObject.Find("KalkværkPCLoader2");
+            //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            foreach (GameObject cloud in pointClouds)
+            {
+                // Remove Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
 
-            PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-            PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+                // ShutDown V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
 
-            // Remove Clouds
-            pointCloudBygLoader.RemovePointCloud();
-            pointCloudTerLoader.RemovePointCloud();
-
-            // ShutDown V2 Renderer
-            pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-            pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
-            // Disable DynamicPointCloudSet Component
-            pointCloudByg.SetActive(false);
-            pointCloudTer.SetActive(false);
+                // Disable DynamicPointCloudSet Component
+                cloud.SetActive(false);
+            }
 
             // Change ColorMode
-            IntensityConversion();
+                IntensityConversion();
 
-            // Enable DynamicPointCloudSet
-            pointCloudByg.SetActive(true);
-            pointCloudTer.SetActive(true);
-            pointCloudBygLoader.RemovePointCloud();
-            pointCloudTerLoader.RemovePointCloud();
+            // Enable Clouds
+            foreach (GameObject cloud in pointClouds)
+            {
+                // Enable DynamicPointCloudSet Component
+                cloud.SetActive(true);
 
-            // // Show V2 Renderer
-            pointCloudBygLoader.LoadPointCloud();
-            pointCloudTerLoader.LoadPointCloud();
+                // Enable Clouds
+                cloud.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
 
-            // Load Clouds
-            pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
-            pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
+                // Show V2 Renderer
+                cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+
+            }
+
+            // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                // // Remove Clouds
+                // pointCloudBygLoader.RemovePointCloud();
+                // pointCloudTerLoader.RemovePointCloud();
+
+                // // ShutDown V2 Renderer
+                // pointCloudByg.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                // pointCloudTer.GetComponent<DynamicPointCloudSet>().PointRenderer.ShutDown();
+
+                // // Disable DynamicPointCloudSet Component
+                // pointCloudByg.SetActive(false);
+                // pointCloudTer.SetActive(false);
+
+                // // Change ColorMode
+                // RGBConversion();
+
+                // // Enable DynamicPointCloudSet
+                // pointCloudByg.SetActive(true);
+                // pointCloudTer.SetActive(true);
+                // pointCloudBygLoader.RemovePointCloud();
+                // pointCloudTerLoader.RemovePointCloud();
+
+                // // // Show V2 Renderer
+                // pointCloudBygLoader.LoadPointCloud();
+                // pointCloudTerLoader.LoadPointCloud();
+
+                // // Load Clouds
+                // pointCloudByg.GetComponent<DynamicPointCloudSet>().ReInitialize();
+                // pointCloudTer.GetComponent<DynamicPointCloudSet>().ReInitialize();
         }
     }
 }
