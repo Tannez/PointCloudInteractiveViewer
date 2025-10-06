@@ -62,6 +62,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI EDLScaleSliderText;
 
     [Header("Classification Toggles")]
+    private bool loadingClassToggles = true;
     [SerializeField] private List<Toggle> classToggles = new List<Toggle>();
 
     [Header("Color Mode Dropdown")]
@@ -127,7 +128,7 @@ public class UIController : MonoBehaviour
 
         // Create Color Mode Listener
         colorModeDropDown.onValueChanged.AddListener(delegate { DropdownColorModeChange(); });
-        
+
         // Set Available toggles based on class amount
         while (classToggles.Count > pointClouds.Count)
         {
@@ -144,6 +145,7 @@ public class UIController : MonoBehaviour
                 break;
             }
         }
+        loadingClassToggles = false;
     }
 
     void Update()
@@ -248,14 +250,14 @@ public class UIController : MonoBehaviour
     public void HidePC(int CloudToHide)
     {
         GameObject PointCloudHidden = pointClouds[CloudToHide];
-        PointCloudHidden.GetComponent<PointCloudLoader>().RemovePointCloud();
-        Debug.Log($"{CloudToHide} is hidden");
+        PointCloudHidden.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+        Debug.Log($"Cloud: {CloudToHide} is hidden");
     }
     public void ShowPC(int CloudToShow)
     {
         GameObject PointCloudLoaded = pointClouds[CloudToShow];
-        PointCloudLoaded.GetComponent<PointCloudLoader>().LoadPointCloud();
-        Debug.Log($"{CloudToShow} is shown");
+        PointCloudLoaded.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+        Debug.Log($"Cloud: {CloudToShow} is shown");
     }
 
     // Methods For Changing Color Mode Of Point Clouds.
@@ -475,23 +477,31 @@ public class UIController : MonoBehaviour
     }
 
     // Method For Toggling The Various Classes
-    // public void classToggleChange()
-    // {
-    //     int currentToggle = 0;
+    public void classToggleChange()
+    {
+        if (!loadingClassToggles)
+        {
+            int currentToggle = 0;
 
-    //     foreach (Toggle toggle in classToggles)
-    //     {
-    //         if (toggle.isOn)
-    //         {
-    //             ShowPC(currentToggle);
-    //             Debug.Log("Cloud: " + currentToggle + " is on");
-    //         }
-    //         else if (!toggle.isOn)
-    //         {
-    //             HidePC(currentToggle);
-    //             Debug.Log("Cloud: " + currentToggle + " is off");
-    //         }
-    //         currentToggle++;
-    //     }
-    // }
+            foreach (Toggle toggle in classToggles)
+            {
+                if (toggle.isOn)
+                {
+                    ShowPC(currentToggle);
+                    Debug.Log("Cloud: " + currentToggle + " Toggle is on");
+                }
+                else if (!toggle.isOn)
+                {
+                    HidePC(currentToggle);
+                    Debug.Log("Cloud: " + currentToggle + " Toggle is off");
+                }
+                currentToggle++;
+
+                if (currentToggle == classToggles.Count)
+                {
+                    break;
+                }
+            }
+        }
+    }
 }
