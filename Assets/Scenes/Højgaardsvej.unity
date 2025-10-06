@@ -3784,6 +3784,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MouseClickOnScene: 1
   normalSpeed: 10
+  setResetPosition: {x: -4.5325117, y: 7.6851683, z: 12.793777}
+  setResetAngle: {x: 26.5, y: 111.5, z: 0}
 --- !u!20 &563378512
 Camera:
   m_ObjectHideFlags: 0
@@ -6896,6 +6898,12 @@ MonoBehaviour:
   DirectoryLoaderGO: {fileID: 0}
   InitialCloudLoader: {fileID: 818226982}
   CloudLoaderPrefab: {fileID: 30419154946572939, guid: b392dddfc89e09c46a59892af92db8c0, type: 3}
+  cloudSpawnPositions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 2.52, y: -0.37, z: 4.43}
+  - {x: 2.82, y: -4.32, z: 4.75}
+  - {x: 2.83, y: -4.54, z: 4.77}
+  - {x: 3.19, y: -4.31, z: 4.84}
 --- !u!4 &1053416183
 Transform:
   m_ObjectHideFlags: 0

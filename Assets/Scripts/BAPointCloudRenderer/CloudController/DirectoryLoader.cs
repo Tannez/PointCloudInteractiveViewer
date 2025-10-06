@@ -36,6 +36,8 @@ namespace BAPointCloudRenderer.CloudController {
 
         [SerializeField] GameObject CloudLoaderPrefab;
 
+        [SerializeField] public List<Vector3> spawnPositions = new List<Vector3>();
+
         public List<GameObject> pointClouds = new List<GameObject>();
 
         /// <summary>
@@ -52,8 +54,17 @@ namespace BAPointCloudRenderer.CloudController {
                 GameObject parentGO = new GameObject("Cloud: " + (cloudsInDirectory + 1));
                 GameObject go = new GameObject(sub.Name);
                 PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
-                GameObject dynamicLoader = Instantiate(CloudLoaderPrefab);
+                GameObject dynamicLoader;
 
+                if (cloudsInDirectory < spawnPositions.Count)
+                {
+                    dynamicLoader = Instantiate(CloudLoaderPrefab, spawnPositions[cloudsInDirectory], Quaternion.identity);
+                }
+                else
+                {
+                    dynamicLoader = Instantiate(CloudLoaderPrefab);
+                }
+                
                 go.transform.SetParent(parentGO.transform);
                 dynamicLoader.transform.SetParent(parentGO.transform);
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.Loading;
 using UnityEngine;
@@ -16,6 +17,9 @@ public class CloudInstantiator : MonoBehaviour
     [SerializeField] public GameObject InitialCloudLoader;
     [SerializeField] public GameObject CloudLoaderPrefab;
 
+    [Header("Spawn Positions")]
+    [SerializeField] public List<Vector3> cloudSpawnPositions = new List<Vector3>();
+
     void Awake()
     {
         if (DirectoryPath != null)
@@ -24,6 +28,11 @@ public class CloudInstantiator : MonoBehaviour
             DirectoryLoaderGO = Instantiate(DirectoryLoaderPrefab);
             DirectoryLoaderGO.GetComponent<DirectoryLoader>().path = DirectoryPath;
             DirectoryLoaderGO.GetComponent<DirectoryLoader>().pointset = InitialCloudLoader.GetComponent<DynamicPointCloudSet>();
+
+            foreach (Vector3 SP in cloudSpawnPositions)
+            {
+                DirectoryLoaderGO.GetComponent<DirectoryLoader>().spawnPositions.Add(SP);
+            }
 
             // Load Clouds From Directory
             DirectoryLoaderGO.GetComponent<DirectoryLoader>().LoadAll();
