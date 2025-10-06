@@ -49,7 +49,7 @@ namespace BAPointCloudRenderer.CloudController {
             DirectoryInfo dir = new DirectoryInfo(fullPath);
             foreach (DirectoryInfo sub in dir.GetDirectories())
             {
-                GameObject parentGO = new GameObject("Cloud: " + cloudsInDirectory);
+                GameObject parentGO = new GameObject("Cloud: " + (cloudsInDirectory + 1));
                 GameObject go = new GameObject(sub.Name);
                 PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
                 GameObject dynamicLoader = Instantiate(CloudLoaderPrefab);

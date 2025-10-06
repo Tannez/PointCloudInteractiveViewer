@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7dc43c468520bc4eb64eceb8593c5b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.DynamicPointCloudSet
-  moveCenterToTransformPosition: 1
+  moveCenterToTransformPosition: 0
   showBoundingBox: 1
   meshConfiguration: {fileID: 0}
   pointBudget: 1000000
