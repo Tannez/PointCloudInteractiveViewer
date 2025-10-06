@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.Edl;
 using BAPointCloudRenderer.Loading;
 using BAPointCloudRenderer.ObjectCreation;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -15,9 +17,10 @@ public class UIController : MonoBehaviour
     Camera cam;
 
     //Reference to pointcloud gameobject and its script
-    [Tooltip("Insert GameObject with a Dynamic Loader Script attached to it")]
     [SerializeField] public List<GameObject> pointClouds = new List<GameObject>();
+    [Tooltip("Before running scene, a cloud instantiator is required in hierarchy. Create empty GameObject and add a Cloud Instantiator script to it. Then insert the cloud instantiator here. Remember to set asset path and prefabs in cloud instantiator script")]
     [SerializeField] CloudInstantiator cloudInstantiator;
+    [Tooltip("Before running scene, an initial cloud loader is required in hierarchy. Create empty GameObject beneath Cloud Instantiator and add a Dynamic Loader to it. Then insert this cloud loader here.")]
     [SerializeField] GameObject InitialCloudLoader;
     DirectoryLoader directoryLoader;
     [SerializeField] private GameObject clippingPlane;
@@ -26,11 +29,12 @@ public class UIController : MonoBehaviour
     PointCloudLoader pointCloudBygLoader;
     PointCloudLoader pointCloudTerLoader;
 
-    // Mesh Configurations
-    [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
+    // // Mesh Configurations
+    // [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
+    [Tooltip("Adds Mesh To points. Insert GameObject Beneath the cloud instantiator, and add the DefaultMeshConfiguration script. Then insert GameObject here.")]
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
 
-    [Header("Point Budget Values")]
+    [Header("Point Budget")]
     [SerializeField] public uint PCPointBudget;
     [SerializeField] public float EDLRadiusUI { get { return edlCamera._edlRadius; } set { edlCamera._edlRadius = EDLRadiusSlider.value; } }
     [SerializeField] public float EDLExpScaleUI { get { return edlCamera._edlExpScale; } set { edlCamera._edlExpScale = EDLExpScaleSlider.value; } }
@@ -57,6 +61,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider EDLScaleSlider;
     [SerializeField] private TextMeshProUGUI EDLScaleSliderText;
 
+    [Header("Classification Toggles")]
+    [SerializeField] private List<Toggle> classToggles = new List<Toggle>();
+
     [Header("Color Mode Dropdown")]
     [SerializeField] private TMP_Dropdown colorModeDropDown;
 
@@ -71,7 +78,7 @@ public class UIController : MonoBehaviour
     [SerializeField] Button sphereClipButton;
     [SerializeField] Button cylinderClipButton;
 
-    [Header("Exploded View Control")] 
+    [Header("Exploded View Control")]
     [SerializeField] private Slider ExplodedViewSlider;
 
     //Exploded View GO's 
@@ -87,14 +94,13 @@ public class UIController : MonoBehaviour
         directoryLoader = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryLoader>();
         pointClouds = directoryLoader.pointClouds;
 
+        // Set Initial Point Budget 
         PCPointBudget = InitialCloudLoader.GetComponent<DynamicPointCloudSet>().pointBudget;
-        // Point Budget <- JEG ARBEJDER HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         foreach (GameObject cloud in pointClouds)
         {
             cloud.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
         }
-
-        // Point Budget <- JEG ARBEJDER HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         // Get EDL values from EdlCamera Script
         EDLRadiusUI = edlCamera.EdlRadius;
@@ -109,15 +115,35 @@ public class UIController : MonoBehaviour
         EDLScaleSlider.value = EDLScaleUI;
         EDLScaleSliderText.text = EDLScaleSlider.value.ToString();
 
-        // Slider Listeners 
+        // Create Slider Listeners 
         pointBudgetSlider.onValueChanged.AddListener(delegate { PCValueChangeCheck(); });
         EDLRadiusSlider.onValueChanged.AddListener(delegate { EDLRadiusChangeCheck(); });
         EDLExpScaleSlider.onValueChanged.AddListener(delegate { EDLExpScaleChangeCheck(); });
         EDLScaleSlider.onValueChanged.AddListener(delegate { EDLScaleChangeCheck(); });
         ExplodedViewSlider.onValueChanged.AddListener(delegate { ExplodedViewSpread(); });
 
-        // Color Mode 
+        // Create Toggle Listeners
+        EDLToggle.onValueChanged.AddListener(delegate { EDLToggleChange(); });
+
+        // Create Color Mode Listener
         colorModeDropDown.onValueChanged.AddListener(delegate { DropdownColorModeChange(); });
+        
+        // Set Available toggles based on class amount
+        while (classToggles.Count > pointClouds.Count)
+        {
+            int beforeToggles = classToggles.Count;
+            Debug.Log("Before Removal: " + beforeToggles);
+            classToggles[classToggles.Count - 1].isOn = false;
+            classToggles[classToggles.Count - 1].gameObject.SetActive(false);
+            classToggles.Remove(classToggles[classToggles.Count - 1]);
+            int afterToggles = classToggles.Count;
+            Debug.Log("After Removal: " + afterToggles);
+
+            if (beforeToggles == afterToggles) // Avoid infinite Loop
+            {
+                break;
+            }
+        }
     }
 
     void Update()
@@ -130,19 +156,19 @@ public class UIController : MonoBehaviour
     {
         // Remove Clouds
         foreach (GameObject cloud in pointClouds)
-            {
-                // Remove Clouds
-                cloud.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+        {
+            // Remove Clouds
+            cloud.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
 
-                // ShutDown V2 Renderer
-                cloud.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+            // ShutDown V2 Renderer
+            cloud.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
 
-                // Disable DynamicPointCloudSet Component
-                cloud.SetActive(false);
-            }
+            // Disable DynamicPointCloudSet Component
+            cloud.SetActive(false);
+        }
 
         // Change Value Of Point Budget
-        PCPointBudget = (uint)pointBudgetSlider.value; 
+        PCPointBudget = (uint)pointBudgetSlider.value;
 
 
         foreach (GameObject cloud in pointClouds)
@@ -154,17 +180,17 @@ public class UIController : MonoBehaviour
 
         //Enable Clouds
         foreach (GameObject cloud in pointClouds)
-            {
-                // Enable DynamicPointCloudSet Component
-                cloud.SetActive(true);
+        {
+            // Enable DynamicPointCloudSet Component
+            cloud.SetActive(true);
 
-                // Enable Clouds
-                cloud.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            // Enable Clouds
+            cloud.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
 
-                // Show V2 Renderer
-                cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+            // Show V2 Renderer
+            cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
 
-            }
+        }
     }
 
     // Methods For EDL Parameters
@@ -187,11 +213,11 @@ public class UIController : MonoBehaviour
     // Method For Explod View 
     public void ExplodedViewSpread()
     {
-        int cloudRuns = 0; 
+        int cloudRuns = 0;
 
         foreach (GameObject cloud in pointClouds)
         {
-            cloud.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * (pointClouds.Count - cloudRuns), 0.0f);
+            cloud.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * (pointClouds.Count - cloudRuns) / 10, 0.0f);
             cloudRuns++;
         }
     }
@@ -219,15 +245,15 @@ public class UIController : MonoBehaviour
     }
 
     // Methods For Loading And Removing Point Clouds
-    public void HidePC(string CloudToHide)
+    public void HidePC(int CloudToHide)
     {
-        GameObject PointCloudHidden = GameObject.Find(CloudToHide);
+        GameObject PointCloudHidden = pointClouds[CloudToHide];
         PointCloudHidden.GetComponent<PointCloudLoader>().RemovePointCloud();
         Debug.Log($"{CloudToHide} is hidden");
     }
-    public void ShowPC(string CloudToShow)
+    public void ShowPC(int CloudToShow)
     {
-        GameObject PointCloudLoaded = GameObject.Find(CloudToShow);
+        GameObject PointCloudLoaded = pointClouds[CloudToShow];
         PointCloudLoaded.GetComponent<PointCloudLoader>().LoadPointCloud();
         Debug.Log($"{CloudToShow} is shown");
     }
@@ -365,7 +391,7 @@ public class UIController : MonoBehaviour
             }
 
             // Change ColorMode
-                RGBConversion();
+            RGBConversion();
 
             // Enable Clouds
             foreach (GameObject cloud in pointClouds)
@@ -398,7 +424,7 @@ public class UIController : MonoBehaviour
             }
 
             // Change ColorMode
-                ClassificationConversion();
+            ClassificationConversion();
 
             // Enable Clouds
             foreach (GameObject cloud in pointClouds)
@@ -430,7 +456,7 @@ public class UIController : MonoBehaviour
             }
 
             // Change ColorMode
-                IntensityConversion();
+            IntensityConversion();
 
             // Enable Clouds
             foreach (GameObject cloud in pointClouds)
@@ -447,4 +473,25 @@ public class UIController : MonoBehaviour
             }
         }
     }
+
+    // Method For Toggling The Various Classes
+    // public void classToggleChange()
+    // {
+    //     int currentToggle = 0;
+
+    //     foreach (Toggle toggle in classToggles)
+    //     {
+    //         if (toggle.isOn)
+    //         {
+    //             ShowPC(currentToggle);
+    //             Debug.Log("Cloud: " + currentToggle + " is on");
+    //         }
+    //         else if (!toggle.isOn)
+    //         {
+    //             HidePC(currentToggle);
+    //             Debug.Log("Cloud: " + currentToggle + " is off");
+    //         }
+    //         currentToggle++;
+    //     }
+    // }
 }

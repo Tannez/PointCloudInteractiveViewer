@@ -259,6 +259,10 @@ namespace BAPointCloudRenderer.ObjectCreation {
                 case 4: return Color.yellow;
                 case 5: return Color.brown;
                 case 6: return Color.orange;
+                case 7: return Color.cyan;
+                case 8: return Color.teal;
+                case 9: return Color.pink;
+                case 10: return Color.turquoise;
                 default: return Color.white;
             }
         }
