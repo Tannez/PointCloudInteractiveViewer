@@ -6891,7 +6891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   uIContoller: {fileID: 362844565}
-  DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jg\xE5rdsvej_Converted_Classified"
+  DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jg\xE5rdsvej_classified"
   DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: c708f65e35538114887b9dc759365e76, type: 3}
   DirectoryLoaderGO: {fileID: 0}
   InitialCloudLoader: {fileID: 818226982}
