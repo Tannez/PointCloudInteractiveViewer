@@ -3,7 +3,7 @@
     "octreeDir": "data",
     "projection": "",
     "points": 353056,
-    "offset": [709552.405,6191768.8988,44.3643];
+    "offset": [709552.405,6191768.8988,44.3643],
     "boundingBox": {
         "lx": 0,
         "ly": 0,

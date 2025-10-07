@@ -7103,17 +7103,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   uIContoller: {fileID: 362844565}
-  DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jg\xE5rdsvej_classified"
+  DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jg\xE5rdsvej_Instance"
   DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: c708f65e35538114887b9dc759365e76, type: 3}
   DirectoryLoaderGO: {fileID: 0}
   InitialCloudLoader: {fileID: 818226982}
   CloudLoaderPrefab: {fileID: 30419154946572939, guid: b392dddfc89e09c46a59892af92db8c0, type: 3}
   cloudSpawnPositions:
   - {x: 0, y: 0, z: 0}
-  - {x: 2.52, y: -0.37, z: 4.43}
-  - {x: 2.82, y: -4.32, z: 4.75}
-  - {x: 3.19, y: -4.31, z: 4.84}
-  - {x: 2.83, y: -4.54, z: 4.77}
+  - {x: 3.767, y: -0.398, z: 6.81}
+  - {x: 2.5, y: -0.263, z: 4.46}
+  - {x: 3.76, y: -4.37, z: 6.81}
+  - {x: 2.803, y: -1.38, z: 4.781}
+  - {x: 3.843, y: -4.389, z: 6.858}
+  - {x: 3.173, y: -1.192, z: 4.863}
+  - {x: 3.976, y: -4.587, z: 7.056}
+  - {x: 2.811, y: -1.466, z: 4.777}
 --- !u!4 &1053416183
 Transform:
   m_ObjectHideFlags: 0
