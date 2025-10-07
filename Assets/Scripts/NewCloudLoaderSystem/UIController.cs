@@ -25,9 +25,6 @@ public class UIController : MonoBehaviour
     DirectoryLoader directoryLoader;
     [SerializeField] private GameObject clippingPlane;
 
-    // Loaders
-    PointCloudLoader pointCloudBygLoader;
-    PointCloudLoader pointCloudTerLoader;
 
     // // Mesh Configurations
     // [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
