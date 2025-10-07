@@ -62,6 +62,11 @@ public class UIController : MonoBehaviour
     private bool loadingClassToggles = true;
     [SerializeField] private List<Toggle> classToggles = new List<Toggle>();
 
+    [Header("Instance UI")]
+    [SerializeField] private Image instanceUIImage;
+    [SerializeField] private Button instanceUIButton;
+    private bool instanceUIActive = false;
+
     [Header("Color Mode Dropdown")]
     [SerializeField] private TMP_Dropdown colorModeDropDown;
 
@@ -123,7 +128,7 @@ public class UIController : MonoBehaviour
         // Create Toggle Listeners
         EDLToggle.onValueChanged.AddListener(delegate { EDLToggleChange(); });
 
-        // Create Color Mode Listener
+        // Create Drop Down Listener
         colorModeDropDown.onValueChanged.AddListener(delegate { DropdownColorModeChange(); });
 
         // Set Available toggles based on class amount
@@ -499,6 +504,22 @@ public class UIController : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    public void ShowInstanceUI()
+    {
+        if (!instanceUIActive)
+        {
+            instanceUIActive = true;
+            instanceUIImage.gameObject.SetActive(true);
+            instanceUIButton.image.color = Color.red;
+        }
+        else if (instanceUIActive)
+        {
+            instanceUIActive = false;
+            instanceUIImage.gameObject.SetActive(false);
+            instanceUIButton.image.color = Color.white;
         }
     }
 }
