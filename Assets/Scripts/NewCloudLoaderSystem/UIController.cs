@@ -38,7 +38,7 @@ public class UIController : MonoBehaviour
     [SerializeField] public float EDLScaleUI { get { return edlCamera._edlScale; } set { edlCamera._edlScale = EDLScaleSlider.value; } }
 
 
-    //UI Components
+    //UI Inspector Components
     [Header("Point Budget Slider")]
     [SerializeField] private Slider pointBudgetSlider;
     [SerializeField] private TextMeshProUGUI pointBudgetSliderText;
@@ -83,10 +83,6 @@ public class UIController : MonoBehaviour
 
     [Header("Exploded View Control")]
     [SerializeField] private Slider ExplodedViewSlider;
-
-    //Exploded View GO's 
-    private GameObject pointCloudByg;
-    private GameObject pointCloudTer;
 
     void Start()
     {
@@ -193,7 +189,6 @@ public class UIController : MonoBehaviour
 
             // Show V2 Renderer
             cloud.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-
         }
     }
 
@@ -214,7 +209,7 @@ public class UIController : MonoBehaviour
         EDLScaleSliderText.text = EDLScaleUI.ToString();
     }
 
-    // Method For Explod View 
+    // Method For Exploded View 
     public void ExplodedViewSpread()
     {
         int cloudRuns = 0;
@@ -507,6 +502,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    // Method For Showing Instance UI And Toggling The Various Instances
     public void ShowInstanceUI()
     {
         if (!instanceUIActive)
