@@ -74,6 +74,9 @@ namespace BAPointCloudRenderer.CloudController {
 
         // List of Cloud Classes
         public List<PCInstances> pointCloudClasses = new List<PCInstances>(); 
+        
+        GameObject cloudClassGO;
+        PCInstances pCInstances;
 
         /// <summary>
         /// Creates PointCloudLoader objects for all the point clouds in the given path.
@@ -83,33 +86,16 @@ namespace BAPointCloudRenderer.CloudController {
             if (streamingAssetsAsRoot) fullPath = Application.streamingAssetsPath + "/" + path;
             else { fullPath = path; }
 
-            // Create first instance of class
-            GameObject cloudClassGO = null;
-            PCInstances pCInstances = null;
-
             DirectoryInfo dir = new DirectoryInfo(fullPath);
+            Debug.Log("Entering Cloud Loading");
+
             foreach (DirectoryInfo sub in dir.GetDirectories())
             {
-                Debug.Log("Loading Current Cloud: " + cloudsInDirectory);
-
-                // Define first few letters of new sub (ignore on first iteration)
-                currentInstanceClassName = sub.Name.Substring(0,2);
+                // Define first few letters of file name - used to check if instance belongs to same class
+                currentInstanceClassName = sub.Name.Substring(0, 2);
                 Debug.Log("Current Cloud sub name class: " + currentInstanceClassName);
 
-                // If new class name is same as previous iteration
-                if (currentInstanceClassName == previousInstanceClassName)
-                {
-                    // Add to current PointCloudClasses element 
-                    pointCloudClasses.Add(pCInstances);
-                    Debug.Log("Appending PointCloud to Same Class");
-                }
-                else
-                {
-                    // else create new element in PointCloudClasses 
-                    cloudClassGO = new GameObject("Class: " + (cloudClassesInDirectory + 1));
-                    cloudClassesInDirectory++;
-                    Debug.Log("Appending PointCloud to New Class");
-                }
+                Debug.Log("Loading Current Cloud Instance(" + (cloudsInDirectory + 1) + ") For Class: " + (cloudClassesInDirectory+1));
 
                 // Create Cloud Instance From Directory
                 GameObject cloudInstanceGO = new GameObject("Cloud: " + (cloudsInDirectory + 1));
@@ -142,11 +128,30 @@ namespace BAPointCloudRenderer.CloudController {
                 dynamicLoader.GetComponent<DynamicPointCloudSet>().meshConfiguration = GameObject.Find("MeshConfig").GetComponent<DefaultMeshConfiguration>();
                 dynamicLoader.GetComponent<DynamicPointCloudSet>().userCamera = Camera.main;
 
-                // Create Cloud Instance and add to Class
-                pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader);
-                
+
+                // If class is different from previous
+                if (currentInstanceClassName != previousInstanceClassName)
+                {
+                    // Add to current PointCloudClasses element
+                    cloudClassesInDirectory++;
+                    cloudClassGO = new GameObject("Class: " + cloudClassesInDirectory);
+                    // Create Cloud Instance and add to new Class
+                    pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader);
+                    pointCloudClasses.Add(pCInstances);
+                    Debug.Log("Appending PointCloud to New Class");
+                }
+                // Else if class is same as previous
+                else if (currentInstanceClassName == previousInstanceClassName)
+                {
+                    // Add to current PointCloudClasses element 
+                    // Create Cloud Instance and add to new Class
+                    pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader);
+                    Debug.Log("Appending PointCloud to New Class");
+                }
+
                 previousInstanceClassName = currentInstanceClassName;
-                Debug.Log("Previous Cloud sub name class: " + previousInstanceClassName);
+                Debug.Log("Setting previous Cloud sub name class as: " + previousInstanceClassName);
+                Debug.Log("Current Amount Of Point Cloud Classes: " + pointCloudClasses.Count);
                 cloudsInDirectory++;
             }
 

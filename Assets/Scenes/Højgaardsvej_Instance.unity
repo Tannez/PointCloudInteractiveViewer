@@ -584,6 +584,77 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &158853730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 158853732}
+  - component: {fileID: 158853731}
+  m_Layer: 0
+  m_Name: UIInstanceControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &158853731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158853730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411ae187a48e9ad4abd8d77b3cb86207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIInstanceController
+  pointClouds: []
+  cloudInstantiator: {fileID: 1293653178}
+  InitialCloudLoader: {fileID: 517941376}
+  clippingPlane: {fileID: 852252639}
+  defaultMeshConfiguration: {fileID: 1440587391}
+  PCPointBudget: 0
+  pointBudgetSlider: {fileID: 724714772}
+  pointBudgetSliderText: {fileID: 1893383707}
+  EDLRadiusSliderParent: {fileID: 268249655}
+  EDLScaleSliderParent: {fileID: 92930475}
+  EDLExpScaleSliderParent: {fileID: 502424447}
+  edlCamera: {fileID: 398132031}
+  EDLToggle: {fileID: 1593058704}
+  EDLRadiusSlider: {fileID: 1768796913}
+  EDLRadiusSliderText: {fileID: 2075983562}
+  EDLExpScaleSlider: {fileID: 124993800}
+  EDLExpScaleSliderText: {fileID: 1966707475}
+  EDLScaleSlider: {fileID: 449393177}
+  EDLScaleSliderText: {fileID: 2070812457}
+  classToggles: []
+  instanceUIImage: {fileID: 54404328}
+  instanceUIButton: {fileID: 210024647}
+  colorModeDropDown: {fileID: 1519557391}
+  boxClipButton: {fileID: 723594133}
+  sphereClipButton: {fileID: 231909767}
+  cylinderClipButton: {fileID: 1637880819}
+  ExplodedViewSlider: {fileID: 596417756}
+--- !u!4 &158853732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158853730}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 219.02325, y: 0, z: 2995.2864}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &162994698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,7 +1096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &200706672
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1256,8 +1327,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: ShowInstanceUI
         m_Mode: 1
         m_Arguments:
@@ -1432,8 +1503,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -3016,8 +3087,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: BlackButton
         m_Mode: 1
         m_Arguments:
@@ -3225,8 +3296,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: WhiteButton
         m_Mode: 1
         m_Arguments:
@@ -4206,8 +4277,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: ExplodedViewSpread
         m_Mode: 1
         m_Arguments:
@@ -4536,8 +4607,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -5157,8 +5228,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -6158,8 +6229,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -6256,8 +6327,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -7273,8 +7344,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -7863,8 +7934,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -8034,9 +8105,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: ShowPC
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
+        m_MethodName: ShowPCClass
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8481,8 +8552,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: SkyBoxButton
         m_Mode: 1
         m_Arguments:
@@ -10030,8 +10101,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -10315,8 +10386,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -12053,8 +12124,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: PointSizeDown
         m_Mode: 1
         m_Arguments:
@@ -12186,8 +12257,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: PointSizeUp
         m_Mode: 1
         m_Arguments:
@@ -12472,8 +12543,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
         m_MethodName: classToggleChange
         m_Mode: 1
         m_Arguments:
@@ -12658,9 +12729,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 362844565}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: HidePC
+      - m_Target: {fileID: 158853731}
+        m_TargetAssemblyTypeName: UIInstanceController, Assembly-CSharp
+        m_MethodName: HidePCClass
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15638,3 +15709,4 @@ SceneRoots:
   - {fileID: 1420463295}
   - {fileID: 1053416183}
   - {fileID: 1293653179}
+  - {fileID: 158853732}
