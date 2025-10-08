@@ -3,7 +3,7 @@ using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.Loading;
 using UnityEngine;
 
-public class CloudInstantiator : MonoBehaviour
+public class CloudInstanceInstantiatior : MonoBehaviour
 {
     [Header("UI Connection")]
     [SerializeField] UIController uIContoller;
@@ -26,17 +26,17 @@ public class CloudInstantiator : MonoBehaviour
         {
             // Instatiate Directory Loader On Awake And Set Path + Cloud Loader
             DirectoryLoaderGO = Instantiate(DirectoryLoaderPrefab);
-            DirectoryLoaderGO.GetComponent<DirectoryLoader>().path = DirectoryPath;
-            DirectoryLoaderGO.GetComponent<DirectoryLoader>().pointset = InitialCloudLoader.GetComponent<DynamicPointCloudSet>();
+            DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().path = DirectoryPath;
+            DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().pointset = InitialCloudLoader.GetComponent<DynamicPointCloudSet>();
 
             // Add Spawn Positions From Inspector To Created Directory Loader
             foreach (Vector3 SP in cloudSpawnPositions)
             {
-                DirectoryLoaderGO.GetComponent<DirectoryLoader>().spawnPositions.Add(SP);
+                DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().spawnPositions.Add(SP);
             }
 
             // Load Clouds From Directory
-            DirectoryLoaderGO.GetComponent<DirectoryLoader>().LoadAll();
+            DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().LoadAll();
         }
         else
         {

@@ -2282,7 +2282,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &362844565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3482,6 +3482,59 @@ RectTransform:
   m_AnchoredPosition: {x: -65.17059, y: -239.05429}
   m_SizeDelta: {x: 597.97534, y: 101.91054}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &517941376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 517941378}
+  - component: {fileID: 517941377}
+  m_Layer: 0
+  m_Name: InitialCloudLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &517941377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517941376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7dc43c468520bc4eb64eceb8593c5b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.CloudController.DynamicPointCloudSet
+  moveCenterToTransformPosition: 1
+  showBoundingBox: 0
+  meshConfiguration: {fileID: 1440587391}
+  pointBudget: 1000000
+  minNodeSize: 10
+  nodesLoadedPerFrame: 15
+  nodesGOsPerFrame: 30
+  cacheSizeInPoints: 1000000
+  userCamera: {fileID: 563378512}
+--- !u!4 &517941378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517941376}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 214.96298, y: 0, z: 2988.6335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1293653179}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &525372173
 GameObject:
   m_ObjectHideFlags: 0
@@ -7089,7 +7142,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1053416182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7104,7 +7157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   uIContoller: {fileID: 362844565}
   DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jg\xE5rdsvej_Instance"
-  DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: c708f65e35538114887b9dc759365e76, type: 3}
+  DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: 2883f9388905fe843a114a6b58fb44b6, type: 3}
   DirectoryLoaderGO: {fileID: 0}
   InitialCloudLoader: {fileID: 818226982}
   CloudLoaderPrefab: {fileID: 30419154946572939, guid: b392dddfc89e09c46a59892af92db8c0, type: 3}
@@ -8937,6 +8990,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1268539989}
   m_CullTransparentMesh: 1
+--- !u!1 &1293653177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1293653179}
+  - component: {fileID: 1293653178}
+  m_Layer: 0
+  m_Name: CloudInstanceInstantiation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1293653178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293653177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffcd331b3bb288341b4b1066a467d42c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CloudInstanceInstantiatior
+  uIContoller: {fileID: 0}
+  DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jg\xE5rdsvej_Instance"
+  DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: 2883f9388905fe843a114a6b58fb44b6, type: 3}
+  DirectoryLoaderGO: {fileID: 0}
+  InitialCloudLoader: {fileID: 517941376}
+  CloudLoaderPrefab: {fileID: 30419154946572939, guid: b392dddfc89e09c46a59892af92db8c0, type: 3}
+  cloudSpawnPositions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 3.767, y: -0.398, z: 6.81}
+  - {x: 2.5, y: -0.263, z: 4.46}
+  - {x: 3.76, y: -4.37, z: 6.81}
+  - {x: 2.803, y: -1.38, z: 4.781}
+  - {x: 3.843, y: -4.389, z: 6.858}
+  - {x: 3.173, y: -1.192, z: 4.863}
+  - {x: 3.976, y: -4.587, z: 7.056}
+  - {x: 2.811, y: -1.466, z: 4.777}
+--- !u!4 &1293653179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293653177}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.06037, y: 0, z: 6.65295}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 517941378}
+  - {fileID: 1440587392}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1302669320
 GameObject:
   m_ObjectHideFlags: 0
@@ -9567,6 +9682,58 @@ RectTransform:
   m_AnchoredPosition: {x: 28.007416, y: -663.9852}
   m_SizeDelta: {x: 311.19702, y: 68.93201}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1440587390
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1440587392}
+  - component: {fileID: 1440587391}
+  m_Layer: 0
+  m_Name: MeshConfig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1440587391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440587390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426ae4860d7da4a842b646949c76c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.ObjectCreation.DefaultMeshConfiguration
+  pointRadius: 1
+  renderCircles: 0
+  screenSize: 1
+  interpolation: 1
+  colorMode: 0
+  reload: 0
+  renderCamera: {fileID: 563378512}
+  displayLOD: 0
+--- !u!4 &1440587392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440587390}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 214.96298, y: 0, z: 2988.6335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1293653179}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1445048128
 GameObject:
   m_ObjectHideFlags: 0
@@ -15470,3 +15637,4 @@ SceneRoots:
   - {fileID: 1687997822}
   - {fileID: 1420463295}
   - {fileID: 1053416183}
+  - {fileID: 1293653179}
