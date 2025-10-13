@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.Edl;
 using BAPointCloudRenderer.Loading;
@@ -63,6 +64,10 @@ public class UIInstanceController : MonoBehaviour
     [Header("Classification Toggles")]
     private bool loadingClassToggles = true;
     [SerializeField] private List<Toggle> classToggles = new List<Toggle>();
+
+    [Header("Instance Toggles")]
+    private bool loadingInstanceToggles = true;
+    [SerializeField] private List<Toggle> InstanceToggles = new List<Toggle>();
 
     [Header("Instance UI")]
     [SerializeField] private Image instanceUIImage;
@@ -132,25 +137,8 @@ public class UIInstanceController : MonoBehaviour
         // Create Drop Down Listener
         colorModeDropDown.onValueChanged.AddListener(delegate { DropdownColorModeChange(); });
 
-        Debug.Log("Going into toggle loop");
         // Set Available toggles based on class amount
-        while (classToggles.Count > PCClasses.Count)
-        {
-            int beforeToggles = classToggles.Count;
-            Debug.Log("Before Removal: " + beforeToggles);
-            classToggles[classToggles.Count - 1].isOn = false;
-            classToggles[classToggles.Count - 1].gameObject.SetActive(false);
-            classToggles.Remove(classToggles[classToggles.Count - 1]);
-            int afterToggles = classToggles.Count;
-            Debug.Log("After Removal: " + afterToggles);
-
-            if (beforeToggles == afterToggles) // Avoid infinite Loop
-            {
-                break;
-            }
-        }
-        loadingClassToggles = false;
-        Debug.Log("Going out of toggle loop");
+        LoadClassToggles();
     }
 
     void Update()
@@ -265,6 +253,18 @@ public class UIInstanceController : MonoBehaviour
             GameObject instanceInClass = PointCloudLoaded.transform.GetChild(i).gameObject;
             instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
         }
+        Debug.Log($"Cloud: {CloudToShow} is shown");
+    }
+    public void HidePCInstance(int CloudToHide)
+    {
+        GameObject PointCloudHidden = PCInstances[CloudToHide];
+        PointCloudHidden.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+        Debug.Log($"Cloud: {CloudToHide} is hidden");
+    }
+    public void ShowPCInstance(int CloudToShow)
+    {
+        GameObject PointCloudLoaded = PCInstances[CloudToShow];
+        PointCloudLoaded.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
         Debug.Log($"Cloud: {CloudToShow} is shown");
     }
 
@@ -501,6 +501,35 @@ public class UIInstanceController : MonoBehaviour
         }
     }
 
+    // Method For Toggling The Various Classes
+    public void InstanceToggleChange()
+    {
+        if (!loadingInstanceToggles)
+        {
+            int currentToggle = 0;
+
+            foreach (Toggle toggle in InstanceToggles)
+            {
+                if (toggle.isOn)
+                {
+                    ShowPCInstance(currentToggle);
+                    Debug.Log("Cloud: " + currentToggle + " Toggle is on");
+                }
+                else if (!toggle.isOn)
+                {
+                    HidePCInstance(currentToggle);
+                    Debug.Log("Cloud: " + currentToggle + " Toggle is off");
+                }
+                currentToggle++;
+
+                if (currentToggle == InstanceToggles.Count)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
     // Method For Showing Instance UI And Toggling The Various Instances
     public void ShowInstanceUI()
     {
@@ -509,12 +538,73 @@ public class UIInstanceController : MonoBehaviour
             instanceUIActive = true;
             instanceUIImage.gameObject.SetActive(true);
             instanceUIButton.image.color = Color.red;
+
+            LoadAllInstanceToggles();
+
+            foreach (Toggle iToggle in InstanceToggles)
+            {
+                iToggle.isOn = true;
+                iToggle.gameObject.SetActive(true);
+            }
         }
         else if (instanceUIActive)
         {
             instanceUIActive = false;
             instanceUIImage.gameObject.SetActive(false);
             instanceUIButton.image.color = Color.white;
+
+            foreach (Toggle iToggle in InstanceToggles)
+            {
+                iToggle.gameObject.SetActive(false);
+            }
         }
+    }
+    private void LoadClassToggles()
+    {
+        // Set Available toggles based on class amount
+        while (classToggles.Count > PCClasses.Count)
+        {
+            int beforeToggles = classToggles.Count;
+            // Debug.Log("Before Removal: " + beforeToggles);
+            classToggles[classToggles.Count - 1].isOn = false;
+            classToggles[classToggles.Count - 1].gameObject.SetActive(false);
+            classToggles.Remove(classToggles[classToggles.Count - 1]);
+            int afterToggles = classToggles.Count;
+            // Debug.Log("After Removal: " + afterToggles);
+
+            if (beforeToggles == afterToggles) // Avoid infinite Loop
+            {
+                break;
+            }
+        }
+        loadingClassToggles = false;
+    }
+    private void LoadAllInstanceToggles()
+    {
+        // Set Available toggles based on instance amount
+        while (InstanceToggles.Count > PCInstances.Count)
+        {
+            int beforeToggles = InstanceToggles.Count;
+            // Debug.Log("Before Removal: " + beforeToggles);
+            InstanceToggles[InstanceToggles.Count - 1].isOn = false;
+            InstanceToggles[InstanceToggles.Count - 1].gameObject.SetActive(false);
+            InstanceToggles.Remove(InstanceToggles[InstanceToggles.Count - 1]);
+            int afterToggles = InstanceToggles.Count;
+            // Debug.Log("After Removal: " + afterToggles);
+
+            if (beforeToggles == afterToggles) // Avoid infinite Loop
+            {
+                break;
+            }
+        }
+
+        int pci = 0;
+
+        foreach (Toggle iToggle in InstanceToggles)
+        {
+            iToggle.GetComponentInChildren<Text>().text = "Cloud Instance: " + (pci+1);
+            pci++;
+        }
+        loadingInstanceToggles = false;
     }
 }
