@@ -21,29 +21,17 @@ public class CloudInteraction : MonoBehaviour
         primitiveMaterial = new Material(Shader.Find("Unlit/HideObject"));
     }
 
-    // void Update()
-    // {
-
-    // }
-
-    void OnMouseDown()
+    void Update()
     {
-        // primitiveIsSelected = true;
-
-        screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-
-        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                Debug.Log(hit.transform.name);
+                Debug.Log("hit");
+            }
+        }
     }
-    void OnMouseDrag()
-    {
-        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        transform.position = curPosition;
-    }
-
-    // void OnMouseUp()
-    // {
-    //     // primitiveIsSelected = false;
-    // }
 }

@@ -44,6 +44,7 @@ namespace BAPointCloudRenderer.CloudController {
 
         [SerializeField] public List<Vector3> spawnPositions = new List<Vector3>();
 
+        // Save All Instances in list
         public List<GameObject> allInstances = new List<GameObject>();
 
 

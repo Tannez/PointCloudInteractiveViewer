@@ -189,8 +189,10 @@ namespace BAPointCloudRenderer.ObjectCreation {
             gameObject.transform.SetParent(parent, false);
 
             BoundingBoxComponent bbc = gameObject.AddComponent<BoundingBoxComponent>();
-            bbc.boundingBox = boundingBox; ;
+            bbc.boundingBox = boundingBox;
             bbc.parent = parent;
+            BoxCollider boxCollider = gameObject.AddComponent<BoxCollider>();
+            gameObject.tag = "PointCloud";
 
             if (gameObjectCollection != null)
             {
