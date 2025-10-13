@@ -18,7 +18,8 @@ public class UIInstanceController : MonoBehaviour
 
     //Reference to pointcloud gameobject and its script
     DirectoryInstanceLoader directoryInstanceLoader;
-    [SerializeField] public List<DirectoryInstanceLoader.PCInstances> pointClouds = new List<DirectoryInstanceLoader.PCInstances>(); 
+    [SerializeField] public List<DirectoryInstanceLoader.PCInstances> PCClasses = new List<DirectoryInstanceLoader.PCInstances>(); 
+    [SerializeField] public List<GameObject> PCInstances = new List<GameObject>(); 
 
     [Tooltip("Before running scene, a cloud instantiator is required in hierarchy. Create empty GameObject and add a Cloud Instantiator script to it. Then insert the cloud instantiator here. Remember to set asset path and prefabs in cloud instantiator script")]
     [SerializeField] CloudInstanceInstantiatior cloudInstantiator;
@@ -92,15 +93,18 @@ public class UIInstanceController : MonoBehaviour
 
         // Get Cloud objects
         directoryInstanceLoader = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>();
-        pointClouds = directoryInstanceLoader.pointCloudClasses;
+        PCClasses = directoryInstanceLoader.pointCloudClasses;
+        PCInstances = directoryInstanceLoader.allInstances;
 
         // Set Initial Point Budget 
         PCPointBudget = InitialCloudLoader.GetComponent<DynamicPointCloudSet>().pointBudget;
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+        foreach (GameObject pci in PCInstances)
         {
-            cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
+            pci.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;   
         }
+
+        Debug.Log("Point Clouds available in UI: " + PCClasses.Count);
 
         // Get EDL values from EdlCamera Script
         EDLRadiusUI = edlCamera.EdlRadius;
@@ -128,10 +132,8 @@ public class UIInstanceController : MonoBehaviour
         // Create Drop Down Listener
         colorModeDropDown.onValueChanged.AddListener(delegate { DropdownColorModeChange(); });
 
-        Debug.Log("Point Clouds available in UI: " + pointClouds.Count);
-
         // Set Available toggles based on class amount
-        while (classToggles.Count > pointClouds.Count)
+        while (classToggles.Count > PCClasses.Count)
         {
             int beforeToggles = classToggles.Count;
             Debug.Log("Before Removal: " + beforeToggles);
@@ -145,7 +147,7 @@ public class UIInstanceController : MonoBehaviour
             {
                 break;
             }
-        }
+        } 
         loadingClassToggles = false;
     }
 
@@ -158,40 +160,36 @@ public class UIInstanceController : MonoBehaviour
     public void PCValueChangeCheck()
     {
         // Remove Clouds
-        foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+        foreach (GameObject pci in PCInstances)
         {
             // Remove Clouds
-            cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-
+            pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
             // ShutDown V2 Renderer
-            cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
+            pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();  
             // Disable DynamicPointCloudSet Component
-            cloud.cloudClassGO.SetActive(false);
+            pci.SetActive(false);
         }
 
         // Change Value Of Point Budget
         PCPointBudget = (uint)pointBudgetSlider.value;
 
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+        foreach (GameObject pci in PCInstances)
         {
-            cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
+            pci.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
         }
 
         pointBudgetSliderText.text = PCPointBudget.ToString();
 
         //Enable Clouds
-        foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+        foreach (GameObject pci in PCInstances)
         {
             // Enable DynamicPointCloudSet Component
-            cloud.cloudClassGO.SetActive(true);
-
+            pci.SetActive(true);
             // Enable Clouds
-            cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-
+            pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
             // Show V2 Renderer
-            cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+            pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
         }
     }
 
@@ -217,9 +215,9 @@ public class UIInstanceController : MonoBehaviour
     {
         int cloudRuns = 0;
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
         {
-            cloud.cloudClassGO.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * (pointClouds.Count - cloudRuns) / 10, 0.0f);
+            cloud.cloudClassGO.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * (PCClasses.Count - cloudRuns) / 10, 0.0f);
             cloudRuns++;
         }
     }
@@ -249,13 +247,13 @@ public class UIInstanceController : MonoBehaviour
     // Methods For Loading And Removing Point Clouds
     public void HidePCClass(int CloudToHide)
     {
-        GameObject PointCloudHidden = pointClouds[CloudToHide].cloudClassGO;
+        GameObject PointCloudHidden = PCClasses[CloudToHide].cloudClassGO;
         PointCloudHidden.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
         Debug.Log($"Cloud: {CloudToHide} is hidden");
     }
     public void ShowPCClass(int CloudToShow)
     {
-        GameObject PointCloudLoaded = pointClouds[CloudToShow].cloudClassGO;
+        GameObject PointCloudLoaded = PCClasses[CloudToShow].cloudClassGO;
         PointCloudLoaded.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
         Debug.Log($"Cloud: {CloudToShow} is shown");
     }
@@ -380,97 +378,86 @@ public class UIInstanceController : MonoBehaviour
         if (colorModeDropDown.value == 0)
         {
             //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+            // Remove Clouds
+            foreach (GameObject pci in PCInstances)
             {
                 // Remove Clouds
-                cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-
+                pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
-                cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
+                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();  
                 // Disable DynamicPointCloudSet Component
-                cloud.cloudClassGO.SetActive(false);
+                pci.SetActive(false);
             }
 
             // Change ColorMode
             RGBConversion();
 
-            // Enable Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+            //Enable Clouds
+            foreach (GameObject pci in PCInstances)
             {
                 // Enable DynamicPointCloudSet Component
-                cloud.cloudClassGO.SetActive(true);
-
+                pci.SetActive(true);
                 // Enable Clouds
-                cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-
+                pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 // Show V2 Renderer
-                cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+                pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
             }
         }
 
         else if (colorModeDropDown.value == 1)
         {
             //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+            // Remove Clouds
+            foreach (GameObject pci in PCInstances)
             {
                 // Remove Clouds
-                cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-
+                pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
-                cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
+                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();  
                 // Disable DynamicPointCloudSet Component
-                cloud.cloudClassGO.SetActive(false);
-            }
+                pci.SetActive(false);
+            }   
 
             // Change ColorMode
             ClassificationConversion();
 
-            // Enable Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+            //Enable Clouds
+            foreach (GameObject pci in PCInstances)
             {
                 // Enable DynamicPointCloudSet Component
-                cloud.cloudClassGO.SetActive(true);
-
+                pci.SetActive(true);
                 // Enable Clouds
-                cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-
+                pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 // Show V2 Renderer
-                cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-
+                pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
             }
         }
         else if (colorModeDropDown.value == 2)
         {
             //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+            // Remove Clouds
+            foreach (GameObject pci in PCInstances)
             {
                 // Remove Clouds
-                cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-
+                pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
-                cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-
+                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();  
                 // Disable DynamicPointCloudSet Component
-                cloud.cloudClassGO.SetActive(false);
+                pci.SetActive(false);
             }
 
             // Change ColorMode
             IntensityConversion();
 
-            // Enable Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in pointClouds)
+            //Enable Clouds
+            foreach (GameObject pci in PCInstances)
             {
                 // Enable DynamicPointCloudSet Component
-                cloud.cloudClassGO.SetActive(true);
-
+                pci.SetActive(true);
                 // Enable Clouds
-                cloud.cloudClassGO.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-
+                pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 // Show V2 Renderer
-                cloud.cloudClassGO.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-
+                pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
             }
         }
     }

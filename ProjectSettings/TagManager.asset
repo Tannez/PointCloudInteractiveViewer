@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UI
   - ToolCamera
+  - PointCloud
   layers:
   - Default
   - TransparentFX

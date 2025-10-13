@@ -44,6 +44,8 @@ namespace BAPointCloudRenderer.CloudController {
 
         [SerializeField] public List<Vector3> spawnPositions = new List<Vector3>();
 
+        public List<GameObject> allInstances = new List<GameObject>();
+
 
         // Pointcloud Instances in Class
         [Serializable]
@@ -69,6 +71,10 @@ namespace BAPointCloudRenderer.CloudController {
                 // Make Cloud Instance GO's part of Cloud Class GO
                 cloudClassGO = aCloudClassGO;
                 getCloudInstanceGO.transform.SetParent(cloudClassGO.transform);
+
+                // Add Cloud Interaction Script to each instance
+                getCloudInstanceGO.AddComponent<CloudInteraction>();
+                getCloudInstanceGO.tag = "PointCloud";
             }
         }
 
@@ -138,6 +144,8 @@ namespace BAPointCloudRenderer.CloudController {
 
                     // Create Cloud Instance and add to new Class
                     pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader);
+                    allInstances.Add(pCInstances.getCloudInstanceGO);
+                    Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
                     pointCloudClasses.Add(pCInstances);
 
                     // Debug.Log("Appending PointCloud to New Class");
@@ -149,6 +157,8 @@ namespace BAPointCloudRenderer.CloudController {
 
                     // Create Cloud Instance and add to same Class
                     pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader);
+                    allInstances.Add(pCInstances.getCloudInstanceGO);
+                    Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
 
                     // Debug.Log("Appending PointCloud to Same Class");
                 }

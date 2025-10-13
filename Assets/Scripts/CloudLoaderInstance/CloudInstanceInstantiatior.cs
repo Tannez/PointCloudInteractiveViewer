@@ -6,7 +6,7 @@ using UnityEngine;
 public class CloudInstanceInstantiatior : MonoBehaviour
 {
     [Header("UI Connection")]
-    [SerializeField] UIController uIContoller;
+    [SerializeField] UIInstanceController uIInstanceContoller;
 
     [Header("Point Cloud Directory")]
     [SerializeField] public string DirectoryPath;
