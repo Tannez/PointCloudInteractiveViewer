@@ -132,6 +132,7 @@ public class UIInstanceController : MonoBehaviour
         // Create Drop Down Listener
         colorModeDropDown.onValueChanged.AddListener(delegate { DropdownColorModeChange(); });
 
+        Debug.Log("Going into toggle loop");
         // Set Available toggles based on class amount
         while (classToggles.Count > PCClasses.Count)
         {
@@ -147,8 +148,9 @@ public class UIInstanceController : MonoBehaviour
             {
                 break;
             }
-        } 
+        }
         loadingClassToggles = false;
+        Debug.Log("Going out of toggle loop");
     }
 
     void Update()
@@ -248,13 +250,21 @@ public class UIInstanceController : MonoBehaviour
     public void HidePCClass(int CloudToHide)
     {
         GameObject PointCloudHidden = PCClasses[CloudToHide].cloudClassGO;
-        PointCloudHidden.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+        for (int i = 0; i < PointCloudHidden.transform.childCount; i++)
+        {
+            GameObject instanceInClass = PointCloudHidden.transform.GetChild(i).gameObject;
+            instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+        }
         Debug.Log($"Cloud: {CloudToHide} is hidden");
     }
     public void ShowPCClass(int CloudToShow)
     {
         GameObject PointCloudLoaded = PCClasses[CloudToShow].cloudClassGO;
-        PointCloudLoaded.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+        for (int i = 0; i < PointCloudLoaded.transform.childCount; i++)
+        {
+            GameObject instanceInClass = PointCloudLoaded.transform.GetChild(i).gameObject;
+            instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+        }
         Debug.Log($"Cloud: {CloudToShow} is shown");
     }
 

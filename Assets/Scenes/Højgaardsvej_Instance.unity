@@ -613,7 +613,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411ae187a48e9ad4abd8d77b3cb86207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIInstanceController
-  pointClouds: []
+  PCClasses: []
+  PCInstances: []
   cloudInstantiator: {fileID: 1293653178}
   InitialCloudLoader: {fileID: 517941376}
   clippingPlane: {fileID: 852252639}
@@ -632,7 +633,17 @@ MonoBehaviour:
   EDLExpScaleSliderText: {fileID: 1966707475}
   EDLScaleSlider: {fileID: 449393177}
   EDLScaleSliderText: {fileID: 2070812457}
-  classToggles: []
+  classToggles:
+  - {fileID: 1105205249}
+  - {fileID: 911050044}
+  - {fileID: 213787216}
+  - {fileID: 1458174275}
+  - {fileID: 1763155612}
+  - {fileID: 1504134462}
+  - {fileID: 652619003}
+  - {fileID: 1060832116}
+  - {fileID: 894291813}
+  - {fileID: 749613612}
   instanceUIImage: {fileID: 54404328}
   instanceUIButton: {fileID: 210024647}
   colorModeDropDown: {fileID: 1519557391}
