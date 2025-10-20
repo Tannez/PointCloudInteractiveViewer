@@ -50,5 +50,7 @@ MonoBehaviour:
   cloudsInDirectory: 0
   cloudClassesInDirectory: 0
   CloudLoaderPrefab: {fileID: 30419154946572939, guid: b392dddfc89e09c46a59892af92db8c0, type: 3}
+  MeshConfigPrefab: {fileID: 8408279559340160954, guid: f0b28da0d8c401a4087635255b1970b5, type: 3}
   spawnPositions: []
+  allInstances: []
   pointCloudClasses: []

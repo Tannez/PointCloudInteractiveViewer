@@ -275,21 +275,37 @@ public class UIInstanceController : MonoBehaviour
         // pointMeshConfiguration.material = new Material(Shader.Find("CustomRenderTexture/Classification"));
         // Debug.Log("Showing Classification");
 
-        defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Classification;
+        foreach (GameObject pci in PCInstances)
+        {
+            pci.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Classification;
+        }
+        // defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Classification;
         Debug.Log("Showing Classification");
     }
     public void RGBConversion()
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
         // Debug.Log("Showing RGB");
-        defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.RGBA;
-        Debug.Log("Showing Classification");
+
+        foreach (GameObject pci in PCInstances)
+        {
+            pci.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.RGBA;
+        }
+
+        // defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.RGBA;
+        Debug.Log("Showing RGBA");
     }
     public void IntensityConversion()
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
-        // Debug.Log("Showing RGB");
-        defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Intensity;
+        // Debug.Log("Showing Intensity");
+
+        foreach (GameObject pci in PCInstances)
+        {
+            pci.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Intensity;
+        }
+
+        // defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Intensity;
         Debug.Log("Showing Intensity");
     }
 

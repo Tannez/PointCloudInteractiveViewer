@@ -41,6 +41,7 @@ namespace BAPointCloudRenderer.CloudController {
         private string previousInstanceClassName;
 
         [SerializeField] GameObject CloudLoaderPrefab;
+        [SerializeField] GameObject MeshConfigPrefab;
 
         [SerializeField] public List<Vector3> spawnPositions = new List<Vector3>();
 
@@ -58,16 +59,20 @@ namespace BAPointCloudRenderer.CloudController {
             // public PointCloudLoader getLoader;
             public GameObject getDynamicLoaderGO;
 
-            public PCInstances(GameObject aCloudClassGO, GameObject aCloudInstanceGO, GameObject aCloudLoaderGO, GameObject aDynamicLoaderGO)
+            public GameObject getMeshConfigGO;
+
+            public PCInstances(GameObject aCloudClassGO, GameObject aCloudInstanceGO, GameObject aCloudLoaderGO, GameObject aDynamicLoaderGO, GameObject aMeshConfigGO)
             {
                 // Get Cloud Instance GO's for PC manipulation
                 getCloudInstanceGO = aCloudInstanceGO;
                 getCloudLoaderGO = aCloudLoaderGO;
                 getDynamicLoaderGO = aDynamicLoaderGO;
+                getMeshConfigGO = aMeshConfigGO;
 
                 // Make Cloud Instance GO parent of Loader GO's 
                 getCloudLoaderGO.transform.SetParent(getCloudInstanceGO.transform);
                 getDynamicLoaderGO.transform.SetParent(getCloudInstanceGO.transform);
+                getMeshConfigGO.transform.SetParent(getCloudInstanceGO.transform);
 
                 // Make Cloud Instance GO's part of Cloud Class GO
                 cloudClassGO = aCloudClassGO;
@@ -76,6 +81,7 @@ namespace BAPointCloudRenderer.CloudController {
                 // Add Cloud Interaction Script to each instance
                 getCloudInstanceGO.AddComponent<CloudInteraction>();
                 getCloudInstanceGO.tag = "PointCloud";
+
             }
         }
 
@@ -109,15 +115,18 @@ namespace BAPointCloudRenderer.CloudController {
                 GameObject go = new GameObject(sub.Name);
                 PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
                 GameObject dynamicLoader;
+                GameObject meshConfigure;
 
                 // Spawn at specific positions if defined in Inspector
                 if (cloudsInDirectory < spawnPositions.Count)
                 {
                     dynamicLoader = Instantiate(CloudLoaderPrefab, spawnPositions[cloudsInDirectory], Quaternion.identity);
+                    meshConfigure = Instantiate(MeshConfigPrefab);
                 }
                 else
                 {
                     dynamicLoader = Instantiate(CloudLoaderPrefab);
+                    meshConfigure = Instantiate(MeshConfigPrefab);
                 }
 
                 // Connect Values to Components
@@ -132,7 +141,8 @@ namespace BAPointCloudRenderer.CloudController {
                 }
 
                 loader.setController = dynamicLoader.GetComponent<DynamicPointCloudSet>();
-                dynamicLoader.GetComponent<DynamicPointCloudSet>().meshConfiguration = GameObject.Find("MeshConfig").GetComponent<DefaultMeshConfiguration>();
+                meshConfigure.GetComponent<DefaultMeshConfiguration>().renderCamera = Camera.main;
+                dynamicLoader.GetComponent<DynamicPointCloudSet>().meshConfiguration = meshConfigure.GetComponent<DefaultMeshConfiguration>();
                 dynamicLoader.GetComponent<DynamicPointCloudSet>().userCamera = Camera.main;
 
 
@@ -144,7 +154,7 @@ namespace BAPointCloudRenderer.CloudController {
                     cloudClassGO = new GameObject("Class: " + cloudClassesInDirectory);
 
                     // Create Cloud Instance and add to new Class
-                    pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader);
+                    pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader, meshConfigure);
                     allInstances.Add(pCInstances.getCloudInstanceGO);
                     Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
                     pointCloudClasses.Add(pCInstances);
@@ -157,7 +167,7 @@ namespace BAPointCloudRenderer.CloudController {
                     // Add to current PointCloudClasses element 
 
                     // Create Cloud Instance and add to same Class
-                    pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader);
+                    pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader, meshConfigure);
                     allInstances.Add(pCInstances.getCloudInstanceGO);
                     Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
 

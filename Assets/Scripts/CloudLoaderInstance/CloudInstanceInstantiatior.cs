@@ -17,6 +17,10 @@ public class CloudInstanceInstantiatior : MonoBehaviour
     [SerializeField] public GameObject InitialCloudLoader;
     [SerializeField] public GameObject CloudLoaderPrefab;
 
+    [Header("Mesh Config")]
+    [SerializeField] public GameObject InitialMeshConfig;
+    [SerializeField] public GameObject MeshConfigPrefab;
+
     [Header("Spawn Positions")]
     [SerializeField] public List<Vector3> cloudSpawnPositions = new List<Vector3>();
 
