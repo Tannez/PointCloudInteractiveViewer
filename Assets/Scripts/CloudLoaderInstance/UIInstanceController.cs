@@ -97,11 +97,12 @@ public class UIInstanceController : MonoBehaviour
     [SerializeField] List<Button> classButtons = new List<Button>();
     private bool loadingClassButtons = true;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousColor;
-    private bool class1Selected = false;
-    private bool class2Selected = false;
-    private bool class3Selected = false;
-    private bool class4Selected = false;
-    private bool class5Selected = false;
+    private bool[] classSelected = new bool[10];
+
+    [Header("Instance Buttons")]
+    [SerializeField] List<Button> InstanceButtons = new List<Button>();
+    private bool loadingInstanceButtons = true;
+    private bool[] instanceSelected = new bool[10];
 
     void Start()
     {
@@ -522,59 +523,59 @@ public class UIInstanceController : MonoBehaviour
         // reload cloud 
 
         // hard coded to keyboard buttons:
-        if (Input.GetKeyDown(KeyCode.Alpha1) && class1Selected == false)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && classSelected[0] == false)
         {
             SelectCloudClass(1);
-            class1Selected = true;
+            classSelected[0] = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha1) && class1Selected == true)
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && classSelected[0] == true)
         {
             UnSelectCloudClass(1);
-            class1Selected = false;
+            classSelected[0] = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && class2Selected == false)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && classSelected[1] == false)
         {
             SelectCloudClass(2);
-            class2Selected = true;
+            classSelected[1] = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) && class2Selected == true)
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && classSelected[1] == true)
         {
             UnSelectCloudClass(2);
-            class2Selected = false;
+            classSelected[1] = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) && class3Selected == false)
+        if (Input.GetKeyDown(KeyCode.Alpha3) && classSelected[2] == false)
         {
             SelectCloudClass(3);
-            class3Selected = true;
+            classSelected[2] = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && class3Selected == true)
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && classSelected[2] == true)
         {
             UnSelectCloudClass(3);
-            class3Selected = false;
+            classSelected[2] = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4) && class4Selected == false)
+        if (Input.GetKeyDown(KeyCode.Alpha4) && classSelected[3] == false)
         {
             SelectCloudClass(4);
-            class4Selected = true;
+            classSelected[3] = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha4) && class4Selected == true)
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && classSelected[3] == true)
         {
             UnSelectCloudClass(4);
-            class4Selected = false;
+            classSelected[3] = false;
         }  
         
-        if (Input.GetKeyDown(KeyCode.Alpha5) && class5Selected == false)
+        if (Input.GetKeyDown(KeyCode.Alpha5) && classSelected[4] == false)
         {
             SelectCloudClass(5);
-            class5Selected = true;
+            classSelected[4] = true;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha5) && class5Selected == true)
+        else if (Input.GetKeyDown(KeyCode.Alpha5) && classSelected[4] == true)
         {
             UnSelectCloudClass(5);
-            class5Selected = false;
+            classSelected[4] = false;
         } 
     }
 
@@ -646,6 +647,7 @@ public class UIInstanceController : MonoBehaviour
             instanceUIButton.image.color = Color.gray;
 
             LoadAllInstanceToggles();
+            LoadAllInstanceSelectionButtons();
 
             foreach (Toggle iToggle in InstanceToggles)
             {
@@ -687,6 +689,7 @@ public class UIInstanceController : MonoBehaviour
     }
     private void LoadAllInstanceToggles()
     {
+        loadingInstanceToggles = true; 
         // Set Available toggles based on instance amount
         while (InstanceToggles.Count > PCInstances.Count)
         {
@@ -714,6 +717,27 @@ public class UIInstanceController : MonoBehaviour
         loadingInstanceToggles = false;
     }
 
+    private void LoadAllInstanceSelectionButtons()
+    {
+        loadingInstanceButtons = true;
+        // Set Available buttons based on instance amount
+        while (InstanceButtons.Count > PCInstances.Count)
+        {
+            int beforeButtons = InstanceButtons.Count;
+            // Debug.Log("Before Removal: " + beforeToggles);
+            InstanceButtons[InstanceButtons.Count - 1].gameObject.SetActive(false);
+            InstanceButtons.Remove(InstanceButtons[InstanceButtons.Count - 1]);
+            int afterButtons = InstanceButtons.Count;
+            // Debug.Log("After Removal: " + afterToggles);
+
+            if (beforeButtons == afterButtons) // Avoid infinite Loop
+            {
+                break;
+            }
+        }
+        loadingInstanceButtons = false;
+    }
+
     // Method For Loading Selection Buttons Showing Selected Class
     private void LoadClassSelectionButtons()
     {
@@ -735,7 +759,7 @@ public class UIInstanceController : MonoBehaviour
         loadingClassButtons = false;
     }
 
-    // Methods to condense code for the cloud selection method
+    // Methods to condense code for the cloud class selection method
     private void SelectCloudClass(int cloudClass)
     {
         GameObject PointCloudSelected = PCClasses[cloudClass - 1].cloudClassGO;
@@ -757,74 +781,216 @@ public class UIInstanceController : MonoBehaviour
             GameObject instanceInClass = PointCloudUnSelected.transform.GetChild(i).gameObject;
             instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
             instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+            if (classToggles[cloudClass - 1].isOn == false)
+            {
+                classToggles[cloudClass - 1].isOn = true;
+            }
             instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
             classButtons[cloudClass - 1].image.color = new Color(1, 1, 1, 0.4f);
         }
     }
 
-    // method for UI buttons to show selected clouds
-    public void cloudSelection(int cloudClass)
+    // Method for UI buttons to show selected cloud Classes
+    public void cloudClassSelection(int cloudClass)
     {
         if (!loadingClassButtons)
         {
             // Class 1
-            if (class1Selected == false && cloudClass == 1)
+            if (classSelected[0] == false && cloudClass == 1)
             {
                 SelectCloudClass(1);
-                class1Selected = true;
+                classSelected[0] = true;
             }
-            else if (class1Selected == true && cloudClass == 1)
+            else if (classSelected[0] == true && cloudClass == 1)
             {
                 UnSelectCloudClass(1);
-                class1Selected = false;
+                classSelected[0] = false;
             }
 
             // Class 2
-            if (class2Selected == false && cloudClass == 2)
+            if (classSelected[1] == false && cloudClass == 2)
             {
                 SelectCloudClass(2);
-                class2Selected = true;
+                classSelected[1] = true;
             }
-            else if (class2Selected == true && cloudClass == 2)
+            else if (classSelected[1] == true && cloudClass == 2)
             {
                 UnSelectCloudClass(2);
-                class2Selected = false;
+                classSelected[1] = false;
             }
 
             // Class 3
-            if (class3Selected == false && cloudClass == 3)
+            if (classSelected[2] == false && cloudClass == 3)
             {
                 SelectCloudClass(3);
-                class3Selected = true;
+                classSelected[2] = true;
             }
-            else if (class3Selected == true && cloudClass == 3)
+            else if (classSelected[2] == true && cloudClass == 3)
             {
                 UnSelectCloudClass(3);
-                class3Selected = false;
+                classSelected[2] = false;
             }
 
             // Class 4
-            if (class4Selected == false && cloudClass == 4)
+            if (classSelected[3] == false && cloudClass == 4)
             {
                 SelectCloudClass(4);
-                class4Selected = true;
+                classSelected[3] = true;
             }
-            else if (class4Selected == true && cloudClass == 4)
+            else if (classSelected[3] == true && cloudClass == 4)
             {
                 UnSelectCloudClass(4);
-                class4Selected = false;
+                classSelected[3] = false;
             }
 
             // Class 5
-            if (class5Selected == false && cloudClass == 5)
+            if (classSelected[4] == false && cloudClass == 5)
             {
                 SelectCloudClass(5);
-                class5Selected = true;
+                classSelected[4] = true;
             }
-            else if (class5Selected == true && cloudClass == 5)
+            else if (classSelected[4] == true && cloudClass == 5)
             {
                 UnSelectCloudClass(5);
-                class5Selected = false;
+                classSelected[4] = false;
+            }
+        }
+    }
+    
+    // Methods to condense code for the cloud instance selection method
+    private void SelectCloudInstance(int cloudInstance)
+    {
+        GameObject PointInstanceSelected = PCInstances[cloudInstance-1];
+        previousColor = PointInstanceSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+        PointInstanceSelected.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+        PointInstanceSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
+        PointInstanceSelected.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+        InstanceButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
+    }
+    private void UnSelectCloudInstance(int cloudInstance)
+    {
+        GameObject PointInstanceUnSelected = PCInstances[cloudInstance-1];
+        PointInstanceUnSelected.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+        PointInstanceUnSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+        if (InstanceToggles[cloudInstance - 1].isOn == false)
+        {
+            InstanceToggles[cloudInstance - 1].isOn = true;
+        }
+        PointInstanceUnSelected.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+        InstanceButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);
+    }
+
+    // Method for Instance Menu Buttons to show selected cloud instance
+    public void cloudInstanceSelection(int cloudInstance)
+    {
+         if (!loadingInstanceButtons)
+        {
+            // Instance 1
+            if (instanceSelected[0] == false && cloudInstance == 1)
+            {
+                SelectCloudInstance(1);
+                instanceSelected[0] = true;
+            }
+            else if (instanceSelected[0] == true && cloudInstance == 1)
+            {
+                UnSelectCloudInstance(1);
+                instanceSelected[0] = false;
+            }
+
+            // Instance 2
+            if (instanceSelected[1] == false && cloudInstance == 2)
+            {
+                SelectCloudInstance(2);
+                instanceSelected[1] = true;
+            }
+            else if (instanceSelected[1] == true && cloudInstance == 2)
+            {
+                UnSelectCloudInstance(2);
+                instanceSelected[1] = false;
+            }
+
+            // Instance 3
+            if (instanceSelected[2] == false && cloudInstance == 3)
+            {
+                SelectCloudInstance(3);
+                instanceSelected[2] = true;
+            }
+            else if (instanceSelected[2] == true && cloudInstance == 3)
+            {
+                UnSelectCloudInstance(3);
+                instanceSelected[2] = false;
+            }
+
+            // Instance 4
+            if (instanceSelected[3] == false && cloudInstance == 4)
+            {
+                SelectCloudInstance(4);
+                instanceSelected[3] = true;
+            }
+            else if (instanceSelected[3] == true && cloudInstance == 4)
+            {
+                UnSelectCloudInstance(4);
+                instanceSelected[3] = false;
+            }
+
+            // Instance 5
+            if (instanceSelected[4] == false && cloudInstance == 5)
+            {
+                SelectCloudInstance(5);
+                instanceSelected[4] = true;
+            }
+            else if (instanceSelected[4] == true && cloudInstance == 5)
+            {
+                UnSelectCloudInstance(5);
+                instanceSelected[4] = false;
+            }
+
+            // Instance 6
+            if (instanceSelected[5] == false && cloudInstance == 6)
+            {
+                SelectCloudInstance(6);
+                instanceSelected[5] = true;
+            }
+            else if (instanceSelected[5] == true && cloudInstance == 6)
+            {
+                UnSelectCloudInstance(6);
+                instanceSelected[5] = false;
+            }
+
+            // Instance 7
+            if (instanceSelected[6] == false && cloudInstance == 7)
+            {
+                SelectCloudInstance(7);
+                instanceSelected[6] = true;
+            }
+            else if (instanceSelected[6] == true && cloudInstance == 7)
+            {
+                UnSelectCloudInstance(7);
+                instanceSelected[6] = false;
+            }
+
+            // Instance 8
+            if (instanceSelected[7] == false && cloudInstance == 8)
+            {
+                SelectCloudInstance(8);
+                instanceSelected[7] = true;
+            }
+            else if (instanceSelected[7] == true && cloudInstance == 8)
+            {
+                UnSelectCloudInstance(8);
+                instanceSelected[7] = false;
+            }
+
+            // Instance 9
+            if (instanceSelected[8] == false && cloudInstance == 9)
+            {
+                SelectCloudInstance(9);
+                instanceSelected[8] = true;
+            }
+            else if (instanceSelected[8] == true && cloudInstance == 9)
+            {
+                UnSelectCloudInstance(9);
+                instanceSelected[8] = false;
             }
         }
     }
