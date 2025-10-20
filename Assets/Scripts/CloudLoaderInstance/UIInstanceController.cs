@@ -91,6 +91,14 @@ public class UIInstanceController : MonoBehaviour
     [Header("Exploded View Control")]
     [SerializeField] private Slider ExplodedViewSlider;
 
+    // selection mode variables
+    BAPointCloudRenderer.ObjectCreation.ColorMode previousColor;
+    private bool class1Selected = false;
+    private bool class2Selected = false;
+    private bool class3Selected = false;
+    private bool class4Selected = false;
+    private bool class5Selected = false;
+
     void Start()
     {
         // Access Main Camera
@@ -143,7 +151,7 @@ public class UIInstanceController : MonoBehaviour
 
     void Update()
     {
-
+        KeyboardCloudSelection();
     }
 
     // Method For Changing Point Budget Of Point Clouds
@@ -410,7 +418,7 @@ public class UIInstanceController : MonoBehaviour
                 // Remove Clouds
                 pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
-                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();  
+                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
                 // Disable DynamicPointCloudSet Component
                 pci.SetActive(false);
             }
@@ -439,10 +447,10 @@ public class UIInstanceController : MonoBehaviour
                 // Remove Clouds
                 pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
-                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();  
+                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
                 // Disable DynamicPointCloudSet Component
                 pci.SetActive(false);
-            }   
+            }
 
             // Change ColorMode
             ClassificationConversion();
@@ -467,7 +475,7 @@ public class UIInstanceController : MonoBehaviour
                 // Remove Clouds
                 pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
-                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();  
+                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
                 // Disable DynamicPointCloudSet Component
                 pci.SetActive(false);
             }
@@ -486,6 +494,148 @@ public class UIInstanceController : MonoBehaviour
                 pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
             }
         }
+    }
+    
+    // Method For Changing Color Mode when selecting cloud 
+    public void KeyboardCloudSelection()
+    {
+        // When cloud selected 
+        // get cloud instance
+        // remove instance
+        // get mesh config
+        // set color mode to selected
+        // reload cloud 
+
+        // hard coded to keyboard buttons:
+        if (Input.GetKeyDown(KeyCode.Alpha1) && class1Selected == false)
+        {
+            GameObject PointCloudSelected = PCClasses[0].cloudClassGO;
+            for (int i = 0; i < PointCloudSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudSelected.transform.GetChild(i).gameObject;
+                previousColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class1Selected = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1) && class1Selected == true)
+        {
+            GameObject PointCloudUnSelected = PCClasses[0].cloudClassGO;
+            for (int i = 0; i < PointCloudUnSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudUnSelected.transform.GetChild(i).gameObject;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class1Selected = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && class2Selected == false)
+        {
+            GameObject PointCloudSelected = PCClasses[1].cloudClassGO;
+            for (int i = 0; i < PointCloudSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudSelected.transform.GetChild(i).gameObject;
+                previousColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class2Selected = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && class2Selected == true)
+        {
+            GameObject PointCloudUnSelected = PCClasses[1].cloudClassGO;
+            for (int i = 0; i < PointCloudUnSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudUnSelected.transform.GetChild(i).gameObject;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class2Selected = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && class3Selected == false)
+        {
+            GameObject PointCloudSelected = PCClasses[2].cloudClassGO;
+            for (int i = 0; i < PointCloudSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudSelected.transform.GetChild(i).gameObject;
+                previousColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class3Selected = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && class3Selected == true)
+        {
+            GameObject PointCloudUnSelected = PCClasses[2].cloudClassGO;
+            for (int i = 0; i < PointCloudUnSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudUnSelected.transform.GetChild(i).gameObject;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class3Selected = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4) && class4Selected == false)
+        {
+            GameObject PointCloudSelected = PCClasses[3].cloudClassGO;
+            for (int i = 0; i < PointCloudSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudSelected.transform.GetChild(i).gameObject;
+                previousColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class4Selected = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4) && class4Selected == true)
+        {
+            GameObject PointCloudUnSelected = PCClasses[3].cloudClassGO;
+            for (int i = 0; i < PointCloudUnSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudUnSelected.transform.GetChild(i).gameObject;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class4Selected = false;
+        }  
+        
+        if (Input.GetKeyDown(KeyCode.Alpha5) && class5Selected == false)
+        {
+            GameObject PointCloudSelected = PCClasses[4].cloudClassGO;
+            for (int i = 0; i < PointCloudSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudSelected.transform.GetChild(i).gameObject;
+                previousColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class5Selected = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5) && class5Selected == true)
+        {
+            GameObject PointCloudUnSelected = PCClasses[4].cloudClassGO;
+            for (int i = 0; i < PointCloudUnSelected.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PointCloudUnSelected.transform.GetChild(i).gameObject;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+            class5Selected = false;
+        } 
     }
 
     // Method For Toggling The Various Classes

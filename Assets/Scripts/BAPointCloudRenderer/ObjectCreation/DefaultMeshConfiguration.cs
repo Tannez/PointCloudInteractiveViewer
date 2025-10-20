@@ -29,7 +29,8 @@ namespace BAPointCloudRenderer.ObjectCreation {
     {
         RGBA,
         Intensity,
-        Classification
+        Classification,
+        Selected
     }
 
     /// <summary>
@@ -244,6 +245,13 @@ namespace BAPointCloudRenderer.ObjectCreation {
                         result[i] = ClassificationColor(classification[i]);
                     }
                     break;
+
+                case ColorMode.Selected:
+                    for (int i = 0; i < classification.Length; i++)
+                    {
+                        result[i] = SelectionColor();
+                    }
+                    break;          
             }
             return result;
         }
@@ -255,16 +263,21 @@ namespace BAPointCloudRenderer.ObjectCreation {
             {
                 case 1: return Color.green;
                 case 2: return Color.blue;
-                case 3: return Color.red;
+                case 3: return Color.hotPink;
                 case 4: return Color.yellow;
                 case 5: return Color.brown;
                 case 6: return Color.orange;
                 case 7: return Color.cyan;
                 case 8: return Color.teal;
-                case 9: return Color.pink;
+                case 9: return Color.crimson;
                 case 10: return Color.turquoise;
                 default: return Color.white;
             }
+        }
+
+        private Color SelectionColor()
+        {
+            return Color.red;
         }
     }
 }
