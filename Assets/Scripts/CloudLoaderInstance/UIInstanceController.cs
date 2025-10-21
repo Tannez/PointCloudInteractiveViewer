@@ -96,13 +96,14 @@ public class UIInstanceController : MonoBehaviour
     public bool keyboardClassSelection = true;
     [SerializeField] List<Button> classButtons = new List<Button>();
     private bool loadingClassButtons = true;
-    BAPointCloudRenderer.ObjectCreation.ColorMode previousColor;
+    BAPointCloudRenderer.ObjectCreation.ColorMode previousClassColor;
     private bool[] classSelected = new bool[10];
 
     [Header("Instance Buttons")]
     [SerializeField] List<Button> InstanceButtons = new List<Button>();
     private bool loadingInstanceButtons = true;
     private bool[] instanceSelected = new bool[10];
+    BAPointCloudRenderer.ObjectCreation.ColorMode previousInstanceColor;
 
     void Start()
     {
@@ -428,6 +429,10 @@ public class UIInstanceController : MonoBehaviour
         if (colorModeDropDown.value == 0)
         {
             //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
+            // Reset Selects
+            UnSelectOnConversion();
+
             // Remove Clouds
             foreach (GameObject pci in PCInstances)
             {
@@ -452,11 +457,17 @@ public class UIInstanceController : MonoBehaviour
                 // Show V2 Renderer
                 pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
             }
+
+            ReloadClouds();
         }
 
         else if (colorModeDropDown.value == 1)
         {
             //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            // Reset Selects
+            UnSelectOnConversion();
+
             // Remove Clouds
             foreach (GameObject pci in PCInstances)
             {
@@ -481,10 +492,16 @@ public class UIInstanceController : MonoBehaviour
                 // Show V2 Renderer
                 pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
             }
+
+            ReloadClouds();
         }
         else if (colorModeDropDown.value == 2)
         {
             //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            // Reset Selects
+            UnSelectOnConversion();
+
             // Remove Clouds
             foreach (GameObject pci in PCInstances)
             {
@@ -509,6 +526,8 @@ public class UIInstanceController : MonoBehaviour
                 // Show V2 Renderer
                 pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
             }
+
+            ReloadClouds();
         }
     }
     
@@ -582,7 +601,7 @@ public class UIInstanceController : MonoBehaviour
     // Method For Toggling The Various Classes
     public void classToggleChange()
     {
-        if (!loadingClassToggles)
+        if (!loadingClassToggles && !instanceUIActive)
         {
             int currentToggle = 0;
 
@@ -598,6 +617,22 @@ public class UIInstanceController : MonoBehaviour
                     HidePCClass(currentToggle);
                     Debug.Log("Cloud: " + currentToggle + " Toggle is off");
                 }
+                currentToggle++;
+
+                if (currentToggle == classToggles.Count)
+                {
+                    break;
+                }
+            }
+        }
+
+        else if (!loadingClassToggles && instanceUIActive)
+        {
+            int currentToggle = 0;
+
+            foreach (Toggle toggle in classToggles)
+            {
+                toggle.image.color = new Color(0.3f, 0.3f, 0.3f, 0.4f);
                 currentToggle++;
 
                 if (currentToggle == classToggles.Count)
@@ -642,18 +677,52 @@ public class UIInstanceController : MonoBehaviour
     {
         if (!instanceUIActive)
         {
+            // show instance menu
             instanceUIActive = true;
             instanceUIImage.gameObject.SetActive(true);
             instanceUIButton.image.color = Color.gray;
 
+            // Disable class toggles
+            int currentToggle = 0;
+
+            foreach (Toggle toggle in classToggles)
+            {
+                toggle.image.color = new Color(0.3f, 0.3f, 0.3f, 0.4f);
+                toggle.graphic.enabled = false;
+                currentToggle++;
+
+                if (currentToggle == classToggles.Count)
+                {
+                    break;
+                }
+            }
+
+            // Disable Buttons
+            foreach (Button cb in classButtons)
+            {
+                cb.interactable = false;
+            }
+
+            // Unselect Classes 
+            int unselectClass = 1;
+            foreach (Button cb in classButtons)
+            {
+                UnSelectCloudClass(unselectClass);
+                unselectClass++;
+            }
+
+            // Load Instance Toggles and Selction Buttons
             LoadAllInstanceToggles();
             LoadAllInstanceSelectionButtons();
 
+            // Set toggle instances to true and active
             foreach (Toggle iToggle in InstanceToggles)
             {
                 iToggle.isOn = true;
                 iToggle.gameObject.SetActive(true);
             }
+
+            ReloadClouds();
         }
         else if (instanceUIActive)
         {
@@ -661,10 +730,42 @@ public class UIInstanceController : MonoBehaviour
             instanceUIImage.gameObject.SetActive(false);
             instanceUIButton.image.color = Color.white;
 
+            // reenable class toggles
+            int currentToggle = 0;
+
+            foreach (Toggle toggle in classToggles)
+            {
+                toggle.image.color = new Color(1, 1, 1, 1);
+                toggle.graphic.enabled = true;
+                currentToggle++;
+
+                if (currentToggle == classToggles.Count)
+                {
+                    break;
+                }
+            }
+
+            // reenable class buttons
+            foreach (Button cb in classButtons)
+            {
+                cb.interactable = true;
+            }
+
+            // Unselect Instances 
+            int unselectInstances = 1;
+            foreach (Button ib in InstanceButtons)
+            {
+                UnSelectCloudInstance(unselectInstances);
+                unselectInstances++;
+            }
+
+            // Hide Instance Toggles
             foreach (Toggle iToggle in InstanceToggles)
             {
                 iToggle.gameObject.SetActive(false);
             }
+
+            ReloadClouds();
         }
     }
     private void LoadClassToggles()
@@ -766,7 +867,7 @@ public class UIInstanceController : MonoBehaviour
         for (int i = 0; i < PointCloudSelected.transform.childCount; i++)
         {
             GameObject instanceInClass = PointCloudSelected.transform.GetChild(i).gameObject;
-            previousColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+            previousClassColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
             instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
             instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
             instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
@@ -780,7 +881,7 @@ public class UIInstanceController : MonoBehaviour
         {
             GameObject instanceInClass = PointCloudUnSelected.transform.GetChild(i).gameObject;
             instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-            instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+            instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousClassColor;
             if (classToggles[cloudClass - 1].isOn == false)
             {
                 classToggles[cloudClass - 1].isOn = true;
@@ -861,7 +962,7 @@ public class UIInstanceController : MonoBehaviour
     private void SelectCloudInstance(int cloudInstance)
     {
         GameObject PointInstanceSelected = PCInstances[cloudInstance-1];
-        previousColor = PointInstanceSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+        previousInstanceColor = PointInstanceSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
         PointInstanceSelected.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
         PointInstanceSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
         PointInstanceSelected.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
@@ -871,7 +972,7 @@ public class UIInstanceController : MonoBehaviour
     {
         GameObject PointInstanceUnSelected = PCInstances[cloudInstance-1];
         PointInstanceUnSelected.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-        PointInstanceUnSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousColor;
+        PointInstanceUnSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousInstanceColor;
         if (InstanceToggles[cloudInstance - 1].isOn == false)
         {
             InstanceToggles[cloudInstance - 1].isOn = true;
@@ -883,7 +984,7 @@ public class UIInstanceController : MonoBehaviour
     // Method for Instance Menu Buttons to show selected cloud instance
     public void cloudInstanceSelection(int cloudInstance)
     {
-         if (!loadingInstanceButtons)
+        if (!loadingInstanceButtons)
         {
             // Instance 1
             if (instanceSelected[0] == false && cloudInstance == 1)
@@ -995,6 +1096,33 @@ public class UIInstanceController : MonoBehaviour
         }
     }
     
+    public void UnSelectOnConversion()
+    {
+        // Unselect on Conversion
+        int ci = 1;
+        int cc = 1;
+
+
+        if (!instanceUIActive)
+        {
+            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            {
+                UnSelectCloudClass(cc);
+                cc++;
+            }
+        }
+        
+        else if (instanceUIActive)
+        {
+            foreach (GameObject pci in PCInstances)
+            {
+                UnSelectCloudInstance(ci);
+                ci++;
+            }
+        }
+
+    }
+    
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public void ReloadClouds()
     {
@@ -1006,7 +1134,7 @@ public class UIInstanceController : MonoBehaviour
             pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
             // Disable DynamicPointCloudSet Component
             pci.SetActive(false);
-            
+
             // Enable DynamicPointCloudSet Component
             pci.SetActive(true);
             // Enable Clouds
