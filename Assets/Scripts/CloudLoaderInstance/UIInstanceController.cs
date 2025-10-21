@@ -356,21 +356,76 @@ public class UIInstanceController : MonoBehaviour
     // Methods For Point Size Control
     public void PointSizeUp()
     {
-        if (defaultMeshConfiguration.pointRadius < 5.0f)
+        if (!instanceUIActive)
         {
-            defaultMeshConfiguration.pointRadius += 0.25f;
-            defaultMeshConfiguration.reload = true;
-            // Debug.Log("Point Radius Increased");
+            foreach (DirectoryInstanceLoader.PCInstances clouds in PCClasses)
+            {
+                for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
+                {
+                    GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
+                    if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius < 5.0f)
+                    {
+                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius += 0.25f;
+                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                    }
+                }
+            }
         }
+        else if (instanceUIActive)
+        {
+            foreach (GameObject pci in PCInstances)
+            {
+                if (pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius < 5.0f)
+                {
+                    pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius += 0.25f;
+                    pci.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                }
+            }
+        }
+
+        // if (defaultMeshConfiguration.pointRadius < 5.0f)
+        // {
+        //     defaultMeshConfiguration.pointRadius += 0.25f;
+        //     defaultMeshConfiguration.reload = true;
+        //     // Debug.Log("Point Radius Increased");
+        // }
     }
+    
     public void PointSizeDown()
     {
-        if (defaultMeshConfiguration.pointRadius > 0.25f)
+        if (!instanceUIActive)
         {
-            defaultMeshConfiguration.pointRadius -= 0.25f;
-            defaultMeshConfiguration.reload = true;
-            // Debug.Log("Point Radius Decreased");
+            foreach (DirectoryInstanceLoader.PCInstances clouds in PCClasses)
+            {
+                for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
+                {
+                    GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
+                    if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius > 0.25f)
+                    {
+                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius -= 0.25f;
+                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                    }
+                }
+            }
+            
         }
+        else if (instanceUIActive)
+        {
+            foreach (GameObject pci in PCInstances)
+            {
+                if (pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius > 0.25f)
+                {
+                    pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius -= 0.25f;
+                    pci.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                }
+            }
+        }
+        // if (defaultMeshConfiguration.pointRadius > 0.25f)
+        // {
+        //     defaultMeshConfiguration.pointRadius -= 0.25f;
+        //     defaultMeshConfiguration.reload = true;
+        //     // Debug.Log("Point Radius Decreased");
+        // }
     }
 
     // Methods For Insantiating Primitves With Hide-Object Shader
@@ -791,6 +846,7 @@ public class UIInstanceController : MonoBehaviour
     private void LoadAllInstanceToggles()
     {
         loadingInstanceToggles = true; 
+
         // Set Available toggles based on instance amount
         while (InstanceToggles.Count > PCInstances.Count)
         {
@@ -1126,21 +1182,50 @@ public class UIInstanceController : MonoBehaviour
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public void ReloadClouds()
     {
-        foreach (GameObject pci in PCInstances)
+        if (instanceUIActive)
         {
-            // Remove Clouds
-            pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-            // ShutDown V2 Renderer
-            pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-            // Disable DynamicPointCloudSet Component
-            pci.SetActive(false);
+            foreach (GameObject pci in PCInstances)
+            {
+                // Remove Clouds
+                pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                // ShutDown V2 Renderer
+                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                // Disable DynamicPointCloudSet Component
+                pci.SetActive(false);
 
-            // Enable DynamicPointCloudSet Component
-            pci.SetActive(true);
-            // Enable Clouds
-            pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-            // Show V2 Renderer
-            pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+                // Enable DynamicPointCloudSet Component
+                pci.SetActive(true);
+                // Enable Clouds
+                pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                // Show V2 Renderer
+                pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+            }
         }
+
+        else if (!instanceUIActive)
+        {
+            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            {
+                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
+                {
+                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
+                    // Remove Clouds
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                    // ShutDown V2 Renderer
+                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                    // Disable DynamicPointCloudSet Component
+                    instanceInClass.SetActive(false);
+
+                    // Enable DynamicPointCloudSet Component
+                    instanceInClass.SetActive(true);
+                    // Enable Clouds
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                    // Show V2 Renderer
+                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+                }
+            }
+            
+        }
+        
     }
 }
