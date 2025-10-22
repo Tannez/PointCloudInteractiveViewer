@@ -156,7 +156,7 @@ namespace BAPointCloudRenderer.CloudController {
                     // Create Cloud Instance and add to new Class
                     pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader, meshConfigure);
                     allInstances.Add(pCInstances.getCloudInstanceGO);
-                    Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
+                    //Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
                     pointCloudClasses.Add(pCInstances);
 
                     // Debug.Log("Appending PointCloud to New Class");
@@ -169,7 +169,7 @@ namespace BAPointCloudRenderer.CloudController {
                     // Create Cloud Instance and add to same Class
                     pCInstances = new PCInstances(cloudClassGO, cloudInstanceGO, go, dynamicLoader, meshConfigure);
                     allInstances.Add(pCInstances.getCloudInstanceGO);
-                    Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
+                    //Debug.Log("Instance Added. Total Instances = " + allInstances.Count);
 
                     // Debug.Log("Appending PointCloud to Same Class");
                 }
