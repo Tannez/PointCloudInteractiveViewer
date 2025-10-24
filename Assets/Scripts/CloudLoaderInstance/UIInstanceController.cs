@@ -937,6 +937,7 @@ public class UIInstanceController : MonoBehaviour
             ReloadClouds();
         }
     }
+    
     // Method For Showing Instance UI (class specific) And Toggling The Various Instances
     public void ShowClassInstanceUI(int cloudClass)
     {
@@ -983,6 +984,7 @@ public class UIInstanceController : MonoBehaviour
             ReloadClouds();
         }
     }
+    
     // Methods for loading the necessery toggles based on Classes or instances in directory
     private void LoadClassInstanceToggles(int cloudClass) // also loads buttons 
     {
@@ -1108,8 +1110,9 @@ public class UIInstanceController : MonoBehaviour
         }
         loadingAllInstanceToggles = false;
     }
+    
     // Methods For Loading Selection Buttons Showing Either Selected Class or Selected Instance
-    private void LoadAllInstanceSelectionButtons()
+    private void LoadAllInstanceSelectionButtons() // Selected Instances
     {
         loadingInstanceButtons = true;
         // Set Available buttons based on instance amount
@@ -1129,7 +1132,7 @@ public class UIInstanceController : MonoBehaviour
         }
         loadingInstanceButtons = false;
     } 
-    private void LoadClassSelectionButtons()
+    private void LoadClassSelectionButtons() // Selected Buttons
     {
         // Set Available toggles based on class amount
         while (classButtons.Count > PCClasses.Count)
@@ -1385,7 +1388,7 @@ public class UIInstanceController : MonoBehaviour
         }
     }
     
-        // Methods to condense code for the cloud instance selection method
+    // Methods to condense code for the cloud instance selection method
     private void SelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
         classInstanceSelected[cloudInstance - 1] = true;
@@ -1617,11 +1620,17 @@ public class UIInstanceController : MonoBehaviour
                 GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
                 if (selected == false && instanceInClass.name.StartsWith("Cloud"))
                 {
+                    //classToggles[currentClassInHierarchy].interactable = false;
+                    classButtons[currentClassInHierarchy].interactable = false;
+                    classButtons[currentClassInHierarchy].gameObject.SetActive(false);
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
                 else if (selected == true && instanceInClass.name.StartsWith("Cloud"))
                 {
+                    //classToggles[currentClassInHierarchy].interactable = true;
+                    classButtons[currentClassInHierarchy].interactable = true;
+                    classButtons[currentClassInHierarchy].gameObject.SetActive(true);
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
@@ -1645,18 +1654,24 @@ public class UIInstanceController : MonoBehaviour
             {
                 GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
                 if (instanceInClass.name.StartsWith("Cloud"))
-                
+                {
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                    classButtons[currentClassInHierarchy].interactable = true;
+                    classButtons[currentClassInHierarchy].gameObject.SetActive(true);
+                }
             }
+            
             currentClassInHierarchy++;
-            if (currentClassInHierarchy == PCClasses.Count)
-            {
-                break;
-            }
+
+                if (currentClassInHierarchy == PCClasses.Count) 
+                {
+                    break;
+                }
         }
     }
+    
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public void ReloadClouds()
     {

@@ -22,6 +22,7 @@ public class CloudInstanceInstantiatior : MonoBehaviour
     [SerializeField] public GameObject MeshConfigPrefab;
 
     [Header("Spawn Positions")]
+    [SerializeField] public bool useSpawnPositions = true;
     [SerializeField] public List<Vector3> cloudSpawnPositions = new List<Vector3>();
 
     void Awake()
@@ -34,13 +35,15 @@ public class CloudInstanceInstantiatior : MonoBehaviour
             DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().pointset = InitialCloudLoader.GetComponent<DynamicPointCloudSet>();
 
             // Add Spawn Positions From Inspector To Created Directory Loader
-            foreach (Vector3 SP in cloudSpawnPositions)
+            if (useSpawnPositions)
             {
-                DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().spawnPositions.Add(SP);
+                foreach (Vector3 SP in cloudSpawnPositions)
+                {
+                    DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().spawnPositions.Add(SP);
+                }
             }
-
-            // Load Clouds From Directory
-            DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().LoadAll();
+                // Load Clouds From Directory
+                DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>().LoadAll();
         }
         else
         {
