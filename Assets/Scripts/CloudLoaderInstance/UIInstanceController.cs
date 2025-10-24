@@ -1,15 +1,9 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
 using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.Edl;
-using BAPointCloudRenderer.Loading;
 using BAPointCloudRenderer.ObjectCreation;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UIInstanceController : MonoBehaviour
@@ -18,30 +12,27 @@ public class UIInstanceController : MonoBehaviour
     Camera cam;
 
     //Reference to pointcloud gameobject and its script
-    DirectoryInstanceLoader directoryInstanceLoader;
-    [SerializeField] public List<DirectoryInstanceLoader.PCInstances> PCClasses = new List<DirectoryInstanceLoader.PCInstances>(); 
-    [SerializeField] public List<GameObject> PCInstances = new List<GameObject>(); 
+    [Header("Cloud Instantiation Components")]
 
     [Tooltip("Before running scene, a cloud instantiator is required in hierarchy. Create empty GameObject and add a Cloud Instantiator script to it. Then insert the cloud instantiator here. Remember to set asset path and prefabs in cloud instantiator script")]
     [SerializeField] CloudInstanceInstantiatior cloudInstantiator;
     [Tooltip("Before running scene, an initial cloud loader is required in hierarchy. Create empty GameObject beneath Cloud Instantiator and add a Dynamic Loader to it. Then insert this cloud loader here.")]
     [SerializeField] GameObject InitialCloudLoader;
     [SerializeField] private GameObject clippingPlane;
-
+    DirectoryInstanceLoader directoryInstanceLoader;
     // // Mesh Configurations
     // [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
     [Tooltip("Adds Mesh To points. Insert GameObject Beneath the cloud instantiator, and add the DefaultMeshConfiguration script. Then insert GameObject here.")]
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
+    [SerializeField] public List<DirectoryInstanceLoader.PCInstances> PCClasses = new List<DirectoryInstanceLoader.PCInstances>();
+    [SerializeField] public List<GameObject> PCInstances = new List<GameObject>();
 
+    //UI Inspector Components
     [Header("Point Budget")]
     [SerializeField] public uint PCPointBudget;
     [SerializeField] public float EDLRadiusUI { get { return edlCamera._edlRadius; } set { edlCamera._edlRadius = EDLRadiusSlider.value; } }
     [SerializeField] public float EDLExpScaleUI { get { return edlCamera._edlExpScale; } set { edlCamera._edlExpScale = EDLExpScaleSlider.value; } }
     [SerializeField] public float EDLScaleUI { get { return edlCamera._edlScale; } set { edlCamera._edlScale = EDLScaleSlider.value; } }
-
-
-    //UI Inspector Components
-    [Header("Point Budget Slider")]
     [SerializeField] private Slider pointBudgetSlider;
     [SerializeField] private TextMeshProUGUI pointBudgetSliderText;
 
@@ -61,16 +52,22 @@ public class UIInstanceController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI EDLScaleSliderText;
 
     [Header("Toggles")]
+    [Tooltip("These Toggles refer to the ones seen in the main UI, under Classification")]
     [SerializeField] private List<Toggle> classToggles = new List<Toggle>();
     private bool loadingClassToggles = true;
     private bool loadingAllInstanceToggles = true;
+    [Tooltip("These Toggles are only shown if the Instance Menu Button in the main UI has been pressed. They will be displayed on an instance menu on the right.")]
     [SerializeField] private List<Toggle> InstanceTogglesAll = new List<Toggle>();
     private bool loadingClassInstanceToggles = true;
+    [Tooltip("These Toggles are only shown if the Class Button in the Classification Section has been pressed. They will be displayed on an instance menu on the right.")]
     [SerializeField] private List<Toggle> InstanceTogglesClass = new List<Toggle>();
 
     [Header("Instance UI")]
+    [Tooltip("This UI Image refers to the one used when using the instance menu button")]
     [SerializeField] private Image instanceUIImageAll;
+    [Tooltip("This UI Image refers to the one used when using the class buttons")]
     [SerializeField] private Image instanceUIImageClass;
+    [Tooltip("This is the instance menu button")]
     [SerializeField] private Button instanceUIButton;
     private bool instanceUIActive = false;
     private bool classInstanceUIActive = false;
@@ -94,7 +91,9 @@ public class UIInstanceController : MonoBehaviour
 
     // selection mode variables
     [Header("Class Buttons")]
-    public bool keyboardClassSelection = true;
+    [Tooltip("Use this button to allow for class selection using the keyboard buttons (1,2,3,4,5)")]
+    [SerializeField] bool keyboardClassSelection = true;
+    [Tooltip("Class buttons within the Classification Section of the Main UI")]
     [SerializeField] List<Button> classButtons = new List<Button>();
     private bool loadingClassButtons = true;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassColor;
@@ -103,7 +102,9 @@ public class UIInstanceController : MonoBehaviour
     private bool[] classInstanceSelected = new bool[10];
 
     [Header("Instance Buttons")]
+    [Tooltip("Buttons available within the Instance Menu. Only shown when Instance Menu is active")]
     [SerializeField] List<Button> AllInstancesButtons = new List<Button>();
+    [Tooltip("Buttons available within the Instance Menu. Only shown when specific Class is selected")]
     [SerializeField] List<Button> ClassInstancesButtons = new List<Button>();
     private bool loadingInstanceButtons = true;
     // private bool loadingClassInstanceButtons = true;
@@ -1603,7 +1604,8 @@ public class UIInstanceController : MonoBehaviour
 
     }
 
-    // Method to set point size to low for non-selected classes
+    // Method to set point size based on selected class 
+    // (SHOULD BE UPDATED TO CHANGE OTHER ASPECTS INSTEAD OF POINT SIZE)
     private void ClassPriority()
     {
         int currentClassInHierarchy = 0;
