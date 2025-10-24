@@ -60,7 +60,13 @@ namespace BAPointCloudRenderer.ObjectCreation {
         /// <summary>
         /// Select Color Moe
         /// </summary>
+        ///         
         public ColorMode colorMode = ColorMode.RGBA;
+        /// <summary>
+        /// Control alpha value of selected color mode, based on selected class in UI menu
+        /// </summary>
+        public bool prioritiseCloud = true;
+        public float cloudAlpha = 0.01f;
         /// <summary>
         /// If changing the parameters should be possible during execution, this variable has to be set to true in the beginning! Later changes to this variable will not change anything
         /// </summary>
@@ -79,7 +85,7 @@ namespace BAPointCloudRenderer.ObjectCreation {
         /// </summary>
         public bool displayLOD = false;
 
-        private Material material;
+        public Material material;
         private HashSet<GameObject> gameObjectCollection = null;
 
         private void LoadShaders()
@@ -113,8 +119,17 @@ namespace BAPointCloudRenderer.ObjectCreation {
                 material.SetInt("_Cones", (interpolation == FragInterpolationMode.CONES) ? 1 : 0);
             }
 
-            material.SetFloat("_PointSize", pointRadius);
-            material.SetInt("_Circles", renderCircles ? 1 : 0);
+            if (!prioritiseCloud) // <- My addition
+            {
+                material.SetFloat("_PointSize", cloudAlpha);
+            }
+            else
+            {
+                material.SetFloat("_PointSize", pointRadius);
+            }
+
+            material.SetInt("_Circles", renderCircles ? 1 : 0); 
+            
             if (renderCamera == null)
             {
                 renderCamera = Camera.main;
@@ -182,7 +197,7 @@ namespace BAPointCloudRenderer.ObjectCreation {
                 indecies[i] = i;
             }
             mesh.vertices = vertexData;
-            mesh.colors = BuildColor(colorData, classData, intensityData, colorMode); // Method added here
+            mesh.colors = BuildColor(colorData, classData, intensityData, colorMode, prioritiseCloud); // Method added here
             mesh.SetIndices(indecies, MeshTopology.Points, 0);
 
             //Set Translation
@@ -220,7 +235,7 @@ namespace BAPointCloudRenderer.ObjectCreation {
         }
 
         // Created Build Color Function to switch mesh color based on preferred color mode
-        private Color[] BuildColor(Color[] rgba, int[] classification, float[] intensities, ColorMode colorMode)
+        private Color[] BuildColor(Color[] rgba, int[] classification, float[] intensities, ColorMode colorMode, bool cloudVisibility)
         {
             Color[] result = new Color[rgba.Length];
 
@@ -236,6 +251,10 @@ namespace BAPointCloudRenderer.ObjectCreation {
                     {
                         float norm = intensities[i] / maxIntensity;
                         result[i] = new Color(norm, norm, norm, 1f);
+                        if (!cloudVisibility)
+                        {
+                            result[i] = new Color(norm, norm, norm, cloudAlpha);
+                        }
                     }
                     break;
 
@@ -243,6 +262,10 @@ namespace BAPointCloudRenderer.ObjectCreation {
                     for (int i = 0; i < classification.Length; i++)
                     {
                         result[i] = ClassificationColor(classification[i]);
+                        if(!cloudVisibility)
+                        {
+                            result[i].a = cloudAlpha;
+                        }
                     }
                     break;
 

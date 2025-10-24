@@ -343,8 +343,7 @@ public class UIInstanceController : MonoBehaviour
                 if (instanceInClass.name.StartsWith("Cloud"))
                 {
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Classification;   
-                }
-                       
+                }      
             }
         }    
         // defaultMeshConfiguration.colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Classification;
@@ -802,7 +801,7 @@ public class UIInstanceController : MonoBehaviour
         {
             int currentToggle = 0;
             int selectedClass = 1;
-            int classSearch = 0;
+            int classSearch = 1;
 
             foreach (bool selected in classSelected)
             {
@@ -946,7 +945,7 @@ public class UIInstanceController : MonoBehaviour
         if (!classInstanceUIActive)
         {
             // mark selected class
-            classSelected[cloudClass] = true;
+            classSelected[cloudClass - 1] = true;
             classButtons[cloudClass - 1].image.color = new Color(0, 0, 1, 0.4f);
 
             // show class instance menu
@@ -955,6 +954,7 @@ public class UIInstanceController : MonoBehaviour
 
             // Load Instance Toggles and Selection Buttons Based on Instances in Class  
             LoadClassInstanceToggles(cloudClass);
+            ClassPriority();
 
             // loadingClassInstanceToggles = false;
             // loadingClassInstanceButtons = false;
@@ -967,10 +967,11 @@ public class UIInstanceController : MonoBehaviour
             instanceUIImageClass.gameObject.SetActive(false);
 
             // unmark selected class 
-            classSelected[cloudClass] = false;
+            classSelected[cloudClass - 1] = false;
             classButtons[cloudClass - 1].image.color = new Color(1, 1, 1, 0.4f);
 
             UnSelectCloudClass(cloudClass);
+            DePrioritise();
 
             // Hide Instance Toggles
             foreach (Toggle iToggle in InstanceTogglesClass)
@@ -1433,6 +1434,7 @@ public class UIInstanceController : MonoBehaviour
             if (cc == true)
             {
                 //activeClasses.Add(cloudClass); // if multiple can be active
+                cloudClass++;
                 break; // if only the first should be accounted for
             }
             cloudClass++;
@@ -1572,7 +1574,7 @@ public class UIInstanceController : MonoBehaviour
             //}
         }
     }
-    
+
     // Method to deselect classes when Color Mode is changed
     public void UnSelectOnConversion()
     {
@@ -1589,7 +1591,7 @@ public class UIInstanceController : MonoBehaviour
                 cc++;
             }
         }
-        
+
         else if (instanceUIActive)
         {
             foreach (GameObject pci in PCInstances)
@@ -1600,7 +1602,59 @@ public class UIInstanceController : MonoBehaviour
         }
 
     }
-    
+
+    // Method to set point size to low for non-selected classes
+    private void ClassPriority()
+    {
+        int currentClassInHierarchy = 0;
+
+        foreach (bool selected in classSelected)
+        {
+            for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
+                if (selected == false && instanceInClass.name.StartsWith("Cloud"))
+                {
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                }
+                else if (selected == true && instanceInClass.name.StartsWith("Cloud"))
+                {
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                }
+            }
+
+            currentClassInHierarchy++;
+            if (currentClassInHierarchy == PCClasses.Count)
+            {
+                break;
+            }
+        }
+    }
+    private void DePrioritise()
+    {
+        int currentClassInHierarchy = 0;
+
+        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        {
+            for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
+                if (instanceInClass.name.StartsWith("Cloud"))
+                
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+            }
+            currentClassInHierarchy++;
+            if (currentClassInHierarchy == PCClasses.Count)
+            {
+                break;
+            }
+        }
+    }
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public void ReloadClouds()
     {
