@@ -243,26 +243,40 @@ namespace BAPointCloudRenderer.ObjectCreation {
             {
                 case ColorMode.RGBA:
                     result = rgba;
-                    break;
+                    if (!cloudVisibility)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < rgba.Length; i++)
+                        {
+                            result[i] = new Color(rgba[i].r, rgba[i].g, rgba[i].b, cloudAlpha);
+                        }
+                        break;
+                    }
 
                 case ColorMode.Intensity:
                     float maxIntensity = intensities.Max();
                     for (int i = 0; i < intensities.Length; i++)
                     {
                         float norm = intensities[i] / maxIntensity;
-                        result[i] = new Color(norm, norm, norm, 1f);
                         if (!cloudVisibility)
                         {
                             result[i] = new Color(norm, norm, norm, cloudAlpha);
                         }
+                        else
+                        {
+                            result[i] = new Color(norm, norm, norm, 1f);
+                        }
                     }
-                    break;
+                        break;
 
                 case ColorMode.Classification:
                     for (int i = 0; i < classification.Length; i++)
                     {
                         result[i] = ClassificationColor(classification[i]);
-                        if(!cloudVisibility)
+                        if (!cloudVisibility)
                         {
                             result[i].a = cloudAlpha;
                         }
@@ -274,7 +288,7 @@ namespace BAPointCloudRenderer.ObjectCreation {
                     {
                         result[i] = SelectionColor();
                     }
-                    break;          
+                    break;
             }
             return result;
         }
