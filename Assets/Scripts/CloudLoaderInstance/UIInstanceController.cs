@@ -97,7 +97,6 @@ public class UIInstanceController : MonoBehaviour
     [SerializeField] bool keyboardClassSelection = true;
     [Tooltip("Class buttons within the Classification Section of the Main UI")]
     [SerializeField] List<Button> classButtons = new List<Button>();
-    private bool loadingClassButtons = true;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassColor;
     private bool[] classSelected = new bool[10];
     //private List<int> activeClasses = new List<int>();
@@ -313,7 +312,7 @@ public class UIInstanceController : MonoBehaviour
             if (isInstancesInClass.name.StartsWith($"Cloud: {CInstanceToHide}"))
             {
                 GameObject InstanceToHide = isInstancesInClass;
-                InstanceToHide.GetComponentInChildren<AbstractPointCloudSet>().showBoundingBox = false;
+                //InstanceToHide.GetComponentInChildren<AbstractPointCloudSet>().showBoundingBox = false;
                 InstanceToHide.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
             }    
         }
@@ -328,7 +327,7 @@ public class UIInstanceController : MonoBehaviour
             if (isInstancesInClass.name.StartsWith($"Cloud: {CInstanceToShow}"))
             {
                 GameObject InstanceToShow = isInstancesInClass;
-                InstanceToShow.GetComponentInChildren<AbstractPointCloudSet>().showBoundingBox = true;
+                //InstanceToShow.GetComponentInChildren<AbstractPointCloudSet>().showBoundingBox = true;
                 InstanceToShow.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
             }
         }
@@ -1141,8 +1140,6 @@ public class UIInstanceController : MonoBehaviour
     } 
     private void LoadClassSelectionButtons() // Selected Buttons
     {
-        loadingClassButtons = true;
-        
         // Set Available toggles based on class amount
         while (classButtons.Count > PCClasses.Count)
         {
@@ -1158,7 +1155,6 @@ public class UIInstanceController : MonoBehaviour
                 break;
             }
         }
-        loadingClassButtons = false;
     }
 
     // Methods to condense code for the cloud class selection method
@@ -1398,7 +1394,7 @@ public class UIInstanceController : MonoBehaviour
     }
     
     // Methods to condense code for the cloud instance selection method
-    private void SelectCloudClassInstance(int cloudClass, int cloudInstance)
+    public void SelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
         classInstanceSelected[cloudInstance - 1] = true;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
@@ -1416,7 +1412,7 @@ public class UIInstanceController : MonoBehaviour
             }
         }
     }
-    private void UnSelectCloudClassInstance(int cloudClass, int cloudInstance)
+    public void UnSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
         classInstanceSelected[cloudInstance - 1] = false;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);

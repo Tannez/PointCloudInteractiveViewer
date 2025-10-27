@@ -64,33 +64,84 @@ public class CloudInteraction : MonoBehaviour
                     
                     if (b.IntersectRay(ray))
                     {
+                        string clickClassTarget = renderer.gameObject.transform.parent.transform.parent.name;
+                        string clickInstanceTarget = renderer.gameObject.transform.parent.name;
                         //Debug.Log("Clicked cloud: " + renderer.gameObject.transform.parent.name);
-                        if (uIInstanceController.classInstanceUIActive == false)
+
+                        // Class Selection
+                        if (clickClassTarget == "Class: 1" && clickInstanceTarget == "Cloud: 1")
                         {
-                            switch (renderer.gameObject.transform.parent.transform.parent.name)
-                            {
-                                case "Class: 1":
-                                    uIInstanceController.ShowClassInstanceUI(1);
-                                    uIInstanceController.classInstanceUIActive = true;
-                                    break;
-                                case "Class: 2":
-                                    uIInstanceController.ShowClassInstanceUI(2);
-                                    uIInstanceController.classInstanceUIActive = true;
-                                    break;
-                                case "Class: 3":
-                                    uIInstanceController.ShowClassInstanceUI(3);
-                                    uIInstanceController.classInstanceUIActive = true;
-                                    break;
-                                case "Class: 4":
-                                    uIInstanceController.ShowClassInstanceUI(4);
-                                    uIInstanceController.classInstanceUIActive = true;
-                                    break;
-                                case "Class: 5":
-                                    uIInstanceController.ShowClassInstanceUI(5);
-                                    uIInstanceController.classInstanceUIActive = true;
-                                    break;
-                            }
+                            uIInstanceController.ShowClassInstanceUI(1);
+                            uIInstanceController.SelectCloudClassInstance(1, 1);
                         }
+                        else if (clickClassTarget == "Class: 1" && clickInstanceTarget == "Cloud: 2")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(1);
+                            uIInstanceController.SelectCloudClassInstance(1, 2);
+                        }
+                        else if (clickClassTarget == "Class: 2" && clickInstanceTarget == "Cloud: 1")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(2);
+                            uIInstanceController.SelectCloudClassInstance(2, 1);
+                        }
+                        else if (clickClassTarget == "Class: 2" && clickInstanceTarget == "Cloud: 2")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(2);
+                            uIInstanceController.SelectCloudClassInstance(2, 2);
+                        }
+                        else if (clickClassTarget == "Class: 3" && clickInstanceTarget == "Cloud: 1")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(3);
+                            uIInstanceController.SelectCloudClassInstance(3, 1);
+                        }
+                        else if (clickClassTarget == "Class: 3" && clickInstanceTarget == "Cloud: 2")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(3);
+                            uIInstanceController.SelectCloudClassInstance(3, 2);
+                        }
+                        else if (clickClassTarget == "Class: 4" && clickInstanceTarget == "Cloud: 1")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(4);
+                            uIInstanceController.SelectCloudClassInstance(4, 1);
+                        }
+                        else if (clickClassTarget == "Class: 4" && clickInstanceTarget == "Cloud: 2")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(4);
+                            uIInstanceController.SelectCloudClassInstance(4, 2);
+                        }
+                        else if (clickClassTarget == "Class: 5" && clickInstanceTarget == "Cloud: 1")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(5);
+                            uIInstanceController.SelectCloudClassInstance(5,1);
+                        }
+                        else if (clickClassTarget == "Class: 5" && clickInstanceTarget == "Cloud: 2")
+                        {
+                            uIInstanceController.ShowClassInstanceUI(5);
+                            uIInstanceController.SelectCloudClassInstance(5,2);
+                        }
+
+                        // Instance Selection
+                        // if (clickInstanceTarget == "Cloud: 1" && uIInstanceController.classInstanceUIActive == true)
+                        // {
+                        //     uIInstanceController.cloudClassInstanceSelection(1);
+                        // }
+                        // else if (clickInstanceTarget == "Cloud: 2" && uIInstanceController.classInstanceUIActive == true)
+                        // {
+                        //     uIInstanceController.cloudClassInstanceSelection(2);
+                        // }
+                        // else if (clickInstanceTarget == "Cloud: 3" && uIInstanceController.classInstanceUIActive == true)
+                        // {
+                        //     uIInstanceController.cloudClassInstanceSelection(3);
+                        // }
+                        // else if (clickInstanceTarget == "Cloud: 4" && uIInstanceController.classInstanceUIActive == true)
+                        // {
+                        //     uIInstanceController.cloudClassInstanceSelection(4);
+                        // }
+                        // else if (clickInstanceTarget == "Cloud: 5" && uIInstanceController.classInstanceUIActive == true)
+                        // {
+                        //     uIInstanceController.cloudClassInstanceSelection(5);
+                        // }
+                        
                     }
                 }
             }
