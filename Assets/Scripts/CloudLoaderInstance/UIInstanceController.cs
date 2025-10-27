@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using BAPointCloudRenderer.CloudController;
+using BAPointCloudRenderer.CloudData;
 using BAPointCloudRenderer.Edl;
+using BAPointCloudRenderer.Loading;
 using BAPointCloudRenderer.ObjectCreation;
 using TMPro;
 using UnityEngine;
@@ -70,7 +72,7 @@ public class UIInstanceController : MonoBehaviour
     [Tooltip("This is the instance menu button")]
     [SerializeField] private Button instanceUIButton;
     private bool instanceUIActive = false;
-    private bool classInstanceUIActive = false;
+    public bool classInstanceUIActive = false;
 
     [Header("Color Mode Dropdown")]
     [SerializeField] private TMP_Dropdown colorModeDropDown;
@@ -311,6 +313,7 @@ public class UIInstanceController : MonoBehaviour
             if (isInstancesInClass.name.StartsWith($"Cloud: {CInstanceToHide}"))
             {
                 GameObject InstanceToHide = isInstancesInClass;
+                InstanceToHide.GetComponentInChildren<AbstractPointCloudSet>().showBoundingBox = false;
                 InstanceToHide.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
             }    
         }
@@ -325,6 +328,7 @@ public class UIInstanceController : MonoBehaviour
             if (isInstancesInClass.name.StartsWith($"Cloud: {CInstanceToShow}"))
             {
                 GameObject InstanceToShow = isInstancesInClass;
+                InstanceToShow.GetComponentInChildren<AbstractPointCloudSet>().showBoundingBox = true;
                 InstanceToShow.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
             }
         }

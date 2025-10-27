@@ -47,8 +47,11 @@ MonoBehaviour:
   pointRadius: 1
   renderCircles: 0
   screenSize: 1
-  interpolation: 1
+  interpolation: 0
   colorMode: 0
+  prioritiseCloud: 1
+  cloudAlpha: 0.1
   reload: 0
   renderCamera: {fileID: 0}
   displayLOD: 0
+  material: {fileID: 0}

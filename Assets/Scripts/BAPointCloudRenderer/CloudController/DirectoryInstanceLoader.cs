@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BAPointCloudRenderer.CloudData;
 using BAPointCloudRenderer.ObjectCreation;
 using UnityEngine;
 
@@ -49,7 +50,6 @@ namespace BAPointCloudRenderer.CloudController {
         // Save All Instances in list
         public List<GameObject> allInstances = new List<GameObject>();
 
-
         // Pointcloud Instances in Class
         [Serializable]
         public class PCInstances
@@ -81,8 +81,8 @@ namespace BAPointCloudRenderer.CloudController {
 
                 // Add Cloud Interaction Script to each instance
                 getCloudInstanceGO.AddComponent<CloudInteraction>();
+                getCloudInstanceGO.AddComponent<BoxCollider>();
                 getCloudInstanceGO.tag = "PointCloud";
-
             }
         }
 
@@ -116,7 +116,7 @@ namespace BAPointCloudRenderer.CloudController {
                     //Debug.Log("Creating a New Class: " + "Class: " + (cloudClassesInDirectory+1));
                     cloudClassesInDirectory++;
                     cloudClassGO = new GameObject("Class: " + cloudClassesInDirectory);
-                    
+                    //cloudClassGO.gameObject.GetComponent<BoxCollider>().size = boundingBox.GetBoundsObject().size;
                     cloudInstanceInClass = 0;
                     //Debug.Log("Resetting Instances in Class");
                 }

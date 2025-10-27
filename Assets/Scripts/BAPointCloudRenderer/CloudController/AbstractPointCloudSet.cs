@@ -250,8 +250,14 @@ namespace BAPointCloudRenderer.CloudController {
         /// Returns the point count
         /// </summary>
         /// <returns></returns>
-        public uint GetPointCount() {
+        public uint GetPointCount()
+        {
             return pRenderer.GetPointCount();
+        }
+        
+        public Bounds GetTightBoundingBoxBounds()
+        {
+            return overallTightBoundingBox.GetBoundsObject();
         }
 
         public void StopRendering() {
