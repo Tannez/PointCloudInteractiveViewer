@@ -156,7 +156,7 @@ public class UIInstanceController : MonoBehaviour
         EDLScaleSlider.onValueChanged.AddListener(delegate { EDLScaleChangeCheck(); });
         ExplodedViewSlider.onValueChanged.AddListener(delegate { ExplodedViewSpread(); });
 
-        // Create Toggle Listeners
+        // Create Toggle Listener
         EDLToggle.onValueChanged.AddListener(delegate { EDLToggleChange(); });
 
         // Create Drop Down Listener
@@ -1607,125 +1607,172 @@ public class UIInstanceController : MonoBehaviour
         }
     }
 
+    // Methods to condense code for the cloud class instance Mouse selection method
+    public void MouseSelectCloudClassInstance(int cloudClass, int cloudInstance)
+    {
+        classInstanceSelected[cloudInstance - 1] = true;
+        ClassInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
+
+        for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
+        {
+            GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
+            if (instanceInClass.name.StartsWith($"Cloud: {cloudInstance}"))
+            {
+                previousClassInstanceColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                //Debug.Log($"Instance {cloudInstance} in Class {cloudClass} is selected");
+                break;
+            }
+        }
+    }
+    public void MouseUnSelectCloudClassInstance(int cloudClass, int cloudInstance)
+    {
+        classInstanceSelected[cloudInstance - 1] = false;
+        ClassInstancesButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);
+        for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
+        {
+            GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
+            if (instanceInClass.name.StartsWith($"Cloud: {cloudInstance}"))
+            {
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousClassInstanceColor;
+                if (InstanceTogglesClass[cloudInstance - 1].isOn == false)
+                {
+                    InstanceTogglesClass[cloudInstance - 1].isOn = true;
+                }
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                break;
+            }
+        }
+    }
+
     // Method to show Selected cloud instance when cloud selected with mouse
     public void cloudClassInstanceMouseSelection(int cloudClass, int instanceInMenu)
     {
-            switch(instanceInMenu)
-            {
-                case 1:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 2:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 3:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 4:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 5:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 6:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 7:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 8:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 9:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                case 10:
-                    if (!classInstanceSelected[instanceInMenu - 1])
-                    {
-                        SelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                    else
-                    {
-                        UnSelectCloudClassInstance(cloudClass, instanceInMenu);
-                        break;
-                    }
-                default:
-                    Debug.Log("Above Switch Case Instance Limit. Add more to switch case since you have {instancesInClass} instances");
+        switch (instanceInMenu)
+        {
+            case 1:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
-            //}
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 2:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 3:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 4:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 5:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 6:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 7:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 8:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 9:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            case 10:
+                if (!classInstanceSelected[instanceInMenu - 1])
+                {
+                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+                else
+                {
+                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    break;
+                }
+            default:
+                Debug.Log("Above Switch Case Instance Limit. Add more to switch case since you have {instancesInClass} instances");
+                break;
+                //}
         }
     }
 
@@ -1768,23 +1815,30 @@ public class UIInstanceController : MonoBehaviour
             for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
-                if (selected == false && instanceInClass.name.StartsWith("Cloud"))
+                if (selected == false && instanceInClass.name.StartsWith("Cloud")) // if cloud class has not been selected
                 {
-                    //classToggles[currentClassInHierarchy].interactable = false;
+                    // Make Button not interactable
                     classButtons[currentClassInHierarchy].interactable = false;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(false);
+                    // Reduce alpha channel
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
+                    // Save color
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                    // Reload Mesh
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
-                else if (selected == true && instanceInClass.name.StartsWith("Cloud"))
+                else if (selected == true && instanceInClass.name.StartsWith("Cloud")) // if cloud class has been selected
                 {
-                    //classToggles[currentClassInHierarchy].interactable = true;
+                    // Make Button interactable
                     classButtons[currentClassInHierarchy].interactable = true;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
+                    // Keep alpha channel
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                    // Keep point size
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
+                    // Save color 
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                    // Reload Mesh
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
             }
@@ -1796,7 +1850,7 @@ public class UIInstanceController : MonoBehaviour
             }
         }
     }
-    private void DePrioritise()
+    private void DePrioritise() // Reset priority of classes so all are visualised as normally done
     {
         // Reset Cloud Visuals
         int currentClassInHierarchy = 0;
@@ -1809,15 +1863,20 @@ public class UIInstanceController : MonoBehaviour
                 GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
                 if (instanceInClass.name.StartsWith("Cloud"))
                 {
+                    // Make Class Instance Buttons not select current Instance
                     classInstanceSelected[currentInstanceInClass] = false;
                     ClassInstancesButtons[currentInstanceInClass].image.color = new Color(1, 1, 1, 0.4f);
+                    // Increment for exploring next instance
                     currentInstanceInClass++;
+                    // Set Class Buttons back to default
                     classSelected[currentClassInHierarchy] = false;
                     classButtons[currentClassInHierarchy].image.color = new Color(1, 1, 1, 0.4f);
+                    // Make All Instances in Class Reset back
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousClassPriorityColor;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+                    // Make All Class Buttons interactable again
                     classButtons[currentClassInHierarchy].interactable = true;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
                 }

@@ -5,6 +5,7 @@ using BAPointCloudRenderer.ObjectCreation;
 using Unity.VisualScripting;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class CloudInteraction : MonoBehaviour
 {
@@ -22,7 +23,8 @@ public class CloudInteraction : MonoBehaviour
     List<int> selectedClasses = new List<int>();
     List<int> selectedInstances = new List<int>();
     int displayedClassSelection;
-    int displayedInstanceSelection;
+    int displayedInstanceSelection; 
+    int registeredClicks;
 
     void Start()
     {
@@ -82,7 +84,8 @@ public class CloudInteraction : MonoBehaviour
                         var renderer = instanceInClass.GetComponentInChildren<AbstractPointCloudSet>();
                         Bounds b = renderer.GetTightBoundingBoxBounds();
 
-                        // Convert to world space
+                        // Convert to world space so that each bounding box is tested in world coordinates,
+                        // matching where the clouds actually are in the scene.
                         b.center = renderer.transform.TransformPoint(b.center);
                         b.extents = Vector3.Scale(b.extents, renderer.transform.lossyScale);
 
@@ -90,19 +93,8 @@ public class CloudInteraction : MonoBehaviour
                         {
                             string clickClassTarget = renderer.gameObject.transform.parent.transform.parent.name;
                             string clickInstanceTarget = renderer.gameObject.transform.parent.name;
-                            //Debug.Log("Clicked cloud: " + clickInstanceTarget + " of Class: " + clickClassTarget);
 
-                            // Class Selection
-                            // if (clickClassTarget == "Class: 1" && clickInstanceTarget == "Cloud: 1")
-                            // {
-                            //     uIInstanceController.ShowClassInstanceUI(1);
-                            //     uIInstanceController.SelectCloudClassInstance(1, 1);
-                            // }
-                            // else if (clickClassTarget == "Class: 1" && clickInstanceTarget == "Cloud: 2")
-                            // {
-                            //     uIInstanceController.ShowClassInstanceUI(1);
-                            //     uIInstanceController.SelectCloudClassInstance(1, 2);
-                            // }
+                            
                             if (clickClassTarget == "Class: 1" && classSelectedwithMouse == false)
                             {
                                 selectedClasses.Add(1);
@@ -133,6 +125,7 @@ public class CloudInteraction : MonoBehaviour
                                 classSelectedwithMouse = true;
                                 //Debug.Log("Added Class: 5");
                             }
+                            
 
                             if (clickInstanceTarget == "Cloud: 1" && InstanceSelectedwithMouse == false)
                             {
@@ -183,25 +176,41 @@ public class CloudInteraction : MonoBehaviour
                     //Debug.Log("Displayed Class: " + displayedInstanceSelection);
                     ShowClickedCloud(displayedClassSelection, displayedInstanceSelection);
                 }
+                // else if (classesSelected >= 0 && instancesSelected > 0) // Must have a selected target
+                // {
+                //     displayedInstanceSelection = selectedInstances[instancesSelected - 1];
+
+                //     //Debug.Log("Displayed Class: " + displayedClassSelection);
+                //     //Debug.Log("Displayed Class: " + displayedInstanceSelection);
+                //     uIInstanceController.cloudClassInstanceSelection(instancesSelected);
+                // }
                 else if (classesSelected == 0 && instancesSelected == 0)
                 {
                     uIInstanceController.ResetSelection();
                 }
-            }
+            }  
         }
     }
 
     private void ShowClickedCloud(int cloudClass, int cloudInstance)
     {
-        if (uIInstanceController.classSelected[cloudClass - 1] == false && uIInstanceController.classInstanceUIActive == false)
+        if (uIInstanceController.classInstanceUIActive == false)
         {
             uIInstanceController.ShowClassInstanceUI(cloudClass);
             uIInstanceController.cloudClassInstanceMouseSelection(cloudClass, cloudInstance);
+            return;
         }
-        else if (uIInstanceController.classSelected[cloudClass - 1] == true && uIInstanceController.classInstanceUIActive == true)
+
+        else if (uIInstanceController.classInstanceUIActive == true && uIInstanceController.classInstanceSelected.Contains(true))
         {
             uIInstanceController.cloudClassInstanceMouseSelection(cloudClass, cloudInstance);
-        }  
+
+            if (!uIInstanceController.classInstanceSelected.Contains(true))
+            {
+                uIInstanceController.ShowClassInstanceUI(cloudClass);
+            }
+            return;
+        }
     }
 
     bool IsPointerOverUI()
