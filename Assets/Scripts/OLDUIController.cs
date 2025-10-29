@@ -131,8 +131,8 @@ public class OLDUIController : MonoBehaviour
     {
         pointCloudByg = GameObject.Find("KalkværkPCLoader");
         pointCloudTer = GameObject.Find("KalkværkPCLoader2");
-        PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-        PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+        PointCloudLoader pointCloudBygLoader = GameObject.Find("1.N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+        PointCloudLoader pointCloudTerLoader = GameObject.Find("2.N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
 
         // Remove Clouds
         pointCloudBygLoader.RemovePointCloud();
@@ -352,8 +352,8 @@ public class OLDUIController : MonoBehaviour
             // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 pointCloudByg = GameObject.Find("KalkværkPCLoader");
                 pointCloudTer = GameObject.Find("KalkværkPCLoader2");
-                PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-                PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+                PointCloudLoader pointCloudBygLoader = GameObject.Find("1.N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+                PointCloudLoader pointCloudTerLoader = GameObject.Find("2.N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
                 
                 // Remove Clouds
                 pointCloudBygLoader.RemovePointCloud();
@@ -390,8 +390,8 @@ public class OLDUIController : MonoBehaviour
             // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 pointCloudByg = GameObject.Find("KalkværkPCLoader");
                 pointCloudTer = GameObject.Find("KalkværkPCLoader2");
-                PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-                PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+                PointCloudLoader pointCloudBygLoader = GameObject.Find("1.N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+                PointCloudLoader pointCloudTerLoader = GameObject.Find("2.N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
 
                 // Remove Clouds
                 pointCloudBygLoader.RemovePointCloud();
@@ -427,8 +427,8 @@ public class OLDUIController : MonoBehaviour
             // OLD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 pointCloudByg = GameObject.Find("KalkværkPCLoader");
                 pointCloudTer = GameObject.Find("KalkværkPCLoader2");
-                PointCloudLoader pointCloudBygLoader = GameObject.Find("N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
-                PointCloudLoader pointCloudTerLoader = GameObject.Find("N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
+                PointCloudLoader pointCloudBygLoader = GameObject.Find("1.N028_kalkværksvej_class_1_bygværk_converted").GetComponent<PointCloudLoader>();
+                PointCloudLoader pointCloudTerLoader = GameObject.Find("2.N028_kalkværksvej_class_2_terræn_converted").GetComponent<PointCloudLoader>();
 
                 // Remove Clouds
                 pointCloudBygLoader.RemovePointCloud();

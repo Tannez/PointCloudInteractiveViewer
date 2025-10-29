@@ -43,52 +43,75 @@ namespace BAPointCloudRenderer.CloudController {
         /// <summary>
         /// Creates PointCloudLoader objects for all the point clouds in the given path.
         /// </summary>
-        public void LoadAll()
-        {
-            if (streamingAssetsAsRoot) fullPath = Application.streamingAssetsPath + "/" + path;
-            else { fullPath = path; }
+        // public void LoadAll() // NOT ORIGINAL
+        // {
+        //     if (streamingAssetsAsRoot) fullPath = Application.streamingAssetsPath + "/" + path;
+        //     else { fullPath = path; }
 
-            DirectoryInfo dir = new DirectoryInfo(fullPath);
-            foreach (DirectoryInfo sub in dir.GetDirectories())
+        //     DirectoryInfo dir = new DirectoryInfo(fullPath);
+        //     foreach (DirectoryInfo sub in dir.GetDirectories())
+        //     {
+        //         GameObject parentGO = new GameObject("Cloud: " + (cloudsInDirectory + 1));
+        //         GameObject go = new GameObject(sub.Name);
+        //         PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
+        //         GameObject dynamicLoader;
+
+        //         if (cloudsInDirectory < spawnPositions.Count)
+        //         {
+        //             dynamicLoader = Instantiate(CloudLoaderPrefab, spawnPositions[cloudsInDirectory], Quaternion.identity);
+        //         }
+        //         else
+        //         {
+        //             dynamicLoader = Instantiate(CloudLoaderPrefab);
+        //         }
+
+        //         go.transform.SetParent(parentGO.transform);
+        //         dynamicLoader.transform.SetParent(parentGO.transform);
+
+        //         pointClouds.Add(parentGO);
+
+        //         if (streamingAssetsAsRoot)
+        //         {
+        //             loader.streamingAssetsAsRoot = true;
+        //             loader.cloudPath = path + sub.Name;
+        //         }
+        //         else
+        //         {
+        //             loader.cloudPath = sub.FullName;
+        //         }
+
+        //         //loader.setController = pointset;
+        //         loader.setController = dynamicLoader.GetComponent<DynamicPointCloudSet>();
+        //         dynamicLoader.GetComponent<DynamicPointCloudSet>().meshConfiguration = GameObject.Find("MeshConfig").GetComponent<DefaultMeshConfiguration>();
+        //         dynamicLoader.GetComponent<DynamicPointCloudSet>().userCamera = Camera.main;
+
+        //         cloudsInDirectory++;
+        //     }
+
+        //     Debug.Log("Clouds Loaded: " + cloudsInDirectory);
+        // }
+    
+        public void LoadAll() { // Original
+        if (streamingAssetsAsRoot) fullPath = Application.streamingAssetsPath + "/" + path;
+        else { fullPath = path; }
+
+        DirectoryInfo dir = new DirectoryInfo(fullPath);
+        foreach (DirectoryInfo sub in dir.GetDirectories()) {
+            GameObject go = new GameObject(sub.Name);
+            PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
+            if (streamingAssetsAsRoot)
             {
-                GameObject parentGO = new GameObject("Cloud: " + (cloudsInDirectory + 1));
-                GameObject go = new GameObject(sub.Name);
-                PointCloudLoader loader = go.AddComponent<PointCloudLoader>();
-                GameObject dynamicLoader;
-
-                if (cloudsInDirectory < spawnPositions.Count)
-                {
-                    dynamicLoader = Instantiate(CloudLoaderPrefab, spawnPositions[cloudsInDirectory], Quaternion.identity);
-                }
-                else
-                {
-                    dynamicLoader = Instantiate(CloudLoaderPrefab);
-                }
-                
-                go.transform.SetParent(parentGO.transform);
-                dynamicLoader.transform.SetParent(parentGO.transform);
-
-                pointClouds.Add(parentGO);
-
-                if (streamingAssetsAsRoot)
-                {
-                    loader.streamingAssetsAsRoot = true;
-                    loader.cloudPath = path + sub.Name;
-                }
-                else
-                {
-                    loader.cloudPath = sub.FullName;
-                }
-
-                //loader.setController = pointset;
-                loader.setController = dynamicLoader.GetComponent<DynamicPointCloudSet>();
-                dynamicLoader.GetComponent<DynamicPointCloudSet>().meshConfiguration = GameObject.Find("MeshConfig").GetComponent<DefaultMeshConfiguration>();
-                dynamicLoader.GetComponent<DynamicPointCloudSet>().userCamera = Camera.main;
-
-                cloudsInDirectory++;
+                loader.streamingAssetsAsRoot = true;
+                loader.cloudPath = path + sub.Name;
             }
-            
-            Debug.Log("Clouds Loaded: " + cloudsInDirectory);
-        }
+            else
+            {
+                loader.cloudPath = sub.FullName;
+            }
+
+            loader.setController = pointset;
+    }
+}
+
     }
 }
