@@ -98,9 +98,9 @@ public class UIInstanceController : MonoBehaviour
     [Tooltip("Class buttons within the Classification Section of the Main UI")]
     [SerializeField] List<Button> classButtons = new List<Button>();
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassColor;
-    private bool[] classSelected = new bool[10];
+    public bool[] classSelected = new bool[10];
     //private List<int> activeClasses = new List<int>();
-    private bool[] classInstanceSelected = new bool[10];
+    public bool[] classInstanceSelected = new bool[10];
 
     [Header("Instance Buttons")]
     [Tooltip("Buttons available within the Instance Menu. Only shown when Instance Menu is active")]

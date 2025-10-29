@@ -106,57 +106,57 @@ public class CloudInteraction : MonoBehaviour
                             {
                                 selectedClasses.Add(1);
                                 classSelectedwithMouse = true;
-                                Debug.Log("Added Class: 1");
+                                //Debug.Log("Added Class: 1");
                             }
                             else if (clickClassTarget == "Class: 2" && classSelectedwithMouse == false)
                             {
                                 selectedClasses.Add(2);
                                 classSelectedwithMouse = true;
-                                Debug.Log("Added Class: 2");
+                                //Debug.Log("Added Class: 2");
                             }
                             else if (clickClassTarget == "Class: 3" && classSelectedwithMouse == false)
                             {
                                 selectedClasses.Add(3);
                                 classSelectedwithMouse = true;
-                                Debug.Log("Added Class: 3");
+                                //Debug.Log("Added Class: 3");
                             }
                             else if (clickClassTarget == "Class: 4" && classSelectedwithMouse == false)
                             {
                                 selectedClasses.Add(4);
                                 classSelectedwithMouse = true;
-                                Debug.Log("Added Class: 4");
+                                //Debug.Log("Added Class: 4");
                             }
                             else if (clickClassTarget == "Class: 5" && classSelectedwithMouse == false)
                             {
                                 selectedClasses.Add(5);
                                 classSelectedwithMouse = true;
-                                Debug.Log("Added Class: 5");
+                                //Debug.Log("Added Class: 5");
                             }
 
                             if (clickInstanceTarget == "Cloud: 1")
                             {
                                 selectedInstances.Add(1);
-                                Debug.Log("Added Cloud: 1");
+                                //Debug.Log("Added Cloud: 1");
                             }
                             else if (clickInstanceTarget == "Cloud: 2")
                             {
                                 selectedInstances.Add(2);
-                                Debug.Log("Added Cloud: 2");
+                                //Debug.Log("Added Cloud: 2");
                             }
                             else if (clickInstanceTarget == "Cloud: 3")
                             {
                                 selectedInstances.Add(3);
-                                Debug.Log("Added Cloud: 3");
+                                //Debug.Log("Added Cloud: 3");
                             }
                             else if (clickInstanceTarget == "Cloud: 4")
                             {
                                 selectedInstances.Add(4);
-                                Debug.Log("Added Cloud: 4");
+                                //Debug.Log("Added Cloud: 4");
                             }
                             else if (clickInstanceTarget == "Cloud: 5")
                             {
                                 selectedInstances.Add(5);
-                                Debug.Log("Added Cloud: 5");
+                                //Debug.Log("Added Cloud: 5");
                             }
 
                             classSelectedwithMouse = false;
@@ -164,14 +164,14 @@ public class CloudInteraction : MonoBehaviour
                     }
                 }
 
-                int classesSelected = selectedClasses.Count; 
+                int classesSelected = selectedClasses.Count;
                 int instancesSelected = selectedInstances.Count;
 
                 displayedClassSelection = selectedClasses[classesSelected-1];
                 displayedInstanceSelection = selectedInstances[instancesSelected-1];
 
-                Debug.Log("Displayed Class: " + displayedClassSelection);
-                Debug.Log("Displayed Class: " + displayedInstanceSelection);
+                //Debug.Log("Displayed Class: " + displayedClassSelection);
+                //Debug.Log("Displayed Class: " + displayedInstanceSelection);
 
                 ShowClickedCloud(displayedClassSelection, displayedInstanceSelection);
             }
@@ -180,8 +180,23 @@ public class CloudInteraction : MonoBehaviour
 
     private void ShowClickedCloud(int cloudClass, int cloudInstance)
     {
-        uIInstanceController.ShowClassInstanceUI(cloudClass); 
-        uIInstanceController.cloudClassInstanceSelection(cloudInstance);
+        if (uIInstanceController.classSelected[cloudClass - 1] == false)
+        {
+            uIInstanceController.ShowClassInstanceUI(cloudClass);
+            uIInstanceController.cloudClassInstanceSelection(cloudInstance);
+        }
+        else if (uIInstanceController.classSelected[cloudClass - 1] == true)
+        {
+            if (uIInstanceController.classInstanceSelected[cloudInstance - 1] == false)
+            {
+                uIInstanceController.cloudClassInstanceSelection(cloudInstance);
+            }
+            else if (uIInstanceController.classInstanceSelected[cloudInstance - 1] == true)
+            {
+                uIInstanceController.cloudClassInstanceSelection(cloudInstance);
+                uIInstanceController.ShowClassInstanceUI(cloudClass); 
+            }
+        }  
     }
 
     bool IsPointerOverUI()
