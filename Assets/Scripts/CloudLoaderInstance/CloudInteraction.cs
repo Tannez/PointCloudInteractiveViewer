@@ -11,29 +11,19 @@ public class CloudInteraction : MonoBehaviour
 {
     UIInstanceController uIInstanceController;
     public List<DirectoryInstanceLoader.PCInstances> pClasses = new List<DirectoryInstanceLoader.PCInstances>();
-    // Primitive Variables
-    [SerializeField] private GameObject primitiveGO;
-    [SerializeField] private Material primitiveMaterial;
     Ray ray;
     bool classSelectedwithMouse = false;
     bool InstanceSelectedwithMouse = false;
-
-    bool[] cIInClassSelected = new bool[10];
 
     List<int> selectedClasses = new List<int>();
     List<int> selectedInstances = new List<int>();
     int displayedClassSelection;
     int displayedInstanceSelection; 
-    int registeredClicks;
 
     void Start()
     {
         uIInstanceController = GameObject.Find("UIInstanceControl").GetComponent<UIInstanceController>();
         pClasses = uIInstanceController.PCClasses;
-
-
-        primitiveGO = gameObject;
-        primitiveMaterial = new Material(Shader.Find("Unlit/HideObject"));
     }
 
     void Update()
