@@ -95,31 +95,31 @@ public class CloudInteraction : MonoBehaviour
                             string clickInstanceTarget = renderer.gameObject.transform.parent.name;
 
                             
-                            if (clickClassTarget == "Class: 1" && classSelectedwithMouse == false)
+                            if (clickClassTarget == "Class: 1" && classSelectedwithMouse == false && uIInstanceController.classHidden[0] == false)
                             {
                                 selectedClasses.Add(1);
                                 classSelectedwithMouse = true;
                                 //Debug.Log("Added Class: 1");
                             }
-                            else if (clickClassTarget == "Class: 2" && classSelectedwithMouse == false)
+                            else if (clickClassTarget == "Class: 2" && classSelectedwithMouse == false && uIInstanceController.classHidden[1] == false)
                             {
                                 selectedClasses.Add(2);
                                 classSelectedwithMouse = true;
                                 //Debug.Log("Added Class: 2");
                             }
-                            else if (clickClassTarget == "Class: 3" && classSelectedwithMouse == false)
+                            else if (clickClassTarget == "Class: 3" && classSelectedwithMouse == false && uIInstanceController.classHidden[2] == false)
                             {
                                 selectedClasses.Add(3);
                                 classSelectedwithMouse = true;
                                 //Debug.Log("Added Class: 3");
                             }
-                            else if (clickClassTarget == "Class: 4" && classSelectedwithMouse == false)
+                            else if (clickClassTarget == "Class: 4" && classSelectedwithMouse == false && uIInstanceController.classHidden[3] == false)
                             {
                                 selectedClasses.Add(4);
                                 classSelectedwithMouse = true;
                                 //Debug.Log("Added Class: 4");
                             }
-                            else if (clickClassTarget == "Class: 5" && classSelectedwithMouse == false)
+                            else if (clickClassTarget == "Class: 5" && classSelectedwithMouse == false && uIInstanceController.classHidden[4] == false)
                             {
                                 selectedClasses.Add(5);
                                 classSelectedwithMouse = true;

@@ -101,6 +101,7 @@ public class UIInstanceController : MonoBehaviour
     public bool[] classSelected = new bool[10];
     //private List<int> activeClasses = new List<int>();
     public bool[] classInstanceSelected = new bool[10];
+    public bool[] classHidden = new bool[10]; // used to disable cloud selection when toggled off
 
     [Header("Instance Buttons")]
     [Tooltip("Buttons available within the Instance Menu. Only shown when Instance Menu is active")]
@@ -297,20 +298,28 @@ public class UIInstanceController : MonoBehaviour
     public void HidePCClass(int CloudToHide)
     {
         GameObject PointCloudHidden = PCClasses[CloudToHide].cloudClassGO;
+        classHidden[CloudToHide] = true;
         for (int i = 0; i < PointCloudHidden.transform.childCount; i++)
         {
             GameObject instanceInClass = PointCloudHidden.transform.GetChild(i).gameObject;
-            instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+            if (instanceInClass.name.StartsWith("Cloud:"))
+            {
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+            }
         }
         //Debug.Log($"Cloud: {CloudToHide} is hidden");
     }
     public void ShowPCClass(int CloudToShow)
     {
         GameObject PointCloudLoaded = PCClasses[CloudToShow].cloudClassGO;
+        classHidden[CloudToShow] = false;
         for (int i = 0; i < PointCloudLoaded.transform.childCount; i++)
         {
             GameObject instanceInClass = PointCloudLoaded.transform.GetChild(i).gameObject;
-            instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            if (instanceInClass.name.StartsWith("Cloud:"))
+            {
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
         }
         //Debug.Log($"Cloud: {CloudToShow} is shown");
     }
@@ -1101,6 +1110,16 @@ public class UIInstanceController : MonoBehaviour
             if (beforeToggles == afterToggles) // Avoid infinite Loop
             {
                 break;
+            }
+        }
+
+        int availableToggles = 0; 
+        foreach (Toggle cToggle in classToggles)
+        {
+            if (cToggle.isOn == true)
+            {
+                classHidden[availableToggles] = false;
+                availableToggles++;
             }
         }
         loadingClassToggles = false;
@@ -1922,13 +1941,14 @@ public class UIInstanceController : MonoBehaviour
 
         else if (!instanceUIActive)
         {
+            int currentClass = 0;
             foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
                     GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
 
-                    if (instanceInClass.name.StartsWith("Cloud:"))
+                    if (instanceInClass.name.StartsWith("Cloud:") && classHidden[currentClass] == false)
                     {
                         // Remove Clouds
                         instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
@@ -1943,8 +1963,9 @@ public class UIInstanceController : MonoBehaviour
                         instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                         // Show V2 Renderer
                         instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-                    } 
+                    }
                 }
+                currentClass++;
             }    
         }
         
