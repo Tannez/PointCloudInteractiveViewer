@@ -102,6 +102,7 @@ public class UIInstanceController : MonoBehaviour
     //private List<int> activeClasses = new List<int>();
     public bool[] classInstanceSelected = new bool[10];
     public bool[] classHidden = new bool[10]; // used to disable cloud selection when toggled off
+    public int activeClassInstanceInMenu = 0;
 
     [Header("Instance Buttons")]
     [Tooltip("Buttons available within the Instance Menu. Only shown when Instance Menu is active")]
@@ -1015,6 +1016,8 @@ public class UIInstanceController : MonoBehaviour
 
             // loadingClassInstanceToggles = false;
             // loadingClassInstanceButtons = false;
+
+            activeClassInstanceInMenu = cloudClass;
         }
         else if (classInstanceUIActive)
         {
@@ -1022,6 +1025,8 @@ public class UIInstanceController : MonoBehaviour
             instanceUIImageClass.gameObject.SetActive(false);
 
             DePrioritise();
+
+            activeClassInstanceInMenu = 0;
         }
     }
     
@@ -1696,7 +1701,7 @@ public class UIInstanceController : MonoBehaviour
         switch (instanceInMenu)
         {
             case 1:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1707,7 +1712,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 2:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1718,7 +1723,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 3:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1729,7 +1734,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 4:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1740,7 +1745,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 5:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1751,7 +1756,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 6:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1762,7 +1767,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 7:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1773,7 +1778,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 8:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1784,7 +1789,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 9:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;
@@ -1795,7 +1800,7 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             case 10:
-                if (!classInstanceSelected[instanceInMenu - 1])
+                if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
                     MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
                     break;

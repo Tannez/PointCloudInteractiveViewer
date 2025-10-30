@@ -194,6 +194,7 @@ public class CloudInteraction : MonoBehaviour
 
     private void ShowClickedCloud(int cloudClass, int cloudInstance)
     {
+        // IF CLASS INSTANCE UI HAS NOT BEEN OPENED: OPEN IT AND MARK INSTANCE IN CLASS
         if (uIInstanceController.classInstanceUIActive == false)
         {
             uIInstanceController.ShowClassInstanceUI(cloudClass);
@@ -201,13 +202,17 @@ public class CloudInteraction : MonoBehaviour
             return;
         }
 
+        // IF CLASS INSTANCE UI IS OPEN: CHECK INSTANCE STATUS
+        // IF INSTANCE SELECTED WHILE OTHER INSTANCE IS ACTIVE
         else if (uIInstanceController.classInstanceUIActive == true && uIInstanceController.classInstanceSelected.Contains(true))
         {
-            uIInstanceController.cloudClassInstanceMouseSelection(cloudClass, cloudInstance);
+            // MARK INSTANCE
+            uIInstanceController.cloudClassInstanceMouseSelection(uIInstanceController.activeClassInstanceInMenu, cloudInstance);
 
+            // IF NO INSTANCES ARE NO LONGER ACTIVE: CLOSE CLASS INSTANCE UI 
             if (!uIInstanceController.classInstanceSelected.Contains(true))
             {
-                uIInstanceController.ShowClassInstanceUI(cloudClass);
+                uIInstanceController.ShowClassInstanceUI(uIInstanceController.activeClassInstanceInMenu);
             }
             return;
         }
