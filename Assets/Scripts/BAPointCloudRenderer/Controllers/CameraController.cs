@@ -29,19 +29,14 @@ namespace BAPointCloudRenderer.Controllers {
 
         void Update()
         {
-            if (Input.GetKey(KeyCode.Escape) && MouseClickOnScene == true)
-            {
-                MouseClickOnScene = false;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-
-            // else if (Input.GetKey(KeyCode.Escape) && MouseClickOnScene == false)
+            // OLD KEY PRESS TO GET OUT OF CAMERA CONTROL
+            // if (Input.GetKey(KeyCode.Escape) && MouseClickOnScene == true)
             // {
-            //     MouseClickOnScene = true;
-            //     Cursor.lockState = CursorLockMode.Locked;
-            //     Cursor.visible = false;
+            //     MouseClickOnScene = false;
+            //     Cursor.lockState = CursorLockMode.None;
+            //     Cursor.visible = true;
             // }
+
 
             if (Input.GetMouseButtonDown(1))
             {
@@ -57,7 +52,15 @@ namespace BAPointCloudRenderer.Controllers {
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
                 }
-            }      
+            }
+
+            // NEW MOUSE RELEASE TO GET OUT OF CAMERA CONTROL
+            if (Input.GetMouseButtonUp(1) && MouseClickOnScene == true)
+            {
+                MouseClickOnScene = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }   
 
             if (Input.GetKeyDown("space"))
                 {
