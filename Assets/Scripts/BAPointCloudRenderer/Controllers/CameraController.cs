@@ -8,6 +8,7 @@ namespace BAPointCloudRenderer.Controllers {
      */
     public class CameraController : MonoBehaviour {
 
+        [SerializeField] UIInstanceController uIInstanceController;
         public bool MouseClickOnScene = true;
 
         //Current yaw
@@ -62,7 +63,7 @@ namespace BAPointCloudRenderer.Controllers {
                 Cursor.visible = true;
             }   
 
-            if (Input.GetKeyDown("space"))
+            if (uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space"))
                 {
                     Camera.main.transform.position = setResetPosition;
                     // Camera.main.transform.eulerAngles = new Vector3(20.75f, 53.5f, 0f);
