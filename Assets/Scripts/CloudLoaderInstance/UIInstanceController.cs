@@ -118,6 +118,11 @@ public class UIInstanceController : MonoBehaviour
 
     private int availableInstancesInClass = 0;
 
+    [Header("LLM")]
+    [SerializeField] Canvas LLMCanvas;
+    [SerializeField] GameObject ChatBot;
+    public bool LLMMenuActive = false;
+
     void Start()
     {
         // Access Main Camera
@@ -167,6 +172,8 @@ public class UIInstanceController : MonoBehaviour
         // Set Available toggles and buttons based on class amount
         LoadClassToggles();
         LoadClassSelectionButtons();
+
+        //ChatBot.SetActive(false);
     }
 
     void Update()
@@ -1930,11 +1937,28 @@ public class UIInstanceController : MonoBehaviour
                 break;
             }
         }
-        
+
         // Hide Instance Toggles
         foreach (Toggle iToggle in InstanceTogglesClass)
         {
             iToggle.gameObject.SetActive(false);
+        }
+    }
+    
+    // Show the LLM window 
+    public void ShowLLMInteract()
+    {
+        if (LLMMenuActive == false)
+        {
+            LLMCanvas.gameObject.SetActive(true);
+            ChatBot.SetActive(true);
+            LLMMenuActive = true;
+        }
+        else if (LLMMenuActive == true)
+        {
+            ChatBot.SetActive(false);
+            LLMCanvas.gameObject.SetActive(false);
+            LLMMenuActive = false;
         }
     }
     
