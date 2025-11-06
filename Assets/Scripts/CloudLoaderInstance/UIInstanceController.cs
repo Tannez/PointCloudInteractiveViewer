@@ -82,7 +82,7 @@ public class UIInstanceController : MonoBehaviour
     public bool classInstanceUIActive = false;
 
     [Header("Color Mode Dropdown")]
-    [SerializeField] private TMP_Dropdown colorModeDropDown;
+    [SerializeField] public TMP_Dropdown colorModeDropDown;
 
     [Header("Clipper Components")]
     private GameObject[] Clipper = new GameObject[3];
