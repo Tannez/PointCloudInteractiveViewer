@@ -62,7 +62,7 @@ public class UIInstanceController : MonoBehaviour
 
     [Header("Toggles")]
     [Tooltip("These Toggles refer to the ones seen in the main UI, under Classification")]
-    [SerializeField] private List<Toggle> classToggles = new List<Toggle>();
+    [SerializeField] public List<Toggle> classToggles = new List<Toggle>();
     private bool loadingClassToggles = true;
     private bool loadingAllInstanceToggles = true;
     [Tooltip("These Toggles are only shown if the Instance Menu Button in the main UI has been pressed. They will be displayed on an instance menu on the right.")]
@@ -123,7 +123,7 @@ public class UIInstanceController : MonoBehaviour
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassInstanceColor;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassPriorityColor;
 
-    private int availableInstancesInClass = 0;
+    [HideInInspector] public int availableInstancesInClass = 0;
 
     [Header("LLM")]
     [Tooltip("Select Type of LLM Interaction to Test. 'Chat' uses ChatBot object, while 'funtion' uses FunctionCalling Object")]

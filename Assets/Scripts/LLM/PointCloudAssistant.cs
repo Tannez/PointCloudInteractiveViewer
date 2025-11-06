@@ -3,23 +3,74 @@ using LLMUnity;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Reflection;
-public static class PCFunctions
+using Unity.VisualScripting;
+public class PCFunctions : UIInstanceController
 {
-    static System.Random random = new System.Random();
-    public static string PointBudget()
+    // Lazy Loading + Singleton pattern to access and utalise the UI Controller methods withing the LLM Function Caller
+    private static UIInstanceController _uIInstanceController;
+
+    private static UIInstanceController uIInstanceController
     {
-        string[] pointBudget = new string[]{"200.000", "400.000", "750.000", "1.000.000"};
-        return "The Point Budget of the Point Cloud is " + pointBudget[random.Next(pointBudget.Length)];
+        get
+        {
+            // If already cached and still valid, return it
+            if (_uIInstanceController != null)
+                return _uIInstanceController;
+
+            // Otherwise, find it in the scene and cache it
+            _uIInstanceController = Object.FindFirstObjectByType<UIInstanceController>();
+
+            if (_uIInstanceController == null)
+                Debug.LogWarning("PointCloudController not found in scene!");
+
+            return _uIInstanceController;
+        }
     }
-    public static string PCClassCount()
+
+    // Test Methods providing randomly generated results within string reply
+    // static System.Random random = new System.Random();
+    // public static string PointBudget()
+    // {
+    //     string[] pointBudget = new string[]{"200.000", "400.000", "750.000", "1.000.000"};
+    //     return "The Point Budget of the Point Cloud is " + pointBudget[random.Next(pointBudget.Length)];
+    // }
+    // public static string PCClassCount()
+    // {
+    //     return "The Point Cloud contains: " + random.Next(5).ToString("D2") + " Classes, with: " + random.Next(10).ToString("D2") + " Total Instances";
+    // }
+    // public static string PCColorMode()
+    // {
+    //     string[] pCColorsMode = new string[] { "RGBA", "Classification", "Intensity" };
+    //     return "Current color mode is set to: " + pCColorsMode[random.Next(pCColorsMode.Length)];
+    // }
+
+    // Methods with Access to the UI Controller 
+    public static string HideTerrain()
     {
-        return "The Point Cloud contains: " + random.Next(5).ToString("D2") + " Classes, with: " + random.Next(10).ToString("D2") + " Total Instances";
+        uIInstanceController.classToggles[0].isOn = false;
+        return "The Terrain Point Cloud Class has been hidden";
     }
-    public static string PCColorMode()
+    public static string ShowTerrain()
     {
-        string[] pCColorsMode = new string[]{"RGBA", "Classification", "Intensity"};
-        return "Current color mode is set to: " + pCColorsMode[random.Next(pCColorsMode.Length)];
+        uIInstanceController.classToggles[0].isOn = true;
+        return "The Terrain Point Cloud Class Is Visible Again";
     }
+
+    public static string FocusOnTech()
+    {
+        uIInstanceController.ShowClassInstanceUI(4);
+        if (uIInstanceController.classSelected[3] == true)
+        {
+            return "Prioritising the Tech Clouds. Class contains: " + uIInstanceController.availableInstancesInClass + " instances";
+        }
+        else if (uIInstanceController.classSelected[3] == false)
+        {
+            return "Unprioritising the Tech Clouds. Instance menu has been hidden, and cloud class point sizes have been reset";
+        }
+        return "";
+    }
+
+
 }
 public class PointCloudAssistant : MonoBehaviour
 {
