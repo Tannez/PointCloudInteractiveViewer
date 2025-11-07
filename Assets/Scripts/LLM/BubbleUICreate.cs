@@ -94,14 +94,14 @@ namespace LLMPCCompanionBubble
         void SetBubblePosition(RectTransform bubbleRectTransform, RectTransform imageRectTransform, BubbleUI bubbleUI)
         {
             // Set the position of the new bubble at the bottom
-            bubbleRectTransform.pivot = new Vector3(bubbleUI.leftPosition, bubbleUI.bottomPosition, 0);
-            bubbleRectTransform.anchorMin = new Vector3(bubbleUI.leftPosition, bubbleUI.bottomPosition, 0);
-            bubbleRectTransform.anchorMax = new Vector3(bubbleUI.leftPosition, bubbleUI.bottomPosition, 0);
+            bubbleRectTransform.pivot = new Vector2(bubbleUI.leftPosition, bubbleUI.bottomPosition);
+            bubbleRectTransform.anchorMin = new Vector2(bubbleUI.leftPosition, bubbleUI.bottomPosition);
+            bubbleRectTransform.anchorMax = new Vector2(bubbleUI.leftPosition, bubbleUI.bottomPosition);
             bubbleRectTransform.localScale = Vector3.one;
-            Vector2 anchoredPosition = new Vector2(bubbleUI.bubbleOffset + bubbleUI.textPadding, bubbleUI.bubbleOffset + bubbleUI.textPadding);
-            if (bubbleUI.leftPosition == 1) anchoredPosition.x *= -1;
-            if (bubbleUI.bottomPosition == 1) anchoredPosition.y *= -1;
-            bubbleRectTransform.anchoredPosition = anchoredPosition;
+            Vector3 anchoredPosition3D = new Vector3(bubbleUI.bubbleOffset + bubbleUI.textPadding, bubbleUI.bubbleOffset + bubbleUI.textPadding, 0);
+            if (bubbleUI.leftPosition == 1) anchoredPosition3D.x *= -1;
+            if (bubbleUI.bottomPosition == 1) anchoredPosition3D.y *= -1;
+            bubbleRectTransform.anchoredPosition3D = anchoredPosition3D;
             float width = bubbleUI.bubbleWidth == -1 ? bubbleRectTransform.sizeDelta.x : bubbleUI.bubbleWidth;
             float height = bubbleUI.bubbleHeight == -1 ? bubbleRectTransform.sizeDelta.y : bubbleUI.bubbleHeight;
             bubbleRectTransform.sizeDelta = new Vector2(width - 2 * bubbleUI.textPadding, height - 2 * bubbleUI.textPadding);

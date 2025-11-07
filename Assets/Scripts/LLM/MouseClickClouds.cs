@@ -22,7 +22,7 @@ public class MouseClickClouds : MonoBehaviour
 
     void Start()
     {
-        cloudControllerLLM = GameObject.Find("PointCloudCompanion").GetComponent<CloudControllerLLM>();
+        cloudControllerLLM = GameObject.Find("CloudControllerLLM").GetComponent<CloudControllerLLM>();
         pClasses = cloudControllerLLM.PCClasses;
     }
 
