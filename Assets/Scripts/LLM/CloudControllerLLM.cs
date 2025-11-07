@@ -85,6 +85,7 @@ public class CloudControllerLLM : MonoBehaviour
     [Header("Class Buttons")]
     [Tooltip("Use this button to allow for class selection using the keyboard buttons (1,2,3,4,5)")]
     [SerializeField] bool keyboardClassSelection = true;
+    public bool keyboardShotcutsEnabled = true;
     [Tooltip("Class buttons within the Classification Section of the Main UI")]
     [SerializeField] List<Button> classButtons = new List<Button>();
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassColor;
@@ -162,13 +163,13 @@ public class CloudControllerLLM : MonoBehaviour
     void Update()
     {
         // Use keyboard numbers to select classes
-        if (keyboardClassSelection)
+        if (keyboardClassSelection && keyboardShotcutsEnabled == true)
         {
             KeyboardCloudSelection();
         }
 
         // Use keyboard to reload clouds in case they are not loading properly
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && keyboardShotcutsEnabled == true)
         {
             ReloadClouds();
         }

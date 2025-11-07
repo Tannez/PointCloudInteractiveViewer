@@ -59,11 +59,14 @@ public class MouseClickClouds : MonoBehaviour
             if (IsPointerOverUI())
             {
                 //Debug.Log("Mouse over UI");
+                cloudControllerLLM.keyboardShotcutsEnabled = false;
                 return;
             }
 
             else
             {
+                cloudControllerLLM.keyboardShotcutsEnabled = true;
+
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
                 foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in pClasses)

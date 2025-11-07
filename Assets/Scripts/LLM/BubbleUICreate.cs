@@ -37,6 +37,26 @@ namespace LLMPCCompanionBubble
 
     class BubbleUICreate
     {
+        private static CloudControllerLLM _cloudControllerLLM;
+
+        public static CloudControllerLLM cloudControllerLLM
+        {
+            get
+            {
+                // If already cached and still valid, return it
+                if (_cloudControllerLLM != null)
+                    return _cloudControllerLLM;
+
+                // Otherwise, find it in the scene and cache it
+                _cloudControllerLLM = UnityEngine.Object.FindFirstObjectByType<CloudControllerLLM>();
+
+                if (_cloudControllerLLM == null)
+                    Debug.LogWarning("PointCloudController not found in scene!");
+
+                return _cloudControllerLLM;
+            }
+        }
+
         protected GameObject bubbleObject;
         protected GameObject imageObject;
         public BubbleUI bubbleUI;

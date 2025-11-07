@@ -21,6 +21,7 @@ namespace LLMPCCompanionBubble
         public Sprite sprite;
         public Button stopButton;
 
+        [SerializeField] public CloudControllerLLM cloudControllerLLM;
         private LLMInputBubble inputBubble;
         private List<BubbleUICreate> chatBubbles = new List<BubbleUICreate>();
         private bool blockInput = true;
@@ -88,6 +89,7 @@ namespace LLMPCCompanionBubble
             Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
             inputBubble.SetText("");
         }
+        
 
         public void WarmUpCallback()
         {
@@ -101,6 +103,7 @@ namespace LLMPCCompanionBubble
             blockInput = false;
             inputBubble.ReActivateInputField();
         }
+        
 
         public void CancelRequests()
         {
@@ -136,7 +139,7 @@ namespace LLMPCCompanionBubble
             {
                 BubbleUICreate bubble = chatBubbles[i];
                 RectTransform childRect = bubble.GetRectTransform();
-                childRect.anchoredPosition = new Vector3(childRect.anchoredPosition.x, y, 0);
+                childRect.anchoredPosition3D = new Vector3(childRect.anchoredPosition3D.x, y, 0);
 
                 // last bubble outside the container
                 if (y > containerHeight && lastBubbleOutsideFOV == -1)

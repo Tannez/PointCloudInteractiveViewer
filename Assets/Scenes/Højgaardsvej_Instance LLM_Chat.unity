@@ -8924,7 +8924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11c4f65283b3534c89d8b94952e9730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uIInstanceController: {fileID: 192970588}
+  cloudControllerLLM: {fileID: 1933780750}
   MouseClickOnScene: 1
   normalSpeed: 10
   setResetPosition: {x: -4.5325117, y: 7.6851683, z: 12.793777}
@@ -19139,6 +19139,7 @@ MonoBehaviour:
   bubbleSpacing: 10
   sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   stopButton: {fileID: 732593308}
+  cloudControllerLLM: {fileID: 1933780750}
 --- !u!1 &756866076
 GameObject:
   m_ObjectHideFlags: 0
@@ -50677,6 +50678,7 @@ MonoBehaviour:
   colorModeDropDown: {fileID: 841753322}
   ExplodedViewSlider: {fileID: 708722614}
   keyboardClassSelection: 1
+  keyboardShotcutsEnabled: 1
   classButtons:
   - {fileID: 136027641}
   - {fileID: 738870051}

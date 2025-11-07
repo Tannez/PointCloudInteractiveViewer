@@ -8,7 +8,8 @@ namespace BAPointCloudRenderer.Controllers {
      */
     public class CameraController : MonoBehaviour {
 
-        [SerializeField] UIInstanceController uIInstanceController;
+        [SerializeField] UIInstanceController uIInstanceController; // Use this if not LLM scene 
+        //[SerializeField] CloudControllerLLM cloudControllerLLM; // Use this if LLM scene 
         public bool MouseClickOnScene = true;
 
         //Current yaw
@@ -61,15 +62,16 @@ namespace BAPointCloudRenderer.Controllers {
                 MouseClickOnScene = false;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-            }   
+            }
 
-            if (uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space"))
-                {
-                    Camera.main.transform.position = setResetPosition;
-                    // Camera.main.transform.eulerAngles = new Vector3(20.75f, 53.5f, 0f);
-                    pitch = setResetAngle.x;
-                    yaw = setResetAngle.y; 
-                }  
+            if (uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space")) // Use this if not LLM scene 
+            //if (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space")) // Use this if LLM scene 
+            {
+                Camera.main.transform.position = setResetPosition;
+                // Camera.main.transform.eulerAngles = new Vector3(20.75f, 53.5f, 0f);
+                pitch = setResetAngle.x;
+                yaw = setResetAngle.y;
+            }     
         }
 
         void FixedUpdate()
