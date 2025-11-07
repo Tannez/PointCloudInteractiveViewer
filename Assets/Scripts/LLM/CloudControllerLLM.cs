@@ -18,16 +18,16 @@ public class CloudControllerLLM : MonoBehaviour
     [Header("Cloud Instantiation Components")]
 
     [Tooltip("Before running scene, a cloud instantiator is required in hierarchy. Create empty GameObject and add a Cloud Instantiator script to it. Then insert the cloud instantiator here. Remember to set asset path and prefabs in cloud instantiator script")]
-    [SerializeField] CloudInstanceInstantiatior cloudInstantiator;
+    [SerializeField] CloudInstanceInstantiatiorLLM cloudInstantiator;
     [Tooltip("Before running scene, an initial cloud loader is required in hierarchy. Create empty GameObject beneath Cloud Instantiator and add a Dynamic Loader to it. Then insert this cloud loader here.")]
     [SerializeField] GameObject InitialCloudLoader;
     [SerializeField] private GameObject clippingPlane;
-    DirectoryInstanceLoader directoryInstanceLoader;
+    DirectoryInstanceLoaderLLM directoryInstanceLoaderLLM;
     // // Mesh Configurations
     // [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
     [Tooltip("Adds Mesh To points. Insert GameObject Beneath the cloud instantiator, and add the DefaultMeshConfiguration script. Then insert GameObject here.")]
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
-    [SerializeField] public List<DirectoryInstanceLoader.PCInstances> PCClasses = new List<DirectoryInstanceLoader.PCInstances>();
+    [SerializeField] public List<DirectoryInstanceLoaderLLM.PCInstances> PCClasses = new List<DirectoryInstanceLoaderLLM.PCInstances>();
     [SerializeField] public List<GameObject> PCInstances = new List<GameObject>();
 
     //UI Inspector Components
@@ -114,9 +114,9 @@ public class CloudControllerLLM : MonoBehaviour
         cam = Camera.main;
 
         // Get Cloud objects
-        directoryInstanceLoader = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>();
-        PCClasses = directoryInstanceLoader.pointCloudClasses;
-        PCInstances = directoryInstanceLoader.allInstances;
+        directoryInstanceLoaderLLM = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryInstanceLoaderLLM>();
+        PCClasses = directoryInstanceLoaderLLM.pointCloudClasses;
+        PCInstances = directoryInstanceLoaderLLM.allInstances;
 
         // Set Initial Point Budget 
         PCPointBudget = InitialCloudLoader.GetComponent<DynamicPointCloudSet>().pointBudget;
@@ -178,7 +178,7 @@ public class CloudControllerLLM : MonoBehaviour
     public void PCValueChangeCheck()
     {
         int cloudClassIter = 0;
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
@@ -202,7 +202,7 @@ public class CloudControllerLLM : MonoBehaviour
 
         cloudClassIter = 0;
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
@@ -221,7 +221,7 @@ public class CloudControllerLLM : MonoBehaviour
 
         cloudClassIter = 0;
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
@@ -263,7 +263,7 @@ public class CloudControllerLLM : MonoBehaviour
     {
         int cloudRuns = 0;
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             cloud.cloudClassGO.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * (PCClasses.Count - cloudRuns) / 10, 0.0f);
             cloudRuns++;
@@ -370,7 +370,7 @@ public class CloudControllerLLM : MonoBehaviour
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("CustomRenderTexture/Classification"));
         // Debug.Log("Showing Classification");
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
@@ -389,7 +389,7 @@ public class CloudControllerLLM : MonoBehaviour
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
         // Debug.Log("Showing RGB");
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
@@ -409,7 +409,7 @@ public class CloudControllerLLM : MonoBehaviour
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
         // Debug.Log("Showing Intensity");
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
@@ -449,7 +449,7 @@ public class CloudControllerLLM : MonoBehaviour
     {
         if (!instanceUIActive)
         {
-            foreach (DirectoryInstanceLoader.PCInstances clouds in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in PCClasses)
             {
                 for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
                 {
@@ -485,7 +485,7 @@ public class CloudControllerLLM : MonoBehaviour
     {
         if (!instanceUIActive)
         {
-            foreach (DirectoryInstanceLoader.PCInstances clouds in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in PCClasses)
             {
                 for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
                 {
@@ -529,7 +529,7 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
@@ -547,7 +547,7 @@ public class CloudControllerLLM : MonoBehaviour
             RGBConversion();
 
             //Enable Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
@@ -570,7 +570,7 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
@@ -588,7 +588,7 @@ public class CloudControllerLLM : MonoBehaviour
             ClassificationConversion();
 
             //Enable Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
@@ -611,7 +611,7 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
@@ -629,7 +629,7 @@ public class CloudControllerLLM : MonoBehaviour
             IntensityConversion();
 
             //Enable Clouds
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
@@ -1767,7 +1767,7 @@ public class CloudControllerLLM : MonoBehaviour
 
         if (!instanceUIActive)
         {
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 UnSelectCloudClass(cc);
                 cc++;
@@ -1837,7 +1837,7 @@ public class CloudControllerLLM : MonoBehaviour
         int currentClassInHierarchy = 0;
         int currentInstanceInClass = 0;
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
             for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
             {
@@ -1909,7 +1909,7 @@ public class CloudControllerLLM : MonoBehaviour
         else if (!instanceUIActive)
         {
             int currentClass = 0;
-            foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
             {
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {

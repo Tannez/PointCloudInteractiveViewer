@@ -10,7 +10,7 @@ using System.Linq;
 public class MouseClickClouds : MonoBehaviour
 {
     CloudControllerLLM cloudControllerLLM;
-    public List<DirectoryInstanceLoader.PCInstances> pClasses = new List<DirectoryInstanceLoader.PCInstances>();
+    public List<DirectoryInstanceLoaderLLM.PCInstances> pClasses = new List<DirectoryInstanceLoaderLLM.PCInstances>();
     Ray ray;
     bool classSelectedwithMouse = false;
     bool InstanceSelectedwithMouse = false;
@@ -22,7 +22,7 @@ public class MouseClickClouds : MonoBehaviour
 
     void Start()
     {
-        cloudControllerLLM = gameObject.GetComponent<CloudControllerLLM>();
+        cloudControllerLLM = GameObject.Find("PointCloudCompanion").GetComponent<CloudControllerLLM>();
         pClasses = cloudControllerLLM.PCClasses;
     }
 
@@ -66,7 +66,7 @@ public class MouseClickClouds : MonoBehaviour
             {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                foreach (DirectoryInstanceLoader.PCInstances clouds in pClasses)
+                foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in pClasses)
                 {
                     for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
                     {
