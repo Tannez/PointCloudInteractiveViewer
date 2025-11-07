@@ -9,8 +9,8 @@ namespace LLMPCCompanionBubble
     public class PointCloudCompanion : MonoBehaviour
     {
         public Transform chatContainer;
-        public Color playerColor = new Color32(81, 164, 81, 255);
-        public Color aiColor = new Color32(29, 29, 73, 255);
+        public Color playerColor = new Color32(81, 81, 164, 255);
+        public Color aiColor = new Color32(29, 29, 29, 255);
         public Color fontColor = Color.white;
         public Font font;
         public int fontSize = 16;
@@ -136,7 +136,7 @@ namespace LLMPCCompanionBubble
             {
                 BubbleUICreate bubble = chatBubbles[i];
                 RectTransform childRect = bubble.GetRectTransform();
-                childRect.anchoredPosition = new Vector2(childRect.anchoredPosition.x, y);
+                childRect.anchoredPosition = new Vector3(childRect.anchoredPosition.x, y, 0);
 
                 // last bubble outside the container
                 if (y > containerHeight && lastBubbleOutsideFOV == -1)
