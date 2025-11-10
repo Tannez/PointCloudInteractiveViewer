@@ -54,7 +54,7 @@ public class MouseClickClouds : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(CloudClickSelection());
+            CloudClickSelection();
         }
     }
 
@@ -76,16 +76,15 @@ public class MouseClickClouds : MonoBehaviour
     //     }
     // }
 
-    IEnumerator CloudClickSelection()
+    public void CloudClickSelection()
     {
-            selectedClasses = new List<int>();
-            selectedInstances = new List<int>();
+        selectedClasses = new List<int>();
+        selectedInstances = new List<int>();
 
         if (IsPointerOverUI())
         {
             //Debug.Log("Mouse over UI");
             cloudControllerLLM.keyboardShotcutsEnabled = false;
-            yield return null;
         }
 
         else
@@ -94,8 +93,9 @@ public class MouseClickClouds : MonoBehaviour
 
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in pClasses)
+            for (int classInstance = 0; classInstance < pClasses.Count; classInstance++)
             {
+                DirectoryInstanceLoaderLLM.PCInstances clouds = pClasses[classInstance];
                 for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
                 {
                     GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
@@ -206,8 +206,6 @@ public class MouseClickClouds : MonoBehaviour
             {
                 cloudControllerLLM.ResetSelection();
             }
-            
-            yield return null;
         }
     }
 
