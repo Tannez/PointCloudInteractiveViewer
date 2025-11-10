@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.CloudData;
 using BAPointCloudRenderer.Edl;
@@ -171,37 +172,31 @@ public class CloudControllerLLM : MonoBehaviour
         // Use keyboard to reload clouds in case they are not loading properly
         if (Input.GetKeyDown(KeyCode.R) && keyboardShotcutsEnabled == true)
         {
-            ReloadClouds();
+            StartCoroutine(ReloadClouds());
         }
     }
 
     // Method For Changing Point Budget Of Point Clouds
     public void PCValueChangeCheck()
     {
-        int cloudClassIter = 0;
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-        {
-            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-            {
-                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-
-                if (instanceInClass.name.StartsWith("Cloud:") && classHidden[cloudClassIter] == false)
-                {
-                    // Remove Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                    // ShutDown V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                    // Disable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(false);
-                }
-            }
-            cloudClassIter++;
-        }
+        // stop loading
+        StartCoroutine(StopLoadingClouds());
 
         // Change Value Of Point Budget
         PCPointBudget = (uint)pointBudgetSlider.value;
 
-        cloudClassIter = 0;
+        // set point budget for each cloud
+        StartCoroutine(SetPointBudget());
+
+        pointBudgetSliderText.text = PCPointBudget.ToString();
+
+        // start loading
+        StartCoroutine(StartLoadingClouds());
+    }
+    //Coroutine to set the point budget
+    IEnumerator SetPointBudget()
+    {
+        int cloudClassIter = 0;
 
         foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
         {
@@ -216,29 +211,7 @@ public class CloudControllerLLM : MonoBehaviour
                 }
             }
             cloudClassIter++;
-        }
-
-        pointBudgetSliderText.text = PCPointBudget.ToString();
-
-        cloudClassIter = 0;
-
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-        {
-            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-            {
-                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-
-                if (instanceInClass.name.StartsWith("Cloud:") && classHidden[cloudClassIter] == false)
-                {
-                    // Enable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(true);
-                    // Enable Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-                    // Show V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-                }
-            }
-            cloudClassIter++;
+            yield return null;
         }
     }
 
@@ -759,7 +732,7 @@ public class CloudControllerLLM : MonoBehaviour
             ctoggle.isOn = true;
             classHidden[classTogglesIter] = false;
         }
-        ReloadClouds();
+        StartCoroutine(ReloadClouds());
     }
     // Method For Toggling The Various Classes
     public void InstanceToggleChange()
@@ -887,7 +860,7 @@ public class CloudControllerLLM : MonoBehaviour
                 iToggle.gameObject.SetActive(true);
             }
 
-            ReloadClouds();
+            StartCoroutine(ReloadClouds());
         }
         else if (instanceUIActive)
         {
@@ -931,7 +904,7 @@ public class CloudControllerLLM : MonoBehaviour
                 iToggle.gameObject.SetActive(false);
             }
 
-            ReloadClouds();
+            StartCoroutine(ReloadClouds());
         }
     }
 
@@ -1885,7 +1858,7 @@ public class CloudControllerLLM : MonoBehaviour
     // }
 
     // Method for Reloading Point Clouds, in case some have not loaded properly
-    public void ReloadClouds()
+    IEnumerator ReloadClouds()
     {
         if (instanceUIActive)
         {
@@ -1934,8 +1907,61 @@ public class CloudControllerLLM : MonoBehaviour
                     }
                 }
                 currentClass++;
+                yield return null;
             }
         }
 
     }
+
+    // Coroutine to stop loading point clouds 
+    IEnumerator StopLoadingClouds()
+    {
+        int currentClass = 0;
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        {
+            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
+            {
+                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
+
+                if (instanceInClass.name.StartsWith("Cloud:") && classHidden[currentClass] == false)
+                {
+                    // Remove Clouds
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                    // ShutDown V2 Renderer
+                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                    // Disable DynamicPointCloudSet Component
+                    instanceInClass.SetActive(false);
+                }
+            }
+            currentClass++;
+            yield return null;
+        }
+
+    }
+
+    // Coroutine to start loading point clouds 
+    IEnumerator StartLoadingClouds()
+    {
+        int currentClass = 0;
+        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        {
+            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
+            {
+                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
+
+                if (instanceInClass.name.StartsWith("Cloud:") && classHidden[currentClass] == false)
+                {
+                    // Enable DynamicPointCloudSet Component
+                    instanceInClass.SetActive(true);
+                    // Enable Clouds
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                    // Show V2 Renderer
+                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+                }
+            }
+            currentClass++;
+            yield return null;
+        }
+    }
+    
 }

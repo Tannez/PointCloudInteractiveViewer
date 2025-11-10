@@ -1,6 +1,7 @@
 using BAPointCloudRenderer.CloudController;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using BAPointCloudRenderer.ObjectCreation;
 using Unity.VisualScripting;
 using UnityEngine.EventSystems;
@@ -51,7 +52,10 @@ public class MouseClickClouds : MonoBehaviour
         {
             pClasses = cloudControllerLLM.PCClasses;
         }
-        CloudClickSelection();
+        if (Input.GetMouseButtonDown(0))
+        {
+            StartCoroutine(CloudClickSelection());
+        }
     }
 
     // First attempt to get mouse click to work with bounds. Only worked on first instance
@@ -72,139 +76,138 @@ public class MouseClickClouds : MonoBehaviour
     //     }
     // }
 
-    private void CloudClickSelection()
+    IEnumerator CloudClickSelection()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
             selectedClasses = new List<int>();
             selectedInstances = new List<int>();
 
-            if (IsPointerOverUI())
+        if (IsPointerOverUI())
+        {
+            //Debug.Log("Mouse over UI");
+            cloudControllerLLM.keyboardShotcutsEnabled = false;
+            yield return null;
+        }
+
+        else
+        {
+            cloudControllerLLM.keyboardShotcutsEnabled = true;
+
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in pClasses)
             {
-                //Debug.Log("Mouse over UI");
-                cloudControllerLLM.keyboardShotcutsEnabled = false;
-                return;
-            }
-
-            else
-            {
-                cloudControllerLLM.keyboardShotcutsEnabled = true;
-
-                ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in pClasses)
+                for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
                 {
-                    for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
+                    GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
+                    var renderer = instanceInClass.GetComponentInChildren<AbstractPointCloudSet>();
+                    Bounds b = renderer.GetTightBoundingBoxBounds();
+
+                    // Convert to world space so that each bounding box is tested in world coordinates,
+                    // matching where the clouds actually are in the scene.
+                    b.center = renderer.transform.TransformPoint(b.center);
+                    b.extents = Vector3.Scale(b.extents, renderer.transform.lossyScale);
+
+                    if (b.IntersectRay(ray))
                     {
-                        GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
-                        var renderer = instanceInClass.GetComponentInChildren<AbstractPointCloudSet>();
-                        Bounds b = renderer.GetTightBoundingBoxBounds();
+                        string clickClassTarget = renderer.gameObject.transform.parent.transform.parent.name;
+                        string clickInstanceTarget = renderer.gameObject.transform.parent.name;
 
-                        // Convert to world space so that each bounding box is tested in world coordinates,
-                        // matching where the clouds actually are in the scene.
-                        b.center = renderer.transform.TransformPoint(b.center);
-                        b.extents = Vector3.Scale(b.extents, renderer.transform.lossyScale);
 
-                        if (b.IntersectRay(ray))
+                        if (clickClassTarget == "Class: 1" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[0] == false)
                         {
-                            string clickClassTarget = renderer.gameObject.transform.parent.transform.parent.name;
-                            string clickInstanceTarget = renderer.gameObject.transform.parent.name;
-
-                            
-                            if (clickClassTarget == "Class: 1" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[0] == false)
-                            {
-                                selectedClasses.Add(1);
-                                classSelectedwithMouse = true;
-                                //Debug.Log("Added Class: 1");
-                            }
-                            else if (clickClassTarget == "Class: 2" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[1] == false)
-                            {
-                                selectedClasses.Add(2);
-                                classSelectedwithMouse = true;
-                                //Debug.Log("Added Class: 2");
-                            }
-                            else if (clickClassTarget == "Class: 3" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[2] == false)
-                            {
-                                selectedClasses.Add(3);
-                                classSelectedwithMouse = true;
-                                //Debug.Log("Added Class: 3");
-                            }
-                            else if (clickClassTarget == "Class: 4" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[3] == false)
-                            {
-                                selectedClasses.Add(4);
-                                classSelectedwithMouse = true;
-                                //Debug.Log("Added Class: 4");
-                            }
-                            else if (clickClassTarget == "Class: 5" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[4] == false)
-                            {
-                                selectedClasses.Add(5);
-                                classSelectedwithMouse = true;
-                                //Debug.Log("Added Class: 5");
-                            }
-                            
-
-                            if (clickInstanceTarget == "Cloud: 1" && InstanceSelectedwithMouse == false)
-                            {
-                                selectedInstances.Add(1);
-                                InstanceSelectedwithMouse = true;
-                                //Debug.Log("Added Cloud: 1");
-                            }
-                            else if (clickInstanceTarget == "Cloud: 2" && InstanceSelectedwithMouse == false)
-                            {
-                                selectedInstances.Add(2);
-                                InstanceSelectedwithMouse = true;
-                                //Debug.Log("Added Cloud: 2");
-                            }
-                            else if (clickInstanceTarget == "Cloud: 3" && InstanceSelectedwithMouse == false)
-                            {
-                                selectedInstances.Add(3);
-                                InstanceSelectedwithMouse = true;
-                                //Debug.Log("Added Cloud: 3");
-                            }
-                            else if (clickInstanceTarget == "Cloud: 4" && InstanceSelectedwithMouse == false)
-                            {
-                                selectedInstances.Add(4);
-                                InstanceSelectedwithMouse = true;
-                                //Debug.Log("Added Cloud: 4");
-                            }
-                            else if (clickInstanceTarget == "Cloud: 5" && InstanceSelectedwithMouse == false)
-                            {
-                                selectedInstances.Add(5);
-                                InstanceSelectedwithMouse = true;
-                                //Debug.Log("Added Cloud: 5");
-                            }
-
-                            classSelectedwithMouse = false;
-                            InstanceSelectedwithMouse = false;
+                            selectedClasses.Add(1);
+                            classSelectedwithMouse = true;
+                            //Debug.Log("Added Class: 1");
                         }
+                        else if (clickClassTarget == "Class: 2" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[1] == false)
+                        {
+                            selectedClasses.Add(2);
+                            classSelectedwithMouse = true;
+                            //Debug.Log("Added Class: 2");
+                        }
+                        else if (clickClassTarget == "Class: 3" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[2] == false)
+                        {
+                            selectedClasses.Add(3);
+                            classSelectedwithMouse = true;
+                            //Debug.Log("Added Class: 3");
+                        }
+                        else if (clickClassTarget == "Class: 4" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[3] == false)
+                        {
+                            selectedClasses.Add(4);
+                            classSelectedwithMouse = true;
+                            //Debug.Log("Added Class: 4");
+                        }
+                        else if (clickClassTarget == "Class: 5" && classSelectedwithMouse == false && cloudControllerLLM.classHidden[4] == false)
+                        {
+                            selectedClasses.Add(5);
+                            classSelectedwithMouse = true;
+                            //Debug.Log("Added Class: 5");
+                        }
+
+
+                        if (clickInstanceTarget == "Cloud: 1" && InstanceSelectedwithMouse == false)
+                        {
+                            selectedInstances.Add(1);
+                            InstanceSelectedwithMouse = true;
+                            //Debug.Log("Added Cloud: 1");
+                        }
+                        else if (clickInstanceTarget == "Cloud: 2" && InstanceSelectedwithMouse == false)
+                        {
+                            selectedInstances.Add(2);
+                            InstanceSelectedwithMouse = true;
+                            //Debug.Log("Added Cloud: 2");
+                        }
+                        else if (clickInstanceTarget == "Cloud: 3" && InstanceSelectedwithMouse == false)
+                        {
+                            selectedInstances.Add(3);
+                            InstanceSelectedwithMouse = true;
+                            //Debug.Log("Added Cloud: 3");
+                        }
+                        else if (clickInstanceTarget == "Cloud: 4" && InstanceSelectedwithMouse == false)
+                        {
+                            selectedInstances.Add(4);
+                            InstanceSelectedwithMouse = true;
+                            //Debug.Log("Added Cloud: 4");
+                        }
+                        else if (clickInstanceTarget == "Cloud: 5" && InstanceSelectedwithMouse == false)
+                        {
+                            selectedInstances.Add(5);
+                            InstanceSelectedwithMouse = true;
+                            //Debug.Log("Added Cloud: 5");
+                        }
+
+                        classSelectedwithMouse = false;
+                        InstanceSelectedwithMouse = false;
                     }
                 }
+            }
 
-                int classesSelected = selectedClasses.Count;
-                int instancesSelected = selectedInstances.Count;
+            int classesSelected = selectedClasses.Count;
+            int instancesSelected = selectedInstances.Count;
 
-                if (classesSelected > 0 && instancesSelected > 0) // Must have a selected target
-                {
-                    displayedClassSelection = selectedClasses[classesSelected - 1];
-                    displayedInstanceSelection = selectedInstances[instancesSelected - 1];
+            if (classesSelected > 0 && instancesSelected > 0) // Must have a selected target
+            {
+                displayedClassSelection = selectedClasses[classesSelected - 1];
+                displayedInstanceSelection = selectedInstances[instancesSelected - 1];
 
-                    //Debug.Log("Displayed Class: " + displayedClassSelection);
-                    //Debug.Log("Displayed Class: " + displayedInstanceSelection);
-                    ShowClickedCloud(displayedClassSelection, displayedInstanceSelection);
-                }
-                // else if (classesSelected >= 0 && instancesSelected > 0) // Must have a selected target
-                // {
-                //     displayedInstanceSelection = selectedInstances[instancesSelected - 1];
+                //Debug.Log("Displayed Class: " + displayedClassSelection);
+                //Debug.Log("Displayed Class: " + displayedInstanceSelection);
+                ShowClickedCloud(displayedClassSelection, displayedInstanceSelection);
+            }
+            // else if (classesSelected >= 0 && instancesSelected > 0) // Must have a selected target
+            // {
+            //     displayedInstanceSelection = selectedInstances[instancesSelected - 1];
 
-                //     //Debug.Log("Displayed Class: " + displayedClassSelection);
-                //     //Debug.Log("Displayed Class: " + displayedInstanceSelection);
-                //     uIInstanceController.cloudClassInstanceSelection(instancesSelected);
-                // }
-                else if (classesSelected == 0 && instancesSelected == 0)
-                {
-                    cloudControllerLLM.ResetSelection();
-                }
-            }  
+            //     //Debug.Log("Displayed Class: " + displayedClassSelection);
+            //     //Debug.Log("Displayed Class: " + displayedInstanceSelection);
+            //     uIInstanceController.cloudClassInstanceSelection(instancesSelected);
+            // }
+            else if (classesSelected == 0 && instancesSelected == 0)
+            {
+                cloudControllerLLM.ResetSelection();
+            }
+            
+            yield return null;
         }
     }
 
