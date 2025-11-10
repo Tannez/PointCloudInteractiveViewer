@@ -21,7 +21,7 @@ public class PCFunctions : UIInstanceController
                 return _uIInstanceController;
 
             // Otherwise, find it in the scene and cache it
-            _uIInstanceController = Object.FindFirstObjectByType<UIInstanceController>();
+            _uIInstanceController = FindFirstObjectByType<UIInstanceController>();
 
             if (_uIInstanceController == null)
                 Debug.LogWarning("PointCloudController not found in scene!");

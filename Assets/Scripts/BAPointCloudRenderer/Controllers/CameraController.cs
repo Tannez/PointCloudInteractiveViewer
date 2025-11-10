@@ -65,7 +65,7 @@ namespace BAPointCloudRenderer.Controllers {
                 Cursor.visible = true;
             }
 
-            //if (uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space")) // Use this if not LLM scene 
+            // if (uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space")) // Use this if not LLM scene 
             if (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space")) // Use this if LLM scene 
             {
                 Camera.main.transform.position = setResetPosition;

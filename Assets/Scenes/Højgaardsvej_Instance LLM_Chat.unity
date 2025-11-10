@@ -33347,7 +33347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24673aedb2bb35e4593adc56a92e1739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloudInstanceInstantiatiorLLM
-  cloudControllerLLM: {fileID: 0}
+  cloudControllerLLM: {fileID: 1933780750}
   DirectoryPath: "Assets/Resources/PointCloudData/H\xF8jg\xE5rdsvej_Instance"
   DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: 8ce849f48df9d98418339c2de8dd947b, type: 3}
   DirectoryLoaderGO: {fileID: 0}
@@ -41506,7 +41506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.16421683, g: 0.16113207, b: 0.19999999, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -50546,7 +50546,7 @@ GameObject:
   - component: {fileID: 1933780749}
   - component: {fileID: 1933780750}
   m_Layer: 0
-  m_Name: CloudControllerLLM
+  m_Name: CloudLLMController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

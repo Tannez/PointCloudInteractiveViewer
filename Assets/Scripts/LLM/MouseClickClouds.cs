@@ -9,13 +9,30 @@ using System.Linq;
 
 public class MouseClickClouds : MonoBehaviour
 {
-    CloudControllerLLM cloudControllerLLM;
+    private static CloudControllerLLM _cloudControllerLLM;
+
+    private static CloudControllerLLM cloudControllerLLM
+    {
+        get
+        {
+            // If already cached and still valid, return it
+            if (_cloudControllerLLM != null)
+                return _cloudControllerLLM;
+
+            // Otherwise, find it in the scene and cache it
+            _cloudControllerLLM = FindFirstObjectByType<CloudControllerLLM>();
+
+            if (_cloudControllerLLM == null)
+                Debug.LogWarning("PointCloudController not found in scene!");
+
+            return _cloudControllerLLM;
+        }
+    }
+
     public List<DirectoryInstanceLoaderLLM.PCInstances> pClasses = new List<DirectoryInstanceLoaderLLM.PCInstances>();
     Ray ray;
     bool classSelectedwithMouse = false;
     bool InstanceSelectedwithMouse = false;
-
-    LLMPCCompanionBubble.PointCloudCompanion textInputField;
 
     List<int> selectedClasses = new List<int>();
     List<int> selectedInstances = new List<int>();
@@ -24,12 +41,16 @@ public class MouseClickClouds : MonoBehaviour
 
     void Start()
     {
-        cloudControllerLLM = GameObject.Find("CloudControllerLLM").GetComponent<CloudControllerLLM>();
+        //cloudControllerLLM = GameObject.Find("CloudLLMController").GetComponent<CloudControllerLLM>();
         pClasses = cloudControllerLLM.PCClasses;
     }
 
     void Update()
     {
+        if (pClasses != cloudControllerLLM.PCClasses)
+        {
+            pClasses = cloudControllerLLM.PCClasses;
+        }
         CloudClickSelection();
     }
 
@@ -204,7 +225,7 @@ public class MouseClickClouds : MonoBehaviour
             // MARK INSTANCE
             cloudControllerLLM.cloudClassInstanceMouseSelection(cloudControllerLLM.activeClassInstanceInMenu, cloudInstance);
 
-            // IF NO INSTANCES ARE NO LONGER ACTIVE: CLOSE CLASS INSTANCE UI 
+            // IF NO INSTANCES ARE ACTIVE ANYMORE: CLOSE CLASS INSTANCE UI 
             if (!cloudControllerLLM.classInstanceSelected.Contains(true))
             {
                 cloudControllerLLM.ShowClassInstanceUI(cloudControllerLLM.activeClassInstanceInMenu);
