@@ -152,20 +152,28 @@ namespace LLMPCCompanionBubble
 
         void Update()
         {
-            if (!inputBubble.inputFocused() && warmUpDone)
+            if (cloudControllerLLM.keyboardShotcutsEnabled == true)
             {
-                inputBubble.ActivateInputField();
-                StartCoroutine(BlockInteraction());
+                inputBubble.setInteractable(false);
             }
-            if (lastBubbleOutsideFOV != -1)
+            else if (cloudControllerLLM.keyboardShotcutsEnabled == false)
             {
-                // destroy bubbles outside the container
-                for (int i = 0; i <= lastBubbleOutsideFOV; i++)
+                if (!inputBubble.inputFocused() && warmUpDone)
                 {
-                    chatBubbles[i].Destroy();
+                    inputBubble.ActivateInputField();
+                    StartCoroutine(BlockInteraction());
                 }
-                chatBubbles.RemoveRange(0, lastBubbleOutsideFOV + 1);
-                lastBubbleOutsideFOV = -1;
+            
+                if (lastBubbleOutsideFOV != -1)
+                {
+                    // destroy bubbles outside the container
+                    for (int i = 0; i <= lastBubbleOutsideFOV; i++)
+                    {
+                        chatBubbles[i].Destroy();
+                    }
+                    chatBubbles.RemoveRange(0, lastBubbleOutsideFOV + 1);
+                    lastBubbleOutsideFOV = -1;
+                }
             }
         }
 

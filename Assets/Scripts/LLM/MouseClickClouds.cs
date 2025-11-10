@@ -15,6 +15,8 @@ public class MouseClickClouds : MonoBehaviour
     bool classSelectedwithMouse = false;
     bool InstanceSelectedwithMouse = false;
 
+    LLMPCCompanionBubble.PointCloudCompanion textInputField;
+
     List<int> selectedClasses = new List<int>();
     List<int> selectedInstances = new List<int>();
     int displayedClassSelection;
