@@ -9833,7 +9833,7 @@ MonoBehaviour:
   remote: 0
   port: 13333
   numThreads: -1
-  numGPULayers: 50
+  numGPULayers: 70
   debug: 0
   parallelPrompts: -1
   dontDestroyOnLoad: 1
@@ -18218,7 +18218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.74, y: 0}
   m_AnchorMax: {x: 1, y: 0.06}
-  m_AnchoredPosition: {x: -19.424713, y: -10.057007}
+  m_AnchoredPosition: {x: -19.424683, y: -10.057007}
   m_SizeDelta: {x: -72.627625, y: -33.033447}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &734256886
