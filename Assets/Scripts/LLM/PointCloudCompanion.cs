@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LLMUnity;
 using UnityEngine.UI;
+using System.IO;
 
 namespace LLMPCCompanionBubble
 {
     public class PointCloudCompanion : MonoBehaviour
     {
+        // CHATBOT COMPONENTS
         public Transform chatContainer;
         public Color playerColor = new Color32(81, 81, 164, 255);
         public Color aiColor = new Color32(29, 29, 29, 255);
@@ -21,13 +23,19 @@ namespace LLMPCCompanionBubble
         public Sprite sprite;
         public Button stopButton;
 
+        // Reference to the cloud controller for function calling 
         [SerializeField] public CloudControllerLLM cloudControllerLLM;
+
+        // Reference to bubble setup and user input in bubbles
         private LLMInputBubble inputBubble;
         private List<BubbleUICreate> chatBubbles = new List<BubbleUICreate>();
         private bool blockInput = true;
         private BubbleUI playerUI, aiUI;
         private bool warmUpDone = false;
         private int lastBubbleOutsideFOV = -1;
+
+        // reference context
+        private string staticContext; 
 
         void Start()
         {
@@ -49,6 +57,13 @@ namespace LLMPCCompanionBubble
             aiUI = playerUI;
             aiUI.bubbleColor = aiColor;
             aiUI.leftPosition = 1;
+
+            // Add context to the user prompt - only if file exists
+            string contextPath = "Assets/Resources/PCRAG/PointCloudContext.md";
+            if (File.Exists(contextPath))
+            {
+                staticContext = File.ReadAllText(contextPath);
+            }
 
             inputBubble = new LLMInputBubble(chatContainer, playerUI, "InputBubble", "Loading...", 4);
             inputBubble.AddSubmitListener(onInputFieldSubmit);
@@ -74,6 +89,8 @@ namespace LLMPCCompanionBubble
 
         void onInputFieldSubmit(string newText)
         {
+            // When 'return' has been hit, and text is send, 
+            // shutdown interaction in the input field
             inputBubble.ActivateInputField();
             if (blockInput || newText.Trim() == "" || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
             {
@@ -81,16 +98,27 @@ namespace LLMPCCompanionBubble
                 return;
             }
             blockInput = true;
+
             // replace vertical_tab
             string message = inputBubble.GetText().Replace("\v", "\n");
 
+            // add a bubble with the prompt send by the user in the input field
             AddBubble(message, true);
+
+            // Create a temporary bubble to show that the LLM is loading its response
             BubbleUICreate aiBubble = AddBubble("...", false);
-            Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
+
+            string combinedPrompt = $"{staticContext}\n\nUser: {message}";
+
+            // Send string to the LLM
+            //Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
+
+            // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
+            Task chatTask = llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
+
             inputBubble.SetText("");
         }
         
-
         public void WarmUpCallback()
         {
             warmUpDone = true;
@@ -102,8 +130,7 @@ namespace LLMPCCompanionBubble
         {
             blockInput = false;
             inputBubble.ReActivateInputField();
-        }
-        
+        }     
 
         public void CancelRequests()
         {

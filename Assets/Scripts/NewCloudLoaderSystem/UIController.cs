@@ -5,7 +5,6 @@ using BAPointCloudRenderer.Edl;
 using BAPointCloudRenderer.Loading;
 using BAPointCloudRenderer.ObjectCreation;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Rendering;
