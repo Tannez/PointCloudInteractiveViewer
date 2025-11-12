@@ -196,10 +196,9 @@ public class CloudControllerLLM : MonoBehaviour
     //Coroutine to set the point budget
     IEnumerator SetPointBudget()
     {
-        int cloudClassIter = 0;
-
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -210,9 +209,8 @@ public class CloudControllerLLM : MonoBehaviour
                     instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
                 }
             }
-            cloudClassIter++;
-            yield return null;
         }
+        yield return null;
     }
 
     // Methods For EDL Parameters
@@ -344,8 +342,9 @@ public class CloudControllerLLM : MonoBehaviour
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("CustomRenderTexture/Classification"));
         // Debug.Log("Showing Classification");
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -363,8 +362,9 @@ public class CloudControllerLLM : MonoBehaviour
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
         // Debug.Log("Showing RGB");
 
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -383,8 +383,9 @@ public class CloudControllerLLM : MonoBehaviour
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
         // Debug.Log("Showing Intensity");
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -423,11 +424,12 @@ public class CloudControllerLLM : MonoBehaviour
     {
         if (!instanceUIActive)
         {
-            foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in PCClasses)
+            for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
             {
-                for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
+                DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[cloudClassIter];
+                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
-                    GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
+                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
                     if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius < 5.0f)
                     {
                         instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius += 0.25f;
@@ -436,6 +438,7 @@ public class CloudControllerLLM : MonoBehaviour
                 }
             }
         }
+
         else if (instanceUIActive)
         {
             foreach (GameObject pci in PCInstances)
@@ -459,11 +462,12 @@ public class CloudControllerLLM : MonoBehaviour
     {
         if (!instanceUIActive)
         {
-            foreach (DirectoryInstanceLoaderLLM.PCInstances clouds in PCClasses)
+            for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
             {
-                for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
+                DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[cloudClassIter];
+                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
-                    GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
+                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
                     if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius > 0.25f)
                     {
                         instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius -= 0.25f;
@@ -471,8 +475,8 @@ public class CloudControllerLLM : MonoBehaviour
                     }
                 }
             }
-
         }
+
         else if (instanceUIActive)
         {
             foreach (GameObject pci in PCInstances)
@@ -503,37 +507,13 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-            {
-                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-                {
-                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-                    // Remove Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                    // ShutDown V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                    // Disable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(false);
-                }
-            }
+            StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             RGBConversion();
 
             //Enable Clouds
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-            {
-                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-                {
-                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-                    // Enable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(true);
-                    // Enable Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-                    // Show V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-                }
-            }
+            StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 1)
@@ -544,37 +524,13 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-            {
-                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-                {
-                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-                    // Remove Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                    // ShutDown V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                    // Disable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(false);
-                }
-            }
+            StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             ClassificationConversion();
 
             //Enable Clouds
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-            {
-                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-                {
-                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-                    // Enable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(true);
-                    // Enable Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-                    // Show V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-                }
-            }
+            StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 2)
@@ -585,37 +541,13 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-            {
-                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-                {
-                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-                    // Remove Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                    // ShutDown V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                    // Disable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(false);
-                }
-            }
+            StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             IntensityConversion();
 
             //Enable Clouds
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
-            {
-                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-                {
-                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-                    // Enable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(true);
-                    // Enable Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-                    // Show V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-                }
-            }
+            StartCoroutine(StartLoadingClouds());
         }
     }
 
@@ -1575,7 +1507,7 @@ public class CloudControllerLLM : MonoBehaviour
             {
                 previousClassInstanceColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
                 instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
@@ -1595,7 +1527,7 @@ public class CloudControllerLLM : MonoBehaviour
             if (instanceInClass.name.StartsWith($"Cloud: {cloudInstance}"))
             {
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
                 instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousClassInstanceColor;
                 if (InstanceTogglesClass[cloudInstance - 1].isOn == false)
                 {
@@ -1734,29 +1666,21 @@ public class CloudControllerLLM : MonoBehaviour
     // Method to deselect classes when Color Mode is changed
     public void UnSelectOnConversion()
     {
-        // Unselect on Conversion
-        int ci = 1;
-        int cc = 1;
-
-
         if (!instanceUIActive)
         {
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+            for (int i = 1; i < PCClasses.Count; i++)
             {
-                UnSelectCloudClass(cc);
-                cc++;
+                UnSelectCloudClass(i);
             }
         }
 
         else if (instanceUIActive)
         {
-            foreach (GameObject pci in PCInstances)
+            for (int i = 1; i < PCInstances.Count; i++)
             {
-                UnSelectCloudInstance(ci);
-                ci++;
+                UnSelectCloudInstance(i);
             }
         }
-
     }
 
     // Method to set point size based on selected class 
@@ -1808,10 +1732,9 @@ public class CloudControllerLLM : MonoBehaviour
     private void DePrioritise() // Reset priority of classes so all are visualised as normally done
     {
         // Reset Cloud Visuals
-        int currentClassInHierarchy = 0;
         int currentInstanceInClass = 0;
 
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        for (int currentClassInHierarchy = 0; currentClassInHierarchy < PCClasses.Count;)
         {
             for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
             {
@@ -1858,7 +1781,7 @@ public class CloudControllerLLM : MonoBehaviour
     // }
 
     // Method for Reloading Point Clouds, in case some have not loaded properly
-    IEnumerator ReloadClouds()
+    public IEnumerator ReloadClouds()
     {
         if (instanceUIActive)
         {
@@ -1867,7 +1790,7 @@ public class CloudControllerLLM : MonoBehaviour
                 // Remove Clouds
                 pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
-                pci.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                pci.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
                 // Disable DynamicPointCloudSet Component
                 pci.SetActive(false);
 
@@ -1882,9 +1805,9 @@ public class CloudControllerLLM : MonoBehaviour
 
         else if (!instanceUIActive)
         {
-            int currentClass = 0;
-            foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+            for (int currentClass = 0; currentClass < PCClasses.Count; currentClass++)
             {
+                DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[currentClass];
                 for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
                 {
                     GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -1894,7 +1817,7 @@ public class CloudControllerLLM : MonoBehaviour
                         // Remove Clouds
                         instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                         // ShutDown V2 Renderer
-                        instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                        instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
                         // Disable DynamicPointCloudSet Component
                         instanceInClass.SetActive(false);
 
@@ -1906,19 +1829,17 @@ public class CloudControllerLLM : MonoBehaviour
                         instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
                     }
                 }
-                currentClass++;
-                yield return null;
             }
+            yield return null;
         }
-
     }
 
     // Coroutine to stop loading point clouds 
     IEnumerator StopLoadingClouds()
     {
-        int currentClass = 0;
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        for (int currentClass = 0; currentClass < PCClasses.Count; currentClass++)
         {
+            DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[currentClass];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -1928,23 +1849,21 @@ public class CloudControllerLLM : MonoBehaviour
                     // Remove Clouds
                     instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                     // ShutDown V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
+                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
                     // Disable DynamicPointCloudSet Component
                     instanceInClass.SetActive(false);
                 }
             }
-            currentClass++;
-            yield return null;
         }
-
+        yield return null;
     }
 
     // Coroutine to start loading point clouds 
     IEnumerator StartLoadingClouds()
     {
-        int currentClass = 0;
-        foreach (DirectoryInstanceLoaderLLM.PCInstances cloud in PCClasses)
+        for (int currentClass = 0; currentClass < PCClasses.Count; currentClass++)
         {
+            DirectoryInstanceLoaderLLM.PCInstances cloud = PCClasses[currentClass];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -1959,9 +1878,7 @@ public class CloudControllerLLM : MonoBehaviour
                     instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
                 }
             }
-            currentClass++;
-            yield return null;
         }
-    }
-    
+        yield return null;
+    } 
 }

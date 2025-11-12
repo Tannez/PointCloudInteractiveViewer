@@ -6,9 +6,11 @@ using BAPointCloudRenderer.ObjectCreation;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Linq;
+using BAPointCloudRenderer.Loading;
 
 public class MouseClickClouds : MonoBehaviour
 {
+    V2Renderer v2Renderer;
     private static CloudControllerLLM _cloudControllerLLM;
 
     private static CloudControllerLLM cloudControllerLLM
@@ -204,6 +206,7 @@ public class MouseClickClouds : MonoBehaviour
             else if (classesSelected == 0 && instancesSelected == 0)
             {
                 cloudControllerLLM.ResetSelection();
+                cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
             }
         }
     }

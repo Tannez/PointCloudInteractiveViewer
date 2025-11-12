@@ -35,7 +35,27 @@ namespace LLMPCCompanionBubble
         private int lastBubbleOutsideFOV = -1;
 
         // reference context
-        private string staticContext; 
+        private string staticContext;
+
+        // Function Calling related variables
+        private static FunctionHandler _functionHandler;
+        private static FunctionHandler functionHandler
+        {
+            get
+            {
+                // If already cached and still valid, return it
+                if (_functionHandler != null)
+                    return _functionHandler;
+
+                // Otherwise, find it in the scene and cache it
+                _functionHandler = FindFirstObjectByType<FunctionHandler>();
+
+                if (_functionHandler == null)
+                    Debug.LogWarning("PointCloudController not found in scene!");
+
+                return _functionHandler;
+            }
+        }
 
         void Start()
         {
@@ -72,6 +92,7 @@ namespace LLMPCCompanionBubble
             stopButton.gameObject.SetActive(true);
             ShowLoadedMessages();
             _ = llmCharacter.Warmup(WarmUpCallback);
+
         }
 
         BubbleUICreate AddBubble(string message, bool isPlayerMessage)
@@ -87,7 +108,7 @@ namespace LLMPCCompanionBubble
             for (int i = 1; i < llmCharacter.chat.Count; i++) AddBubble(llmCharacter.chat[i].content, i % 2 == 1);
         }
 
-        void onInputFieldSubmit(string newText)
+        async void onInputFieldSubmit(string newText)
         {
             // When 'return' has been hit, and text is send, 
             // shutdown interaction in the input field
@@ -106,17 +127,29 @@ namespace LLMPCCompanionBubble
             AddBubble(message, true);
 
             // Create a temporary bubble to show that the LLM is loading its response
-            BubbleUICreate aiBubble = AddBubble("...", false);
+            BubbleUICreate aiBubble = AddBubble("thinking...", false);
 
-            string combinedPrompt = $"{staticContext}\n\nUser: {message}";
-
-            // Send string to the LLM
-            //Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
-
-            // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
-            Task chatTask = llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
-
+            // Clear user input bubble
             inputBubble.SetText("");
+
+            // Attempt to execute function 
+            (bool, string) applyFunction = await functionHandler.TryExecuteCommand(message);
+
+            if (applyFunction.Item1 == true)
+            {
+                aiBubble.SetText("Executed Function: " + applyFunction.Item2 + ". \nReady for next input");
+                AllowInput();
+                return;
+            }
+
+            // // if not executing, send message to LLM with context
+            // string combinedPrompt = $"{staticContext}\n\nUser: {message}";
+            // // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
+            // await llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
+
+
+            // Send string to the LLM (without context)
+            Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
         }
         
         public void WarmUpCallback()

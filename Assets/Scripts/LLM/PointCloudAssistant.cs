@@ -3,6 +3,7 @@ using LLMUnity;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Reflection;
+
 public class PCFunctions : UIInstanceController
 {
     // Lazy Loading + Singleton pattern to access and utalise the UI Controller methods withing the LLM Function Caller
@@ -199,6 +200,26 @@ public class PCFunctions : UIInstanceController
         uIInstanceController.colorModeDropDown.value = 2;
         return "Displaying Point Clouds as colored by their Intensity values";
     }
+
+    // Methods for changing background 
+    public static string SetBackground(string background)
+    {
+        switch (background)
+        {
+            case "skybox":
+                uIInstanceController.SkyBoxButton();
+                break;
+            case "black":
+            uIInstanceController.BlackButton();
+                break;
+            case "white":
+            uIInstanceController.WhiteButton();
+                break;
+            default:
+                return "No Background of type" + background;
+        }
+        return "Background set to" + background + "";
+    }
 }
 
 public class PointCloudAssistant : MonoBehaviour
@@ -276,5 +297,18 @@ public class PointCloudAssistant : MonoBehaviour
             Debug.LogWarning($"Please select a model in the {llmCharacter.llm.gameObject.name} GameObject!");
             onValidateWarning = false;
         }
+    }
+
+    public bool TryExecuteCommand(string message)
+    {
+        if (message.Contains("background"))
+        {
+            if (message.Contains("black")) PCFunctions.SetBackground("Black");
+            else if (message.Contains("white")) PCFunctions.SetBackground("White");
+            else if (message.Contains("skybox")) PCFunctions.SetBackground("Skybox");
+            return true;
+        }
+
+        return false;
     }
 }
