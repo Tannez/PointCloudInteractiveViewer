@@ -235,6 +235,16 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "The function FocusOnBottom has been selected";
         return true;
     }
+    
+    // Method to reset the focus call, in case LLM won't call other focus functions
+    public static bool UnFocusAll()
+    {
+        cloudControllerLLM.ResetSelection();
+        cloudControllerLLM.keyboardShotcutsEnabled = true;
+        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+        functionPrompt = "The function UnFocusAll has been selected";
+        return true;
+    }
 
     /* Function to help the user with controls, so that they can navigate the scene.
     //     public static string HelpNavigateScene()

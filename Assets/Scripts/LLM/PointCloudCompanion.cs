@@ -93,7 +93,7 @@ namespace LLMPCCompanionBubble
             ShowLoadedMessages();
             _ = llmCharacter.Warmup(WarmUpCallback);
 
-            string introduction = "The user has just opened the application. Please introduce yourself and your capabilities to the user.";
+            string introduction = "The user has just opened the application. Please introduce yourself and your capabilities to the user. Also, inform the user that you might not interpret the first input correctly, but that they should just try the same statement again.";
 
             BubbleUICreate aiBubble = AddBubble("Loading Companion...", false);
 
