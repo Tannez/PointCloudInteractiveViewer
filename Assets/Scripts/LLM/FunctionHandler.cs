@@ -277,27 +277,33 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     // Methods for changing background 
-    // public static bool SetBackground(string background)
-    // {
-    //     switch (background)
-    //     {
-    //         case "skybox":
-    //             cloudControllerLLM.SkyBoxButton();
-    //             break;
-    //         case "black":
-    //             cloudControllerLLM.BlackButton();
-    //             break;
-    //         case "white":
-    //             cloudControllerLLM.WhiteButton();
-    //             break;
-    //         default:
-    //             //return "No Background of type" + background;
-    //             return false;
-    //     }
-    //     //return "Background set to" + background + "";
-    //     return true;
-    // }
+    public static bool SetBackgroundSkybox()
+    {
+        cloudControllerLLM.SkyBoxButton();
+        functionPrompt = "Background set to Skybox";
+        return true;
+    }
+    public static bool SetBackgroundWhite()
+    {
+        cloudControllerLLM.WhiteButton();
+        functionPrompt = "Background set to White";
+        return true;
+    }
+    public static bool SetBackgroundBlack()
+    {
+        cloudControllerLLM.BlackButton();
+        functionPrompt = "Background set to Black";
+        return true;
+    }
 
+    // Method to show cloud instances 
+    public static bool ShowHideAllInstancesInCloud()
+    {
+        cloudControllerLLM.ShowInstanceUI();
+        functionPrompt = "The function ShowAllInstancesInCloud has been selected";
+        return true;
+    }
+    
     // Method to reset function handler
     public static bool Conversation()
     {
@@ -339,9 +345,9 @@ public class FunctionHandler : MonoBehaviour
     // The prompt the LLM returns to the user
     string ConstructPrompt(string message)
     {
-        string prompt = "You are an AI assistant that can select one function to execute\n\n";
-        prompt += "if the input is just a question or normal chat, you must choose the function Conversation.\n\n";
-        prompt += "if the input is a direct command that matches a function name, then execute that function.\n\n";
+        string prompt = "You are an AI assistant that can select **ONE** function to execute\n\n";
+        prompt += "if the input is just a question or normal chat, you **MUST** choose the function Conversation.\n\n";
+        prompt += "if the input is a direct command that matches a function name, then execute **THAT** function.\n\n";
         prompt += "User Input:" + message + "\n\n";
         prompt += "Function Choices:\n";
         foreach (string functionName in GetFunctionNames()) prompt += $"- {functionName}\n";

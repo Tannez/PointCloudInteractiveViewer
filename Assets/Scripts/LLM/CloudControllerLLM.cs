@@ -73,7 +73,7 @@ public class CloudControllerLLM : MonoBehaviour
     [SerializeField] private Image instanceUIImageClass;
     [Tooltip("This is the instance menu button")]
     [SerializeField] private Button instanceUIButton;
-    private bool instanceUIActive = false;
+    [HideInInspector] public bool instanceUIActive = false;
     public bool classInstanceUIActive = false;
 
     [Header("Color Mode Dropdown")]

@@ -93,6 +93,11 @@ namespace LLMPCCompanionBubble
             ShowLoadedMessages();
             _ = llmCharacter.Warmup(WarmUpCallback);
 
+            string introduction = "The user has just opened the application. Please introduce yourself and your capabilities to the user.";
+
+            BubbleUICreate aiBubble = AddBubble("Loading Companion...", false);
+
+            Task chatTask = llmCharacter.Chat(introduction, aiBubble.SetText, AllowInput);
         }
 
         BubbleUICreate AddBubble(string message, bool isPlayerMessage)
@@ -137,7 +142,7 @@ namespace LLMPCCompanionBubble
 
             if (applyFunction.Item1 == true)
             {
-                aiBubble.SetText("Executed Function: " + applyFunction.Item2 + ". \nReady for next input");
+                aiBubble.SetText(applyFunction.Item2 + ". \nReady for next input.");
                 AllowInput();
                 return;
             }
@@ -146,7 +151,6 @@ namespace LLMPCCompanionBubble
             // string combinedPrompt = $"{staticContext}\n\nUser: {message}";
             // // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
             // await llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
-
 
             // Send string to the LLM (without context)
             Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);

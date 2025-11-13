@@ -10,7 +10,6 @@ using BAPointCloudRenderer.Loading;
 
 public class MouseClickClouds : MonoBehaviour
 {
-    V2Renderer v2Renderer;
     private static CloudControllerLLM _cloudControllerLLM;
 
     private static CloudControllerLLM cloudControllerLLM
@@ -55,6 +54,10 @@ public class MouseClickClouds : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
         {
+            if (cloudControllerLLM.instanceUIActive == true)
+            {
+                cloudControllerLLM.ShowInstanceUI();
+            }
             CloudClickSelection();
         }
     }
