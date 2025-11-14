@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using BAPointCloudRenderer.CloudController;
 using BAPointCloudRenderer.CloudData;
 using BAPointCloudRenderer.Edl;
@@ -8,6 +9,7 @@ using NUnit.Framework.Internal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using NUnit.Framework;
 
 public enum LLMTestModes
 {
@@ -184,8 +186,8 @@ public class UIInstanceController : MonoBehaviour
         LoadClassToggles();
         LoadClassSelectionButtons();
 
-        ChatBot.SetActive(false);
-        FunctionCalling.SetActive(false);
+        // ChatBot.SetActive(false);
+        // FunctionCalling.SetActive(false);
     }
 
     void Update()
@@ -1037,6 +1039,9 @@ public class UIInstanceController : MonoBehaviour
             // loadingClassInstanceButtons = false;
 
             activeClassInstanceInMenu = cloudClass;
+
+            // blink effect 
+            StartBlinking(cloudClass - 1, 2f);
         }
         else if (classInstanceUIActive)
         {
@@ -1047,6 +1052,69 @@ public class UIInstanceController : MonoBehaviour
 
             activeClassInstanceInMenu = 0;
         }
+    }
+
+    // Methods and variables for blink effect
+    private Coroutine blinkRoutine;
+    private bool isBlinking;
+    public void StartBlinking(int cloudClass, float blinkDuration = 2f)
+    {
+        if (isBlinking) return;
+
+        isBlinking = true;
+        blinkRoutine = StartCoroutine(ClassBlinkRoutine(cloudClass, blinkDuration));
+    }
+
+    public void StopBlinking()
+    {
+        if (!isBlinking) return;
+
+        isBlinking = false;
+
+        if (blinkRoutine != null)
+        {
+            StopCoroutine(blinkRoutine);
+        }
+
+        blinkRoutine = null;
+    }
+
+    // Coroutine to make blink effect
+    IEnumerator ClassBlinkRoutine(int cloudClass, float blinkDuration)
+    {
+        float interval = 0.5f; // 150 ms – won't crash Unity
+        float time = 0f;
+
+        while (time < blinkDuration)
+        {
+            for (int i = 0; i < PCClasses[cloudClass].cloudClassGO.transform.childCount; i++)
+            {
+                GameObject instanceInClass = PCClasses[cloudClass].cloudClassGO.transform.GetChild(i).gameObject;
+                if (instanceInClass.name.StartsWith($"Cloud:"))
+                {
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); // required by BAPointCloud
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = !PCClasses[cloudClass].getMeshConfigGO.GetComponent<DefaultMeshConfiguration>().prioritiseCloud;
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                }
+            }
+
+            yield return new WaitForSeconds(interval);
+            time += interval;
+        }
+
+        for (int i = 0; i < PCClasses[cloudClass].cloudClassGO.transform.childCount; i++)
+        {
+            GameObject instanceInClass = PCClasses[cloudClass].cloudClassGO.transform.GetChild(i).gameObject;
+            if (instanceInClass.name.StartsWith($"Cloud:"))
+            {
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); // required by BAPointCloud
+                instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            }
+        }
+
+        isBlinking = false;
+        blinkRoutine = null;
     }
 
     public void ResetSelection()
@@ -1894,8 +1962,8 @@ public class UIInstanceController : MonoBehaviour
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
                     // Keep alpha channel
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
-                    // Keep point size
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
+                    // // Keep point size
+                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     // Save color 
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
                     // Reload Mesh
@@ -1909,6 +1977,8 @@ public class UIInstanceController : MonoBehaviour
                 break;
             }
         }
+
+        ReloadClouds();
     }
     private void DePrioritise() // Reset priority of classes so all are visualised as normally done
     {
@@ -1932,8 +2002,8 @@ public class UIInstanceController : MonoBehaviour
                     classSelected[currentClassInHierarchy] = false;
                     classButtons[currentClassInHierarchy].image.color = new Color(1, 1, 1, 0.4f);
                     // Make All Instances in Class Reset back
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
+                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousClassPriorityColor;
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                     // Make All Class Buttons interactable again
@@ -1955,6 +2025,8 @@ public class UIInstanceController : MonoBehaviour
         {
             iToggle.gameObject.SetActive(false);
         }
+
+        ReloadClouds();
     }
 
     // Show the LLM window 

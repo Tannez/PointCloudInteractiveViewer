@@ -49,7 +49,7 @@ MonoBehaviour:
   screenSize: 1
   interpolation: 0
   colorMode: 0
-  prioritiseCloud: 1
+  prioritiseCloud: 0
   cloudAlpha: 0.1
   reload: 0
   renderCamera: {fileID: 0}

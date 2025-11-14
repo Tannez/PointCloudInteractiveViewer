@@ -44,7 +44,7 @@ namespace BAPointCloudRenderer.ObjectCreation {
         /// <summary>
         /// Radius of the point (in pixel or world units, depending on variable screenSize)
         /// </summary>
-        public float pointRadius = 5;
+        public float pointRadius = 1;
         /// <summary>
         /// Whether the quads should be rendered as circles (true) or as squares (false)
         /// </summary>
@@ -65,7 +65,7 @@ namespace BAPointCloudRenderer.ObjectCreation {
         /// <summary>
         /// Control alpha value of selected color mode, based on selected class in UI menu
         /// </summary>
-        public bool prioritiseCloud = true;
+        public bool prioritiseCloud = false;
         public float cloudAlpha = 0.01f;
         /// <summary>
         /// If changing the parameters should be possible during execution, this variable has to be set to true in the beginning! Later changes to this variable will not change anything
@@ -119,14 +119,16 @@ namespace BAPointCloudRenderer.ObjectCreation {
                 material.SetInt("_Cones", (interpolation == FragInterpolationMode.CONES) ? 1 : 0);
             }
 
-            if (!prioritiseCloud) // <- My addition
-            {
-                material.SetFloat("_PointSize", cloudAlpha);
-            }
-            else
-            {
-                material.SetFloat("_PointSize", pointRadius);
-            }
+            // if (!prioritiseCloud) // <- My addition
+            // {
+            //     material.SetFloat("_PointSize", cloudAlpha);
+            // }
+            // else
+            // {
+            //     material.SetFloat("_PointSize", pointRadius);
+            // }
+
+            material.SetFloat("_PointSize", pointRadius);
 
             material.SetInt("_Circles", renderCircles ? 1 : 0); 
             
@@ -235,7 +237,7 @@ namespace BAPointCloudRenderer.ObjectCreation {
         }
 
         // Created Build Color Function to switch mesh color based on preferred color mode
-        private Color[] BuildColor(Color[] rgba, int[] classification, float[] intensities, ColorMode colorMode, bool cloudVisibility)
+        private Color[] BuildColor(Color[] rgba, int[] classification, float[] intensities, ColorMode colorMode, bool cloudPriority)
         {
             Color[] result = new Color[rgba.Length];
 
@@ -243,41 +245,38 @@ namespace BAPointCloudRenderer.ObjectCreation {
             {
                 case ColorMode.RGBA:
                     result = rgba;
-                    if (!cloudVisibility)
-                    {
-                        break;
-                    }
-                    else
+                    if (cloudPriority)
                     {
                         for (int i = 0; i < rgba.Length; i++)
                         {
-                            result[i] = new Color(rgba[i].r, rgba[i].g, rgba[i].b, cloudAlpha);
+                            result[i] = new Color(rgba[i].r, rgba[i].g, rgba[i].b, cloudAlpha) + Color.red;
                         }
-                        break;
                     }
+                    break;
 
                 case ColorMode.Intensity:
                     float maxIntensity = intensities.Max();
                     for (int i = 0; i < intensities.Length; i++)
                     {
                         float norm = intensities[i] / maxIntensity;
-                        if (!cloudVisibility)
+                        if (cloudPriority)
                         {
-                            result[i] = new Color(norm, norm, norm, cloudAlpha);
+                            result[i] = new Color(norm, norm, norm, cloudAlpha) + Color.red;
                         }
                         else
                         {
                             result[i] = new Color(norm, norm, norm, 1f);
                         }
                     }
-                        break;
+                    break;
 
                 case ColorMode.Classification:
                     for (int i = 0; i < classification.Length; i++)
                     {
                         result[i] = ClassificationColor(classification[i]);
-                        if (!cloudVisibility)
+                        if (cloudPriority)
                         {
+                            result[i] += Color.red;
                             result[i].a = cloudAlpha;
                         }
                     }

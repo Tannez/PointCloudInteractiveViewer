@@ -155,15 +155,6 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ShowClassInstanceUI(1);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        // if (cloudControllerLLM.classSelected[0] == true)
-        // {
-        //     //return "Prioritising the Terrain Clouds. Class contains: " + cloudControllerLLM.availableInstancesInClass + " instances";
-        // }
-        // else if (cloudControllerLLM.classSelected[0] == false)
-        // {
-        //     //return "Unprioritising the Terrain Clouds. Instance menu has been hidden, and cloud class point sizes have been reset";
-        // }
-        //return "";
         functionPrompt = "The function FocusOnTerrain has been selected";
         return true;
     }
@@ -172,15 +163,6 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ShowClassInstanceUI(2);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        // if (cloudControllerLLM.classSelected[1] == true)
-        // {
-        //     return "Prioritising the Top Clouds. Class contains: " + cloudControllerLLM.availableInstancesInClass + " instances";
-        // }
-        // else if (cloudControllerLLM.classSelected[1] == false)
-        // {
-        //     return "Unprioritising the Top Clouds. Instance menu has been hidden, and cloud class point sizes have been reset";
-        // }
-        // return "";
         functionPrompt = "The function FocusOnTop has been selected";
         return true;
     }
@@ -189,15 +171,6 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ShowClassInstanceUI(3);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        // if (cloudControllerLLM.classSelected[2] == true)
-        // {
-        //     return "Prioritising the Walls Clouds. Class contains: " + cloudControllerLLM.availableInstancesInClass + " instances";
-        // }
-        // else if (cloudControllerLLM.classSelected[2] == false)
-        // {
-        //     return "Unprioritising the Walls Clouds. Instance menu has been hidden, and cloud class point sizes have been reset";
-        // }
-        // return "";
         functionPrompt = "The function FocusOnWalls has been selected";
         return true;
     }
@@ -206,15 +179,6 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ShowClassInstanceUI(4);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        // if (cloudControllerLLM.classSelected[3] == true)
-        // {
-        //     return "Prioritising the Tech Clouds. Class contains: " + cloudControllerLLM.availableInstancesInClass + " instances";
-        // }
-        // else if (cloudControllerLLM.classSelected[3] == false)
-        // {
-        //     return "Unprioritising the Tech Clouds. Instance menu has been hidden, and cloud class point sizes have been reset";
-        // }
-        // return "";
         functionPrompt = "The function FocusOnTech has been selected";
         return true;
     }
@@ -223,15 +187,6 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ShowClassInstanceUI(5);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        // if (cloudControllerLLM.classSelected[4] == true)
-        // {
-        //     return "Prioritising the Bottom Clouds. Class contains: " + cloudControllerLLM.availableInstancesInClass + " instances";
-        // }
-        // else if (cloudControllerLLM.classSelected[4] == false)
-        // {
-        //     return "Unprioritising the Bottom Clouds. Instance menu has been hidden, and cloud class point sizes have been reset";
-        // }
-        // return "";
         functionPrompt = "The function FocusOnBottom has been selected";
         return true;
     }
@@ -303,14 +258,6 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.BlackButton();
         functionPrompt = "Background set to Black";
-        return true;
-    }
-
-    // Method to show cloud instances 
-    public static bool ShowHideAllInstancesInCloud()
-    {
-        cloudControllerLLM.ShowInstanceUI();
-        functionPrompt = "The function ShowAllInstancesInCloud has been selected";
         return true;
     }
     
