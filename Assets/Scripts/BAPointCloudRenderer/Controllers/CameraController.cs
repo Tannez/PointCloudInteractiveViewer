@@ -29,23 +29,23 @@ namespace BAPointCloudRenderer.Controllers {
         [Header("Class Camera Positions")]
         // Class 1 Terrain
         [SerializeField] private Vector3 class1CamPosition = new Vector3(-1.18f, 5.32f, 11.12f);
-        [SerializeField] private Vector2 class1CamOrientation = new Vector2(29.5f, 112.75f);
+        [SerializeField] private Vector3 class1CamOrientation = new Vector3(29.5f, 112.75f, 0.0f);
 
         // Class 2 Top
         [SerializeField] private Vector3 class2CamPosition = new Vector3(2.31f, -0.23f, 10.05f);
-        [SerializeField] private Vector2 class2CamOrientation = new Vector2(0.5f, 136.0f);
+        [SerializeField] private Vector3 class2CamOrientation = new Vector3(0.5f, 136.0f, 0.0f);
         
         // Class 3 Walls
         [SerializeField] private Vector3 class3CamPosition = new Vector3(0.27f, -0.46f, 5.58f);
-        [SerializeField] private Vector2 class3CamOrientation = new Vector2(12.5f, 65.75f);
+        [SerializeField] private Vector3 class3CamOrientation = new Vector3(12.5f, 65.75f, 0.0f);
 
         // Class 4 Tech
         [SerializeField] private Vector3 class4CamPosition = new Vector3(1.35f, -0.42f, 10.91f);
-        [SerializeField] private Vector2 class4CamOrientation = new Vector2(18.25f, 137.75f);
+        [SerializeField] private Vector3 class4CamOrientation = new Vector3(18.25f, 137.75f, 0.0f);
         
         // Class 5 Bottom
         [SerializeField] private Vector3 class5CamPosition = new Vector3(2.58f, -5.65f, 10.07f);
-        [SerializeField] private Vector2 class5CamOrientation = new Vector2(-40.5f, 137.75f);
+        [SerializeField] private Vector3 class5CamOrientation = new Vector3(-40.5f, 137.75f, 0.0f);
         
 
 
