@@ -136,6 +136,8 @@ public class UIInstanceController : MonoBehaviour
     [SerializeField] GameObject PointCloudAssistant;
     public bool LLMMenuActive = false;
 
+    [HideInInspector] public bool clickedWithMouse = false;
+
     void Start()
     {
         // Access Main Camera
@@ -1041,7 +1043,10 @@ public class UIInstanceController : MonoBehaviour
             activeClassInstanceInMenu = cloudClass;
 
             // blink effect 
-            StartBlinking(cloudClass - 1, 2f);
+            if (clickedWithMouse == false)
+            {
+                StartBlinking(cloudClass - 1, 5f);
+            }
         }
         else if (classInstanceUIActive)
         {
@@ -1092,7 +1097,7 @@ public class UIInstanceController : MonoBehaviour
                 GameObject instanceInClass = PCClasses[cloudClass].cloudClassGO.transform.GetChild(i).gameObject;
                 if (instanceInClass.name.StartsWith($"Cloud:"))
                 {
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); // required by BAPointCloud
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); 
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = !PCClasses[cloudClass].getMeshConfigGO.GetComponent<DefaultMeshConfiguration>().prioritiseCloud;
                     instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 }
@@ -1107,7 +1112,7 @@ public class UIInstanceController : MonoBehaviour
             GameObject instanceInClass = PCClasses[cloudClass].cloudClassGO.transform.GetChild(i).gameObject;
             if (instanceInClass.name.StartsWith($"Cloud:"))
             {
-                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); // required by BAPointCloud
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); 
                 instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
             }
@@ -1949,7 +1954,7 @@ public class UIInstanceController : MonoBehaviour
                     classButtons[currentClassInHierarchy].interactable = false;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(false);
                     // Reduce alpha channel
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
+                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
                     // Save color
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
                     // Reload Mesh
@@ -1961,7 +1966,7 @@ public class UIInstanceController : MonoBehaviour
                     classButtons[currentClassInHierarchy].interactable = true;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
                     // Keep alpha channel
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
                     // // Keep point size
                     // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     // Save color 

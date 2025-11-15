@@ -54,6 +54,7 @@ public class CloudInteraction : MonoBehaviour
         {
             selectedClasses = new List<int>();
             selectedInstances = new List<int>();
+            uIInstanceController.clickedWithMouse = true;
 
             if (IsPointerOverUI())
             {
@@ -179,12 +180,13 @@ public class CloudInteraction : MonoBehaviour
                 }
             }  
         }
+        uIInstanceController.clickedWithMouse = false;
     }
 
     private void ShowClickedCloud(int cloudClass, int cloudInstance)
     {
         // IF CLASS INSTANCE UI HAS NOT BEEN OPENED: OPEN IT AND MARK INSTANCE IN CLASS
-        if (uIInstanceController.classInstanceUIActive == false)
+        if (uIInstanceController.classInstanceUIActive == false && uIInstanceController.clickedWithMouse == true)
         {
             uIInstanceController.ShowClassInstanceUI(cloudClass);
             uIInstanceController.cloudClassInstanceMouseSelection(cloudClass, cloudInstance);
@@ -193,7 +195,7 @@ public class CloudInteraction : MonoBehaviour
 
         // IF CLASS INSTANCE UI IS OPEN: CHECK INSTANCE STATUS
         // IF INSTANCE SELECTED WHILE OTHER INSTANCE IS ACTIVE
-        else if (uIInstanceController.classInstanceUIActive == true && uIInstanceController.classInstanceSelected.Contains(true))
+        else if (uIInstanceController.classInstanceUIActive == true && uIInstanceController.classInstanceSelected.Contains(true) && uIInstanceController.clickedWithMouse == true)
         {
             // MARK INSTANCE
             uIInstanceController.cloudClassInstanceMouseSelection(uIInstanceController.activeClassInstanceInMenu, cloudInstance);
