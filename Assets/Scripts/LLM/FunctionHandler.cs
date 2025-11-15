@@ -154,6 +154,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.ShowClassInstanceUI(1);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
+        cloudControllerLLM.ZoomToClass(1);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "The function FocusOnTerrain has been selected";
         return true;
@@ -162,6 +163,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.ShowClassInstanceUI(2);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
+        cloudControllerLLM.ZoomToClass(2);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "The function FocusOnTop has been selected";
         return true;
@@ -170,6 +172,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.ShowClassInstanceUI(3);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
+        cloudControllerLLM.ZoomToClass(3);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "The function FocusOnWalls has been selected";
         return true;
@@ -178,6 +181,8 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.ShowClassInstanceUI(4);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
+        cloudControllerLLM.ZoomToClass(4);
+        cloudControllerLLM.classToggles[2].isOn = !cloudControllerLLM.classToggles[2].isOn;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "The function FocusOnTech has been selected";
         return true;
@@ -186,6 +191,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.ShowClassInstanceUI(5);
         cloudControllerLLM.keyboardShotcutsEnabled = true;
+        cloudControllerLLM.ZoomToClass(5);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "The function FocusOnBottom has been selected";
         return true;
@@ -195,8 +201,9 @@ public class PCLLMFunctions : CloudControllerLLM
     public static bool UnFocusAll()
     {
         cloudControllerLLM.ResetSelection();
+        cloudControllerLLM.ZoomToDefault();
+        cloudControllerLLM.ResetClassToggles();
         cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "The function UnFocusAll has been selected";
         return true;
     }

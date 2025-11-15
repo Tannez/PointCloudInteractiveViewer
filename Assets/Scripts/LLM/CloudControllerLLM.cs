@@ -9,11 +9,13 @@ using NUnit.Framework.Internal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using BAPointCloudRenderer.Controllers;
 
 public class CloudControllerLLM : MonoBehaviour
 {
     //Cam Access
     Camera cam;
+    CameraController camcontrol;
 
     //Reference to pointcloud gameobject and its script
     [Header("Cloud Instantiation Components")]
@@ -116,6 +118,7 @@ public class CloudControllerLLM : MonoBehaviour
     {
         // Access Main Camera
         cam = Camera.main;
+        camcontrol = cam.GetComponent<CameraController>();
 
         // Get Cloud objects
         directoryInstanceLoaderLLM = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryInstanceLoaderLLM>();
@@ -279,7 +282,7 @@ public class CloudControllerLLM : MonoBehaviour
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
             }
         }
-        //Debug.Log($"Cloud: {CloudToHide} is hidden");
+        //Debug.Log($"Cloud: {CloudToHide + 1} is hidden");
     }
     public void ShowPCClass(int CloudToShow)
     {
@@ -947,6 +950,7 @@ public class CloudControllerLLM : MonoBehaviour
         blinkRoutine = null;
     }
 
+    // Method that hides the class instance ui and deprioritises all point clouds
     public void ResetSelection()
     {
         if (classInstanceUIActive)
@@ -1952,4 +1956,14 @@ public class CloudControllerLLM : MonoBehaviour
         }
         yield return null;
     } 
+
+    // Method for positioning camerea to individual classes (class int over 0 as it does not uses indecies)
+    public void ZoomToClass(int cloudClass)
+    {
+        camcontrol.CameraClassTranslation(cloudClass);
+    }
+    public void ZoomToDefault()
+    {
+        camcontrol.MoveToDefaultPosition();
+    }
 }
