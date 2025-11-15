@@ -110,6 +110,8 @@ public class CloudControllerLLM : MonoBehaviour
 
     [HideInInspector] public int availableInstancesInClass = 0;
 
+    [HideInInspector] public bool clickedWithMouse = false;
+
     void Start()
     {
         // Access Main Camera
@@ -866,7 +868,10 @@ public class CloudControllerLLM : MonoBehaviour
             activeClassInstanceInMenu = cloudClass;
 
             // blink effect 
-            StartBlinking(cloudClass - 1, 5f);
+            if (clickedWithMouse == false)
+            {
+                StartBlinking(cloudClass - 1, 5f);
+            }
         }
         else if (classInstanceUIActive)
         {
@@ -1766,7 +1771,7 @@ public class CloudControllerLLM : MonoBehaviour
                     classButtons[currentClassInHierarchy].interactable = false;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(false);
                     // Reduce alpha channel
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
+                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
                     // Save color
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
                     // Reload Mesh
@@ -1778,7 +1783,7 @@ public class CloudControllerLLM : MonoBehaviour
                     classButtons[currentClassInHierarchy].interactable = true;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
                     // Keep alpha channel
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
                     // Keep point size
                     // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     // Save color 
