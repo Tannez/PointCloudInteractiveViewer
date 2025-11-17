@@ -47,8 +47,10 @@ namespace BAPointCloudRenderer.Controllers {
         // Class 5 Bottom
         [SerializeField] private Vector3 class5CamPosition = new Vector3(2.58f, -5.65f, 10.07f);
         [SerializeField] private Vector3 class5CamOrientation = new Vector3(-40.5f, 137.75f, 0.0f);
-        
 
+        // Exploded View
+        [SerializeField] private Vector3 ExplodedPosition = new Vector3(-8.85076523f, 9.89685631f, 6.88709688f);
+        [SerializeField] private Vector3 ExplodedOrientation = new Vector3(18, 82.75f, 0);
 
         void Start() {
             //Hide the cursor
@@ -106,9 +108,7 @@ namespace BAPointCloudRenderer.Controllers {
             if (movingCamera == false)
             {
                 CameraControlMovement();
-            }
-            
-            
+            }   
         }
 
         public void CameraControlMovement()
@@ -140,7 +140,7 @@ namespace BAPointCloudRenderer.Controllers {
         }
         public void CameraClassTranslation(int ZoomToClass)
         {
-            if (ZoomToClass == 1)
+            if (ZoomToClass == 1) // Terrain
             {
                 movingCamera = true;
                 Camera.main.transform.position = class1CamPosition;
@@ -151,7 +151,7 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
-            if (ZoomToClass == 2)
+            if (ZoomToClass == 2) // Top
             {
                 movingCamera = true;
                 Camera.main.transform.position = class2CamPosition;
@@ -162,7 +162,7 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
-            if (ZoomToClass == 3)
+            if (ZoomToClass == 3) // Walls
             {
                 movingCamera = true;
                 Camera.main.transform.position = class3CamPosition;
@@ -173,7 +173,7 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
-            if (ZoomToClass == 4)
+            if (ZoomToClass == 4) // Tech
             {
                 movingCamera = true;
                 Camera.main.transform.position = class4CamPosition;
@@ -184,7 +184,7 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
-            if (ZoomToClass == 5)
+            if (ZoomToClass == 5) // Bottom
             {
                 movingCamera = true;
                 Camera.main.transform.position = class5CamPosition;
@@ -195,15 +195,29 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
+            if (ZoomToClass == 6) // Explode View
+            {
+                movingCamera = true;
+                Camera.main.transform.position = ExplodedPosition;
+                currentCamPosition = ExplodedPosition;
+                pitch = ExplodedOrientation.x;
+                yaw = ExplodedOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
         }
 
         public void MoveToDefaultPosition()
         {
+            movingCamera = true;
             Camera.main.transform.position = setResetPosition;
             currentCamPosition = setResetPosition;
             // Camera.main.transform.eulerAngles = new Vector3(20.75f, 53.5f, 0f);
             pitch = setResetAngle.x;
             yaw = setResetAngle.y;
+            transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+            movingCamera = false;
         }
     }
 

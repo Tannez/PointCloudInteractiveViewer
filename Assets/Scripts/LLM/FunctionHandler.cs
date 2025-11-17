@@ -33,8 +33,39 @@ public class PCLLMFunctions : CloudControllerLLM
 
     public static string functionPrompt = "";
     private static int currentFocus = 0; // 0 = no class focused
+    private static bool activePBMenu = false;
+    private static bool activeEDLMenu = false;
+    private static bool activeExpViewMenu = false;
+    private static bool EDLIsActive = true;
 
-    // Test Methods providing randomly generated results within string reply
+    // Method to show or hide the Point Budget Control Menu 
+    public static bool PointBudgetControl()
+    {
+        cloudControllerLLM.PointBudgetMenu.SetActive(!activePBMenu);
+        activePBMenu = !activePBMenu;
+        functionPrompt = "The function PointBudgetControl has been selected";
+        return true;
+    }
+
+    // Method to show or hide EDL Control Menu 
+    public static bool EDLControl()
+    {
+        cloudControllerLLM.EDLMenu.SetActive(!activeEDLMenu);
+        activeEDLMenu = !activeEDLMenu;
+        functionPrompt = "The function EDLControl has been selected";
+        return true;
+    }
+
+    // Method to turn EDL on or off directly 
+    public static bool EDLOnOff()
+    {
+        cloudControllerLLM.EDLToggle.isOn = !EDLIsActive;
+        EDLIsActive = !EDLIsActive;
+        functionPrompt = "The function EDLOnOff has been selected";
+        return true;
+    }
+
+    // Methods to hide or show a specific class by name
     // static System.Random random = new System.Random();
     // public static string PointBudget()
     // {
@@ -261,8 +292,9 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ResetSelection();
         cloudControllerLLM.ZoomToDefault();
         cloudControllerLLM.ResetClassToggles();
+        cloudControllerLLM.ExplodedViewSlider.value = 0;
         cloudControllerLLM.keyboardShotcutsEnabled = true;
-        functionPrompt = "The function UnFocusAll has been selected";
+        functionPrompt = "The function ResetClassFocus has been selected";
         return true;
     }
 
@@ -323,6 +355,24 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.BlackButton();
         functionPrompt = "Background set to Black";
+        return true;
+    }
+    
+    // Method to show or hide Exploded View Control Menu 
+    public static bool ExplodedViewController()
+    {
+        cloudControllerLLM.ExplodedViewMenu.SetActive(!activeExpViewMenu);
+        activeExpViewMenu = !activeExpViewMenu;
+        functionPrompt = "The function ExplodedViewController has been selected";
+        return true;
+    }
+
+    // Method to set Exploded View Slider value to specific value with a set camera position to quickly "explode" the point cloud
+    public static bool ExplodePointCloud()
+    {
+        currentFocus = 6;
+        cloudControllerLLM.ExplodedViewSlider.value = 16;
+        cloudControllerLLM.ZoomToClass(currentFocus);
         return true;
     }
     

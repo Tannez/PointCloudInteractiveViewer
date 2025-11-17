@@ -35,6 +35,7 @@ public class CloudControllerLLM : MonoBehaviour
 
     //UI Inspector Components
     [Header("Point Budget")]
+    [SerializeField] public GameObject PointBudgetMenu;
     [SerializeField] public uint PCPointBudget;
     [SerializeField] public float EDLRadiusUI { get { return edlCamera._edlRadius; } set { edlCamera._edlRadius = EDLRadiusSlider.value; } }
     [SerializeField] public float EDLExpScaleUI { get { return edlCamera._edlExpScale; } set { edlCamera._edlExpScale = EDLExpScaleSlider.value; } }
@@ -48,8 +49,9 @@ public class CloudControllerLLM : MonoBehaviour
     [SerializeField] private GameObject EDLExpScaleSliderParent;
 
     [Header("EDL Components")]
+    [SerializeField] public GameObject EDLMenu;
     [SerializeField] private EdlCamera edlCamera;
-    [SerializeField] private Toggle EDLToggle;
+    [SerializeField] public Toggle EDLToggle;
     [SerializeField] private Slider EDLRadiusSlider;
     [SerializeField] private TextMeshProUGUI EDLRadiusSliderText;
     [SerializeField] private Slider EDLExpScaleSlider;
@@ -82,7 +84,8 @@ public class CloudControllerLLM : MonoBehaviour
     [SerializeField] public TMP_Dropdown colorModeDropDown;
 
     [Header("Exploded View Control")]
-    [SerializeField] private Slider ExplodedViewSlider;
+    [SerializeField] public GameObject ExplodedViewMenu;
+    [SerializeField] public Slider ExplodedViewSlider;
 
     // selection mode variables
     [Header("Class Buttons")]
@@ -1957,7 +1960,7 @@ public class CloudControllerLLM : MonoBehaviour
         yield return null;
     } 
 
-    // Method for positioning camerea to individual classes (class int over 0 as it does not uses indecies)
+    // Method for positioning camerea to individual classes (class int over 0 as it does not use indecies)
     public void ZoomToClass(int cloudClass)
     {
         camcontrol.CameraClassTranslation(cloudClass);
