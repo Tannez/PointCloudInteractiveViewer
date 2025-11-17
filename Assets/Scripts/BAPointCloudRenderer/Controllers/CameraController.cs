@@ -13,6 +13,9 @@ namespace BAPointCloudRenderer.Controllers {
         [SerializeField] CloudControllerLLM cloudControllerLLM; // Use this if LLM scene 
         public bool MouseClickOnScene = true;
 
+        // Current Position
+        private Vector3 currentCamPosition;
+        private bool movingCamera = false;
         //Current yaw
         private float yaw = 0.0f;
         //Current pitch
@@ -100,6 +103,16 @@ namespace BAPointCloudRenderer.Controllers {
         void FixedUpdate()
         {
             //React to controls. (WASD, EQ and Mouse)
+            if (movingCamera == false)
+            {
+                CameraControlMovement();
+            }
+            
+            
+        }
+
+        public void CameraControlMovement()
+        {
             if (MouseClickOnScene)
             {
                 float moveHorizontal = Input.GetAxis("Horizontal");
@@ -125,88 +138,72 @@ namespace BAPointCloudRenderer.Controllers {
                 transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
             }
         }
-
         public void CameraClassTranslation(int ZoomToClass)
         {
             if (ZoomToClass == 1)
             {
-                MouseClickOnScene = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                movingCamera = true;
                 Camera.main.transform.position = class1CamPosition;
+                currentCamPosition = class1CamPosition;
                 pitch = class1CamOrientation.x;
                 yaw = class1CamOrientation.y;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                MouseClickOnScene = false;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
                 return;
             }
             if (ZoomToClass == 2)
             {
-                MouseClickOnScene = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                movingCamera = true;
                 Camera.main.transform.position = class2CamPosition;
+                currentCamPosition = class2CamPosition;
                 pitch = class2CamOrientation.x;
                 yaw = class2CamOrientation.y;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                MouseClickOnScene = false;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
                 return;
             }
             if (ZoomToClass == 3)
             {
-                MouseClickOnScene = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                movingCamera = true;
                 Camera.main.transform.position = class3CamPosition;
+                currentCamPosition = class3CamPosition;
                 pitch = class3CamOrientation.x;
                 yaw = class3CamOrientation.y;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                MouseClickOnScene = false;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
                 return;
             }
             if (ZoomToClass == 4)
             {
-                MouseClickOnScene = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                movingCamera = true;
                 Camera.main.transform.position = class4CamPosition;
+                currentCamPosition = class4CamPosition;
                 pitch = class4CamOrientation.x;
                 yaw = class4CamOrientation.y;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                MouseClickOnScene = false;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
                 return;
             }
             if (ZoomToClass == 5)
             {
-                MouseClickOnScene = true;
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                movingCamera = true;
                 Camera.main.transform.position = class5CamPosition;
+                currentCamPosition = class5CamPosition;
                 pitch = class5CamOrientation.x;
                 yaw = class5CamOrientation.y;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                MouseClickOnScene = false;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
                 return;
             }
         }
 
         public void MoveToDefaultPosition()
         {
-            MouseClickOnScene = true;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
             Camera.main.transform.position = setResetPosition;
+            currentCamPosition = setResetPosition;
             // Camera.main.transform.eulerAngles = new Vector3(20.75f, 53.5f, 0f);
             pitch = setResetAngle.x;
             yaw = setResetAngle.y;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            MouseClickOnScene = false;
         }
     }
 

@@ -32,6 +32,7 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     public static string functionPrompt = "";
+    private static int currentFocus = 0; // 0 = no class focused
 
     // Test Methods providing randomly generated results within string reply
     // static System.Random random = new System.Random();
@@ -152,16 +153,39 @@ public class PCLLMFunctions : CloudControllerLLM
     // Class Button Selection Methods. Prioritize a specific class and return the instance count for the selected class
     public static bool FocusOnTerrain()
     {
-        cloudControllerLLM.ShowClassInstanceUI(1);
+        if (currentFocus == 0)
+        {
+            currentFocus = 1;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            cloudControllerLLM.ResetClassToggles();
+            currentFocus = 1;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(1);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "The function FocusOnTerrain has been selected";
         return true;
+        
     }
     public static bool FocusOnTop()
     {
-        cloudControllerLLM.ShowClassInstanceUI(2);
+        if (currentFocus == 0)
+        {
+            currentFocus = 2;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            cloudControllerLLM.ResetClassToggles();
+            currentFocus = 2;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(2);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
@@ -170,7 +194,18 @@ public class PCLLMFunctions : CloudControllerLLM
     }
     public static bool FocusOnWalls()
     {
-        cloudControllerLLM.ShowClassInstanceUI(3);
+        if (currentFocus == 0)
+        {
+            currentFocus = 3;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            cloudControllerLLM.ResetClassToggles();
+            currentFocus = 3;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(3);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
@@ -179,7 +214,18 @@ public class PCLLMFunctions : CloudControllerLLM
     }
     public static bool FocusOnTech()
     {
-        cloudControllerLLM.ShowClassInstanceUI(4);
+        if (currentFocus == 0)
+        {
+            currentFocus = 4;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            cloudControllerLLM.ResetClassToggles();
+            currentFocus = 4;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(4);
         cloudControllerLLM.classToggles[2].isOn = !cloudControllerLLM.classToggles[2].isOn;
@@ -189,7 +235,18 @@ public class PCLLMFunctions : CloudControllerLLM
     }
     public static bool FocusOnBottom()
     {
-        cloudControllerLLM.ShowClassInstanceUI(5);
+        if (currentFocus == 0)
+        {
+            currentFocus = 5;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            cloudControllerLLM.ResetClassToggles();
+            currentFocus = 5;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(5);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
@@ -198,8 +255,9 @@ public class PCLLMFunctions : CloudControllerLLM
     }
     
     // Method to reset the focus call, in case LLM won't call other focus functions
-    public static bool UnFocusAll()
+    public static bool ResetClassFocus()
     {
+        currentFocus = 0;
         cloudControllerLLM.ResetSelection();
         cloudControllerLLM.ZoomToDefault();
         cloudControllerLLM.ResetClassToggles();
@@ -268,7 +326,7 @@ public class PCLLMFunctions : CloudControllerLLM
         return true;
     }
     
-    // Method to reset function handler
+    // Method to reset function handler and let LLM engage in Conversation
     public static bool Conversation()
     {
         functionPrompt = "The function Conversation has been selected";
