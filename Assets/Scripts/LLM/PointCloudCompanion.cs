@@ -142,8 +142,13 @@ namespace LLMPCCompanionBubble
 
             if (applyFunction.Item1 == true)
             {
+                // Test function call
                 aiBubble.SetText(applyFunction.Item2 + ". \nReady for next input.");
                 AllowInput();
+
+                // Tell LLM what function has been called - not working 
+                // Send string to the LLM 
+                // SendChatMessage("You have made the following decision: " + applyFunction.Item2 + ". Inform the user what manipulation you have done on the point cloud.");
                 return;
             }
 
@@ -152,7 +157,7 @@ namespace LLMPCCompanionBubble
             // // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
             // await llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
 
-            // Send string to the LLM (without context)
+            // Send string to the LLM 
             Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
         }
         
@@ -239,6 +244,27 @@ namespace LLMPCCompanionBubble
                     lastBubbleOutsideFOV = -1;
                 }
             }
+        }
+
+        // Method for mouse click selection to inform llm of user interaction
+        public void SendChatMessage(string clickMessage)
+        {
+            // shutdown interaction in the input field
+            if (blockInput || clickMessage.Trim() == "" || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                StartCoroutine(BlockInteraction());
+                return;
+            }
+            blockInput = true;
+
+            // Create a temporary bubble to show that the LLM is loading its response
+            BubbleUICreate aiBubble = AddBubble("thinking...", false);
+
+            // replace vertical_tab
+            string message = clickMessage.Replace("\v", "\n");
+
+            // Send string to the LLM 
+            Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
         }
 
         public void ExitGame()

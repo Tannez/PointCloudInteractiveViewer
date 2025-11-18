@@ -43,7 +43,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.PointBudgetMenu.SetActive(!activePBMenu);
         activePBMenu = !activePBMenu;
-        functionPrompt = "The function PointBudgetControl has been selected";
+        functionPrompt = "The Point Budget Control Menu is now active";
         return true;
     }
 
@@ -52,7 +52,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.EDLMenu.SetActive(!activeEDLMenu);
         activeEDLMenu = !activeEDLMenu;
-        functionPrompt = "The function EDLControl has been selected";
+        functionPrompt = "The EDL Control Menu is now active";
         return true;
     }
 
@@ -61,7 +61,20 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.EDLToggle.isOn = !EDLIsActive;
         EDLIsActive = !EDLIsActive;
-        functionPrompt = "The function EDLOnOff has been selected";
+        functionPrompt = "The EDL Toggle has been set to " + EDLIsActive;
+        return true;
+    }
+
+    // Method to hide the active menu
+    public static bool HideActiveControlMenu()
+    {
+        cloudControllerLLM.PointBudgetMenu.SetActive(false);
+        activePBMenu = false;
+        cloudControllerLLM.EDLMenu.SetActive(false);
+        activeEDLMenu = false;
+        cloudControllerLLM.ExplodedViewMenu.SetActive(false);
+        activeExpViewMenu = false;
+        functionPrompt = "The active control menu has been turned off.";
         return true;
     }
 
@@ -92,7 +105,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Terrain Point Cloud Class (class 1) has been hidden";
-        functionPrompt = "The function HideTerrain has been selected";
+        functionPrompt = "Class 1 (Terrain) is now hidden.";
         return true;
     }
     public static bool ShowTerrain()
@@ -101,7 +114,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Terrain Point Cloud Class (class 1) is visible again";
-        functionPrompt = "The function ShowTerrain has been selected";
+        functionPrompt = "Class 1 (Terrain) is now visible.";
         return true;
     }
     // Top
@@ -111,7 +124,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Top Point Cloud Class (class 2) has been hidden";
-        functionPrompt = "The function HideTop has been selected";
+        functionPrompt = "Class 2 (Top) is now hidden.";
         return true;
     }
     public static bool ShowTop()
@@ -120,7 +133,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Top Point Cloud Class (class 2) is visible again";
-        functionPrompt = "The function ShowTop has been selected";
+        functionPrompt = "Class 2 (Top) is now visible.";
         return true;
     }
     // Walls
@@ -130,7 +143,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Walls Point Cloud Class (class 3) has been hidden";
-        functionPrompt = "The function HideWalls has been selected";
+        functionPrompt = "Class 3 (Walls) is now hidden.";
         return true;
     }
     public static bool ShowWalls()
@@ -139,7 +152,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Walls Point Cloud Class (class 3) is visible again";
-        functionPrompt = "The function ShowWalls has been selected";
+        functionPrompt = "Class 3 (Walls) is now visible.";
         return true;
     }
     // Tech
@@ -149,7 +162,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Tech Point Cloud Class (class 4) has been hidden";
-        functionPrompt = "The function HideTech has been selected";
+        functionPrompt = "Class 4 (Tech) is now hidden.";
         return true;
     }
     public static bool ShowTech()
@@ -158,7 +171,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Tech Point Cloud Class (class 4) is visible again";
-        functionPrompt = "The function ShowTech has been selected";
+        functionPrompt = "Class 4 (Tech) is now visible.";
         return true;
     }
     // Bottom
@@ -168,7 +181,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Bottom Point Cloud Class (class 5) has been hidden";
-        functionPrompt = "The function HideBottom has been selected";
+        functionPrompt = "Class 5 (Bottom) is now hidden.";
         return true;
     }
     public static bool ShowBottom()
@@ -177,7 +190,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "The Bottom Point Cloud Class (class 5) is visible again";
-        functionPrompt = "The function ShowBottom has been selected";
+        functionPrompt = "Class 5 (Bottom) is now visible.";
         return true;
     }
 
@@ -188,6 +201,7 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 1;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 1 (Terrain) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -195,11 +209,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 1;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 1 (Terrain) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(1);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        functionPrompt = "The function FocusOnTerrain has been selected";
         return true;
         
     }
@@ -209,6 +223,7 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 2;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 2 (Top) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -216,11 +231,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 2;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 2 (Top) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(2);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        functionPrompt = "The function FocusOnTop has been selected";
         return true;
     }
     public static bool FocusOnWalls()
@@ -229,6 +244,7 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 3;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 3 (Walls) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -236,11 +252,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 3;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 3 (Walls) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(3);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        functionPrompt = "The function FocusOnWalls has been selected";
         return true;
     }
     public static bool FocusOnTech()
@@ -249,6 +265,7 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 4;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 4 (Tech) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -256,12 +273,12 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 4;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 4 (Tech) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(4);
         cloudControllerLLM.classToggles[2].isOn = !cloudControllerLLM.classToggles[2].isOn;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        functionPrompt = "The function FocusOnTech has been selected";
         return true;
     }
     public static bool FocusOnBottom()
@@ -270,6 +287,7 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 5;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 5 (Bottom) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -277,11 +295,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 5;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            functionPrompt = "Class 5 (Bottom) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(5);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        functionPrompt = "The function FocusOnBottom has been selected";
         return true;
     }
     
@@ -294,7 +312,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ResetClassToggles();
         cloudControllerLLM.ExplodedViewSlider.value = 0;
         cloudControllerLLM.keyboardShotcutsEnabled = true;
-        functionPrompt = "The function ResetClassFocus has been selected";
+        functionPrompt = "I have reset all adjustments to the point cloud.";
         return true;
     }
 
@@ -316,7 +334,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their RGBA values";
-        functionPrompt = "The function RGBAColorMode has been selected";
+        functionPrompt = "I have colored the point cloud based on point RGB values.";
         return true;
     }
     public static bool ClassificationColorMode()
@@ -325,7 +343,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their classification";
-        functionPrompt = "The function ClassificationColorMode has been selected";
+        functionPrompt = "I have colored the point cloud based on point classification.";
         return true;
     }
     public static bool IntensityColorMode()
@@ -334,7 +352,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their Intensity values";
-        functionPrompt = "The function IntensityColorMode has been selected";
+        functionPrompt = "I have colored the point cloud based on point intensity.";
         return true;
     }
 
@@ -342,19 +360,19 @@ public class PCLLMFunctions : CloudControllerLLM
     public static bool SetBackgroundSkybox()
     {
         cloudControllerLLM.SkyBoxButton();
-        functionPrompt = "Background set to Skybox";
+        functionPrompt = "The Background has been set to 'Skybox'.";
         return true;
     }
     public static bool SetBackgroundWhite()
     {
         cloudControllerLLM.WhiteButton();
-        functionPrompt = "Background set to White";
+        functionPrompt = "The Background has been set to 'White'.";
         return true;
     }
     public static bool SetBackgroundBlack()
     {
         cloudControllerLLM.BlackButton();
-        functionPrompt = "Background set to Black";
+        functionPrompt = "The Background has been set to 'Black'.";
         return true;
     }
     
@@ -363,7 +381,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.ExplodedViewMenu.SetActive(!activeExpViewMenu);
         activeExpViewMenu = !activeExpViewMenu;
-        functionPrompt = "The function ExplodedViewController has been selected";
+        functionPrompt = "The menu for exploded view should now be active. \nadjust the slider to separate classes along the y-axis.";
         return true;
     }
 
@@ -373,6 +391,7 @@ public class PCLLMFunctions : CloudControllerLLM
         currentFocus = 6;
         cloudControllerLLM.ExplodedViewSlider.value = 16;
         cloudControllerLLM.ZoomToClass(currentFocus);
+        functionPrompt = "I have 'exploded' the point cloud.";
         return true;
     }
     

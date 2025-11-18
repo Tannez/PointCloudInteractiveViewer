@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System.Linq;
 using BAPointCloudRenderer.Loading;
+using LLMPCCompanionBubble;
 
 public class MouseClickClouds : MonoBehaviour
 {
@@ -27,6 +28,25 @@ public class MouseClickClouds : MonoBehaviour
                 Debug.LogWarning("PointCloudController not found in scene!");
 
             return _cloudControllerLLM;
+        }
+    }
+
+    private static PointCloudCompanion _pointCloudCompanion;
+    private static PointCloudCompanion pointCloudCompanion
+    {
+        get
+        {
+            // If already cached and still valid, return it
+            if (_pointCloudCompanion != null)
+                return _pointCloudCompanion;
+
+            // Otherwise, find it in the scene and cache it
+            _pointCloudCompanion = FindFirstObjectByType<PointCloudCompanion>();
+
+            if (_pointCloudCompanion == null)
+                Debug.LogWarning("PointCloudCompanion not found in scene!");
+
+            return _pointCloudCompanion;
         }
     }
 
@@ -223,6 +243,8 @@ public class MouseClickClouds : MonoBehaviour
         {
             cloudControllerLLM.ShowClassInstanceUI(cloudClass);
             cloudControllerLLM.cloudClassInstanceMouseSelection(cloudClass, cloudInstance);
+            string clickPrompt = "User has clicked on cloud class: " + cloudClass + " instance: " + cloudInstance + ". Let them know what cloud they have currently selected, and tell them that the menu on the right lets them control all instances in class: " + cloudClass + ".";
+            pointCloudCompanion.SendChatMessage(clickPrompt);
             return;
         }
 
