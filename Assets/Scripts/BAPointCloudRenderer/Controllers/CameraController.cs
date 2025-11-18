@@ -12,6 +12,7 @@ namespace BAPointCloudRenderer.Controllers {
         [SerializeField] UIInstanceController uIInstanceController; // Use this if not LLM scene 
         [SerializeField] CloudControllerLLM cloudControllerLLM; // Use this if LLM scene 
         public bool MouseClickOnScene = true;
+        public bool withLLM = true;
 
         // Current Position
         private Vector3 currentCamPosition;
@@ -95,11 +96,11 @@ namespace BAPointCloudRenderer.Controllers {
                 Cursor.visible = true;
             }
 
-            //if (uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space")) // Use this if not LLM scene 
-            if (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space")) // Use this if LLM scene 
+
+            if ((uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space") && withLLM == false) || (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space") && withLLM == true)) // Use this if not LLM scene 
             {
                 MoveToDefaultPosition();
-            }     
+            }  
         }
 
         void FixedUpdate()

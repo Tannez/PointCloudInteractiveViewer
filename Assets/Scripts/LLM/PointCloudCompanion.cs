@@ -143,7 +143,7 @@ namespace LLMPCCompanionBubble
             if (applyFunction.Item1 == true)
             {
                 // Test function call
-                aiBubble.SetText(applyFunction.Item2 + ". \nReady for next input.");
+                aiBubble.SetText(applyFunction.Item2 + " \nReady for next input.");
                 AllowInput();
 
                 // Tell LLM what function has been called - not working 

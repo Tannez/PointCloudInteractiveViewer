@@ -201,7 +201,6 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 1;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 1 (Terrain) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -209,11 +208,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 1;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 1 (Terrain) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(1);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+        functionPrompt = "Class 1 (Terrain) has been prioritiesed.";
         return true;
         
     }
@@ -223,7 +222,6 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 2;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 2 (Top) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -231,11 +229,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 2;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 2 (Top) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(2);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+        functionPrompt = "Class 2 (Top) has been prioritiesed.";
         return true;
     }
     public static bool FocusOnWalls()
@@ -244,7 +242,6 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 3;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 3 (Walls) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -252,11 +249,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 3;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 3 (Walls) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(3);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+        functionPrompt = "Class 3 (Walls) has been prioritiesed.";
         return true;
     }
     public static bool FocusOnTech()
@@ -265,7 +262,6 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 4;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 4 (Tech) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -273,12 +269,12 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 4;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 4 (Tech) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(4);
         cloudControllerLLM.classToggles[2].isOn = !cloudControllerLLM.classToggles[2].isOn;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+        functionPrompt = "Class 4 (Tech) has been prioritiesed.";
         return true;
     }
     public static bool FocusOnBottom()
@@ -287,7 +283,6 @@ public class PCLLMFunctions : CloudControllerLLM
         {
             currentFocus = 5;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 5 (Bottom) has been prioritiesed. Class Instance Menu is now open on the right.";
         }
         else
         {
@@ -295,11 +290,11 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ResetClassToggles();
             currentFocus = 5;
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
-            functionPrompt = "Class 5 (Bottom) has been unprioritiesed. Class Instance Menu is now closed.";
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(5);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+        functionPrompt = "Class 5 (Bottom) has been prioritiesed.";
         return true;
     }
     
