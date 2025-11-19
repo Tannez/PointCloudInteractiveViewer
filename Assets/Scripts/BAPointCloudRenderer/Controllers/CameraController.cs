@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using NUnit.Framework.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -122,6 +121,15 @@ namespace BAPointCloudRenderer.Controllers {
                 float moveUp = Input.GetKey(KeyCode.E) ? 1 : Input.GetKey(KeyCode.Q) ? -1 : 0;
 
                 float speed = normalSpeed;
+
+                if (Input.mouseScrollDelta.y > 0)
+                {
+                    transform.Translate(new Vector3(0, 0, 10 * normalSpeed * Time.deltaTime));
+                }
+                else if (Input.mouseScrollDelta.y < 0)
+                {
+                    transform.Translate(new Vector3(0, 0, -10 * normalSpeed * Time.deltaTime));
+                }
 
                 if (Input.GetKey(KeyCode.C))
                 {
