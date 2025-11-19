@@ -611,15 +611,15 @@ public class UIInstanceController : MonoBehaviour
 
             // Reset Selects
             UnSelectOnConversion();
-
+                      
             // Remove Clouds
-            StartCoroutine(StopLoadingClouds());
+            //StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             RGBConversion();
 
             //Enable Clouds
-            StartCoroutine(StartLoadingClouds());
+            //StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 1)
@@ -630,13 +630,13 @@ public class UIInstanceController : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            StartCoroutine(StopLoadingClouds());
+            //StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             ClassificationConversion();
 
             //Enable Clouds
-            StartCoroutine(StartLoadingClouds());
+            //StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 2)
@@ -647,13 +647,13 @@ public class UIInstanceController : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            StartCoroutine(StopLoadingClouds());
+            //StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             IntensityConversion();
 
             //Enable Clouds
-            StartCoroutine(StartLoadingClouds());
+            //StartCoroutine(StartLoadingClouds());
         }
     }
 
@@ -1847,7 +1847,7 @@ public class UIInstanceController : MonoBehaviour
     {
         if (!instanceUIActive)
         {
-            for (int i = 1; i < PCClasses.Count; i++)
+            for (int i = 1; i <= PCClasses.Count; i++)
             {
                 StartCoroutine(UnSelectCloudClass(i));
             }
@@ -2103,7 +2103,7 @@ public class UIInstanceController : MonoBehaviour
                 }
             }
         }
-        yield return null;
+        yield return new WaitForSeconds(2);;
     }
 
     // Coroutine to start loading point clouds 
@@ -2126,7 +2126,7 @@ public class UIInstanceController : MonoBehaviour
                 }
             }
         }
-        yield return null;
+        yield return new WaitForSeconds(2);
     }
 
 }
