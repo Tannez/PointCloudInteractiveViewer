@@ -39,6 +39,10 @@ public class PCLLMFunctions : CloudControllerLLM
     private static bool EDLIsActive = true;
 
     // Method to show or hide the Point Budget Control Menu 
+    /// <summary>
+    /// This function opens up a menu for the user to control the point budget of all point clouds, using a slider from 0 to 1000000.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool PointBudgetControl()
     {
         cloudControllerLLM.PointBudgetMenu.SetActive(!activePBMenu);
@@ -48,6 +52,14 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     // Method to show or hide EDL Control Menu 
+    /// <summary>
+    /// This function opens up a menu for the user to control the EDL (eye-dome-lighting) effect applied to the point clouds. 
+    /// Controls include an effect toggle (on/off); 
+    /// EDL Radius slider (1-10); 
+    /// EDL ExpScale slider (0.1-30); 
+    /// EDL Scale slider (1-10).;
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool EDLControl()
     {
         cloudControllerLLM.EDLMenu.SetActive(!activeEDLMenu);
@@ -57,6 +69,10 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     // Method to turn EDL on or off directly 
+    /// <summary>
+    /// This function toggles the EDL on or off based on its current active state.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool EDLOnOff()
     {
         cloudControllerLLM.EDLToggle.isOn = !EDLIsActive;
@@ -66,6 +82,10 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     // Method to hide the active menu
+    /// <summary>
+    /// This function hides any control menu that might be active, so that the user has less clutter on the screen.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool HideActiveControlMenu()
     {
         cloudControllerLLM.PointBudgetMenu.SetActive(false);
@@ -195,6 +215,13 @@ public class PCLLMFunctions : CloudControllerLLM
     // } */
 
     // Class Button Selection Methods. Prioritize a specific class and return the instance count for the selected class
+    /// <summary>
+    /// This function puts focus on the first class in the point cloud (the terrain). 
+    /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
+    /// A red highlight color is added to make the current priority more visible. 
+    /// Laslty a menu is spawned that shows all instances within the class.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ShowClass1Terrain()
     {
         if (currentFocus == 0)
@@ -216,6 +243,13 @@ public class PCLLMFunctions : CloudControllerLLM
         return true;
         
     }
+    /// <summary>
+    /// This function puts focus on the second class in the point cloud (the top of the wells). 
+    /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
+    /// A red highlight color is added to make the current priority more visible. 
+    /// Laslty a menu is spawned that shows all instances within the class.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ShowClass2Top()
     {
         if (currentFocus == 0)
@@ -236,6 +270,13 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 2 (Top) has been prioritiesed.";
         return true;
     }
+    /// <summary>
+    /// This function puts focus on the third class in the point cloud (the walls of the wells). 
+    /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
+    /// A red highlight color is added to make the current priority more visible. 
+    /// Laslty a menu is spawned that shows all instances within the class.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ShowClass3Walls()
     {
         if (currentFocus == 0)
@@ -256,6 +297,13 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 3 (Walls) has been prioritiesed.";
         return true;
     }
+    /// <summary>
+    /// This function puts focus on the fourth class in the point cloud (the Tech of the wells). The camera is moved to an angle that gives the user the best overview of this cloud class. 
+    /// A red highlight color is added to make the current priority more visible. 
+    /// The third class (walls) is hidden as to not block for this class. 
+    /// Laslty a menu is spawned that shows all instances within the class");
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ShowClass4Tech()
     {
         if (currentFocus == 0)
@@ -277,6 +325,13 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 4 (Tech) has been prioritiesed.";
         return true;
     }
+    /// <summary>
+    /// This function puts focus on the fifth class in the point cloud (the bottom of the wells). 
+    /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
+    /// A red highlight color is added to make the current priority more visible. 
+    /// Laslty a menu is spawned that shows all instances within the class.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ShowClass5Bottom()
     {
         if (currentFocus == 0)
@@ -299,6 +354,13 @@ public class PCLLMFunctions : CloudControllerLLM
     }
     
     // Method to reset the focus call, in case LLM won't call other focus functions
+    /// <summary>
+    /// This function resets focus to the default. 
+    /// The camera is moved to an angle that gives the user the best overview of the whole point cloud. 
+    /// All highlight colors are removed. 
+    /// Laslty the menu showcasing all instances within the class is hidden.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ResetClassFocus()
     {
         currentFocus = 0;
@@ -323,6 +385,12 @@ public class PCLLMFunctions : CloudControllerLLM
     //     }*/
 
     // Methods to call when wanting to change the color mode of the point clouds 
+    /// <summary>
+    /// This function converts the point cloud into an RGB colored version. 
+    /// Each point in the cloud gets colored by its RGB values. 
+    /// This is the default color mode.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool RGBAColorMode()
     {
         cloudControllerLLM.colorModeDropDown.value = 0;
@@ -332,6 +400,11 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "I have colored the point cloud based on point RGB values.";
         return true;
     }
+    /// <summary>
+    /// This function converts the point cloud into a Classification colored version. 
+    /// Each point in the cloud gets colored by its classification.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ClassificationColorMode()
     {
         cloudControllerLLM.colorModeDropDown.value = 1;
@@ -341,6 +414,11 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "I have colored the point cloud based on point classification.";
         return true;
     }
+    /// <summary>
+    /// This function converts the point cloud into an Intensity colored version. 
+    /// Each point in the cloud gets colored by its intensity.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool IntensityColorMode()
     {
         cloudControllerLLM.colorModeDropDown.value = 2;
@@ -352,18 +430,30 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     // Methods for changing background 
+    /// <summary>
+    /// This function converts the background of the scene into the 'skybox' background.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool SetBackgroundSkybox()
     {
         cloudControllerLLM.SkyBoxButton();
         functionPrompt = "The Background has been set to 'Skybox'.";
         return true;
     }
+    /// <summary>
+    /// This function converts the background of the scene into a 'white' background.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool SetBackgroundWhite()
     {
         cloudControllerLLM.WhiteButton();
         functionPrompt = "The Background has been set to 'White'.";
         return true;
     }
+    /// <summary>
+    /// This function converts the background of the scene into a 'black' background.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool SetBackgroundBlack()
     {
         cloudControllerLLM.BlackButton();
@@ -372,6 +462,11 @@ public class PCLLMFunctions : CloudControllerLLM
     }
     
     // Method to show or hide Exploded View Control Menu 
+    /// <summary>
+    /// This function opens up a menu for the user to control the seperation of classes along the y-axis to better visualise depth relations between classes. 
+    /// A slider can be moved from 0 to 200, changing the level of separation between classes.
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ExplodedViewController()
     {
         cloudControllerLLM.ExplodedViewMenu.SetActive(!activeExpViewMenu);
@@ -381,6 +476,10 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     // Method to set Exploded View Slider value to specific value with a set camera position to quickly "explode" the point cloud
+    /// <summary>
+    /// This function sets a default value of 16 into the Exploded View Slider, and moves the camera to a set location, in order to quickly show the user the depth relations of each class.;
+    /// </summary>
+    /// <returns>bool true</returns>
     public static bool ExplodePointCloud()
     {
         currentFocus = 6;
@@ -391,6 +490,11 @@ public class PCLLMFunctions : CloudControllerLLM
     }
     
     // Method to reset function handler and let LLM engage in Conversation
+    /// <summary>
+    /// This function changes the state of the LLM to engage in conversation with the user instead of executing a function. 
+    /// If the user input does not match with any of the above mentioned functions, then use the user input for conversation instead.
+    /// </summary>
+    /// <returns>bool false</returns>
     public static bool Conversation()
     {
         functionPrompt = "The function Conversation has been selected";
@@ -421,6 +525,13 @@ public class FunctionHandler : MonoBehaviour
         foreach (var function in typeof(PCLLMFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)) functionNames.Add(function.Name);
         return functionNames.ToArray();
     }
+    // // Get the available functions within the Functions class
+    // string[] GetFunctionDescriptions()
+    // {
+    //     List<string> functionDescription = new List<string>();
+    //     foreach (var function in typeof(PCLLMFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)) functionDescription.Add(function.
+    //     return functionDescription.ToArray();
+    // }
 
     // Specfify grammar setup for the LLM (This one is set up for multiple choice responses)
     string MultipleChoiceGrammar()
@@ -431,12 +542,15 @@ public class FunctionHandler : MonoBehaviour
     // The prompt the LLM returns to the user
     string ConstructPrompt(string message)
     {
-        string prompt = "You are an AI assistant that can select **ONE** function to execute\n\n";
-        prompt += "if the input is just a question or normal chat, you **MUST** choose the function Conversation.\n\n";
-        prompt += "if the input is a direct command that matches a function name, then execute **THAT** function.\n\n";
-        prompt += "User Input:" + message + "\n\n";
+        string prompt = "You are an AI assistant that **MUST** select **ONE** function to execute\n\n";
+        // prompt += "if the input is just a question or normal chat, you **MUST** choose the function Conversation.\n\n";
+        // prompt += "if the input is a direct command that matches a function name, then execute **THAT** function.\n\n";
+        prompt += "User Input:" + message + "\n";
         prompt += "Function Choices:\n";
         foreach (string functionName in GetFunctionNames()) prompt += $"- {functionName}\n";
+        // prompt += "\nFunction Descriptions:\n";
+        // foreach (string functionDescription in GetFunctionDescriptions()) prompt += $"- {functionDescription}\n";
+
         return prompt;
     }
 
