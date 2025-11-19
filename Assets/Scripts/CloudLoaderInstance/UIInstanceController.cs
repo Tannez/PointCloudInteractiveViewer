@@ -769,6 +769,7 @@ public class UIInstanceController : MonoBehaviour
         {
             ctoggle.isOn = true;
             classHidden[classTogglesIter] = false;
+            classTogglesIter++;
         }
         StartCoroutine(ReloadClouds());
     }
