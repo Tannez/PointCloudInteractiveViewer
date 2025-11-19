@@ -78,124 +78,124 @@ public class PCLLMFunctions : CloudControllerLLM
         return true;
     }
 
-    // Methods to hide or show a specific class by name
-    // static System.Random random = new System.Random();
-    // public static string PointBudget()
-    // {
-    //     string[] pointBudget = new string[]{"200.000", "400.000", "750.000", "1.000.000"};
-    //     return "The Point Budget of the Point Cloud is " + pointBudget[random.Next(pointBudget.Length)];
-    // }
-    // public static string PCClassCount()
-    // {
-    //     return "The Point Cloud contains: " + random.Next(5).ToString("D2") + " Classes, with: " + random.Next(10).ToString("D2") + " Total Instances";
-    // }
-    // public static string PCColorMode()
-    // {
-    //     string[] pCColorsMode = new string[] { "RGBA", "Classification", "Intensity" };
-    //     return "Current color mode is set to: " + pCColorsMode[random.Next(pCColorsMode.Length)];
-    // }
+    /* // Methods to hide or show a specific class by name
+    // // static System.Random random = new System.Random();
+    // // public static string PointBudget()
+    // // {
+    // //     string[] pointBudget = new string[]{"200.000", "400.000", "750.000", "1.000.000"};
+    // //     return "The Point Budget of the Point Cloud is " + pointBudget[random.Next(pointBudget.Length)];
+    // // }
+    // // public static string PCClassCount()
+    // // {
+    // //     return "The Point Cloud contains: " + random.Next(5).ToString("D2") + " Classes, with: " + random.Next(10).ToString("D2") + " Total Instances";
+    // // }
+    // // public static string PCColorMode()
+    // // {
+    // //     string[] pCColorsMode = new string[] { "RGBA", "Classification", "Intensity" };
+    // //     return "Current color mode is set to: " + pCColorsMode[random.Next(pCColorsMode.Length)];
+    // // }
 
-    // Methods with Access to the UI Controller
+    // // Methods with Access to the UI Controller
 
-    // Methods to control the class toggles
-    // Terrain
-    public static bool HideTerrain()
-    {
-        cloudControllerLLM.classToggles[0].isOn = false;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Terrain Point Cloud Class (class 1) has been hidden";
-        functionPrompt = "Class 1 (Terrain) is now hidden.";
-        return true;
-    }
-    public static bool ShowTerrain()
-    {
-        cloudControllerLLM.classToggles[0].isOn = true;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Terrain Point Cloud Class (class 1) is visible again";
-        functionPrompt = "Class 1 (Terrain) is now visible.";
-        return true;
-    }
-    // Top
-    public static bool HideTop()
-    {
-        cloudControllerLLM.classToggles[1].isOn = false;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Top Point Cloud Class (class 2) has been hidden";
-        functionPrompt = "Class 2 (Top) is now hidden.";
-        return true;
-    }
-    public static bool ShowTop()
-    {
-        cloudControllerLLM.classToggles[1].isOn = true;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Top Point Cloud Class (class 2) is visible again";
-        functionPrompt = "Class 2 (Top) is now visible.";
-        return true;
-    }
-    // Walls
-    public static bool HideWalls()
-    {
-        cloudControllerLLM.classToggles[2].isOn = false;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Walls Point Cloud Class (class 3) has been hidden";
-        functionPrompt = "Class 3 (Walls) is now hidden.";
-        return true;
-    }
-    public static bool ShowWalls()
-    {
-        cloudControllerLLM.classToggles[2].isOn = true;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Walls Point Cloud Class (class 3) is visible again";
-        functionPrompt = "Class 3 (Walls) is now visible.";
-        return true;
-    }
-    // Tech
-    public static bool HideTech()
-    {
-        cloudControllerLLM.classToggles[3].isOn = false;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Tech Point Cloud Class (class 4) has been hidden";
-        functionPrompt = "Class 4 (Tech) is now hidden.";
-        return true;
-    }
-    public static bool ShowTech()
-    {
-        cloudControllerLLM.classToggles[3].isOn = true;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Tech Point Cloud Class (class 4) is visible again";
-        functionPrompt = "Class 4 (Tech) is now visible.";
-        return true;
-    }
-    // Bottom
-    public static bool HideBottom()
-    {
-        cloudControllerLLM.classToggles[4].isOn = false;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Bottom Point Cloud Class (class 5) has been hidden";
-        functionPrompt = "Class 5 (Bottom) is now hidden.";
-        return true;
-    }
-    public static bool ShowBottom()
-    {
-        cloudControllerLLM.classToggles[4].isOn = true;
-        cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        //return "The Bottom Point Cloud Class (class 5) is visible again";
-        functionPrompt = "Class 5 (Bottom) is now visible.";
-        return true;
-    }
+    // // Methods to control the class toggles
+    // // Terrain
+    // public static bool HideTerrain()
+    // {
+    //     cloudControllerLLM.classToggles[0].isOn = false;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Terrain Point Cloud Class (class 1) has been hidden";
+    //     functionPrompt = "Class 1 (Terrain) is now hidden.";
+    //     return true;
+    // }
+    // public static bool ShowTerrain()
+    // {
+    //     cloudControllerLLM.classToggles[0].isOn = true;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Terrain Point Cloud Class (class 1) is visible again";
+    //     functionPrompt = "Class 1 (Terrain) is now visible.";
+    //     return true;
+    // }
+    // // Top
+    // public static bool HideTop()
+    // {
+    //     cloudControllerLLM.classToggles[1].isOn = false;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Top Point Cloud Class (class 2) has been hidden";
+    //     functionPrompt = "Class 2 (Top) is now hidden.";
+    //     return true;
+    // }
+    // public static bool ShowTop()
+    // {
+    //     cloudControllerLLM.classToggles[1].isOn = true;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Top Point Cloud Class (class 2) is visible again";
+    //     functionPrompt = "Class 2 (Top) is now visible.";
+    //     return true;
+    // }
+    // // Walls
+    // public static bool HideWalls()
+    // {
+    //     cloudControllerLLM.classToggles[2].isOn = false;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Walls Point Cloud Class (class 3) has been hidden";
+    //     functionPrompt = "Class 3 (Walls) is now hidden.";
+    //     return true;
+    // }
+    // public static bool ShowWalls()
+    // {
+    //     cloudControllerLLM.classToggles[2].isOn = true;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Walls Point Cloud Class (class 3) is visible again";
+    //     functionPrompt = "Class 3 (Walls) is now visible.";
+    //     return true;
+    // }
+    // // Tech
+    // public static bool HideTech()
+    // {
+    //     cloudControllerLLM.classToggles[3].isOn = false;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Tech Point Cloud Class (class 4) has been hidden";
+    //     functionPrompt = "Class 4 (Tech) is now hidden.";
+    //     return true;
+    // }
+    // public static bool ShowTech()
+    // {
+    //     cloudControllerLLM.classToggles[3].isOn = true;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Tech Point Cloud Class (class 4) is visible again";
+    //     functionPrompt = "Class 4 (Tech) is now visible.";
+    //     return true;
+    // }
+    // // Bottom
+    // public static bool HideBottom()
+    // {
+    //     cloudControllerLLM.classToggles[4].isOn = false;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Bottom Point Cloud Class (class 5) has been hidden";
+    //     functionPrompt = "Class 5 (Bottom) is now hidden.";
+    //     return true;
+    // }
+    // public static bool ShowBottom()
+    // {
+    //     cloudControllerLLM.classToggles[4].isOn = true;
+    //     cloudControllerLLM.keyboardShotcutsEnabled = true;
+    //     cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+    //     //return "The Bottom Point Cloud Class (class 5) is visible again";
+    //     functionPrompt = "Class 5 (Bottom) is now visible.";
+    //     return true;
+    // } */
 
     // Class Button Selection Methods. Prioritize a specific class and return the instance count for the selected class
-    public static bool FocusOnTerrain()
+    public static bool ShowTerrain()
     {
         if (currentFocus == 0)
         {
@@ -216,7 +216,7 @@ public class PCLLMFunctions : CloudControllerLLM
         return true;
         
     }
-    public static bool FocusOnTop()
+    public static bool ShowTop()
     {
         if (currentFocus == 0)
         {
@@ -236,7 +236,7 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 2 (Top) has been prioritiesed.";
         return true;
     }
-    public static bool FocusOnWalls()
+    public static bool ShowWalls()
     {
         if (currentFocus == 0)
         {
@@ -256,7 +256,7 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 3 (Walls) has been prioritiesed.";
         return true;
     }
-    public static bool FocusOnTech()
+    public static bool ShowTech()
     {
         if (currentFocus == 0)
         {
@@ -277,7 +277,7 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 4 (Tech) has been prioritiesed.";
         return true;
     }
-    public static bool FocusOnBottom()
+    public static bool ShowBottom()
     {
         if (currentFocus == 0)
         {

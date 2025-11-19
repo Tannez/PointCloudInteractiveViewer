@@ -873,11 +873,11 @@ public class CloudControllerLLM : MonoBehaviour
 
             activeClassInstanceInMenu = cloudClass;
 
-            // blink effect 
-            if (clickedWithMouse == false)
-            {
-                StartBlinking(cloudClass - 1, 5f);
-            }
+            // // blink effect 
+            // if (clickedWithMouse == false)
+            // {
+            //     StartBlinking(cloudClass - 1, 5f);
+            // }
         }
         else if (classInstanceUIActive)
         {
@@ -1781,6 +1781,10 @@ public class CloudControllerLLM : MonoBehaviour
                     // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
                     // Save color
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                    // Mark class 
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); 
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                     // Reload Mesh
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
@@ -1789,9 +1793,11 @@ public class CloudControllerLLM : MonoBehaviour
                     // Make Button interactable
                     classButtons[currentClassInHierarchy].interactable = true;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
-                    // Keep alpha channel
-                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
-                    // Keep point size
+                    // Do not Mark class 
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); 
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                    // // Keep point size
                     // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     // Save color 
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;

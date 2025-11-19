@@ -283,9 +283,9 @@ namespace BAPointCloudRenderer.ObjectCreation {
                     break;
 
                 case ColorMode.Selected:
-                    for (int i = 0; i < classification.Length; i++)
+                    for (int i = 0; i < rgba.Length; i++)
                     {
-                        result[i] = SelectionColor();
+                        result[i] = new Color(rgba[i].r, rgba[i].g, rgba[i].b, cloudAlpha) + SelectionColor();
                     }
                     break;
             }
@@ -313,7 +313,14 @@ namespace BAPointCloudRenderer.ObjectCreation {
 
         private Color SelectionColor()
         {
-            return Color.red;
+            return Color.blue;
+            // Color[] result = new Color[rgba.Length];
+
+            // for (int i = 0; i < rgba.Length; i++)
+            //             {
+            //                 result[i] = new Color(rgba[i].r, rgba[i].g, rgba[i].b, cloudAlpha) + Color.red;
+            //             }
+            // return;
         }
     }
 }
