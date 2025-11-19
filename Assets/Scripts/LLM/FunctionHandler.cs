@@ -195,7 +195,7 @@ public class PCLLMFunctions : CloudControllerLLM
     // } */
 
     // Class Button Selection Methods. Prioritize a specific class and return the instance count for the selected class
-    public static bool ShowTerrain()
+    public static bool ShowClass1Terrain()
     {
         if (currentFocus == 0)
         {
@@ -216,7 +216,7 @@ public class PCLLMFunctions : CloudControllerLLM
         return true;
         
     }
-    public static bool ShowTop()
+    public static bool ShowClass2Top()
     {
         if (currentFocus == 0)
         {
@@ -236,7 +236,7 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 2 (Top) has been prioritiesed.";
         return true;
     }
-    public static bool ShowWalls()
+    public static bool ShowClass3Walls()
     {
         if (currentFocus == 0)
         {
@@ -256,7 +256,7 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 3 (Walls) has been prioritiesed.";
         return true;
     }
-    public static bool ShowTech()
+    public static bool ShowClass4Tech()
     {
         if (currentFocus == 0)
         {
@@ -277,7 +277,7 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "Class 4 (Tech) has been prioritiesed.";
         return true;
     }
-    public static bool ShowBottom()
+    public static bool ShowClass5Bottom()
     {
         if (currentFocus == 0)
         {

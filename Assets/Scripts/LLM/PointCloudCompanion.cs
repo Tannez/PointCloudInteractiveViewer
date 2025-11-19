@@ -51,7 +51,7 @@ namespace LLMPCCompanionBubble
                 _functionHandler = FindFirstObjectByType<FunctionHandler>();
 
                 if (_functionHandler == null)
-                    Debug.LogWarning("PointCloudController not found in scene!");
+                    Debug.LogWarning("FunctionHandler not found in scene!");
 
                 return _functionHandler;
             }

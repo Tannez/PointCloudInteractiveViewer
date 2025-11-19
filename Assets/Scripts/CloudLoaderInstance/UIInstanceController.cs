@@ -2057,7 +2057,7 @@ public class UIInstanceController : MonoBehaviour
         }
     }
 
-    // Method for Reloading Point Clouds, in case some have not loaded properly
+    // Method for Reloading specific Point Clous
     public IEnumerator ReloadCloudClass(int cloudClass)
     {
         DirectoryInstanceLoader.PCInstances cloudClassLoaderGO = PCClasses[cloudClass-1];

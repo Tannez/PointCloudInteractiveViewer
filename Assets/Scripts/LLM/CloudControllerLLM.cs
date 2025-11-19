@@ -515,13 +515,13 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            StartCoroutine(StopLoadingClouds());
+            //StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             RGBConversion();
 
             //Enable Clouds
-            StartCoroutine(StartLoadingClouds());
+            //StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 1)
@@ -532,13 +532,13 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            StartCoroutine(StopLoadingClouds());
+            //StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             ClassificationConversion();
 
             //Enable Clouds
-            StartCoroutine(StartLoadingClouds());
+            //StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 2)
@@ -549,13 +549,13 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectOnConversion();
 
             // Remove Clouds
-            StartCoroutine(StopLoadingClouds());
+            //StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             IntensityConversion();
 
             //Enable Clouds
-            StartCoroutine(StartLoadingClouds());
+            //StartCoroutine(StartLoadingClouds());
         }
     }
 
@@ -671,6 +671,7 @@ public class CloudControllerLLM : MonoBehaviour
         {
             ctoggle.isOn = true;
             classHidden[classTogglesIter] = false;
+            classTogglesIter++;
         }
         StartCoroutine(ReloadClouds());
     }
@@ -888,6 +889,8 @@ public class CloudControllerLLM : MonoBehaviour
 
             activeClassInstanceInMenu = 0;
         }
+
+        StartCoroutine(ReloadCloudClass(cloudClass));
     }
 
     // Methods and variables for blink effect
@@ -1156,7 +1159,7 @@ public class CloudControllerLLM : MonoBehaviour
             classButtons[cloudClass - 1].image.color = new Color(0, 0, 1, 0.4f);
         }
     }
-    private void UnSelectCloudClass(int cloudClass)
+    private IEnumerator UnSelectCloudClass(int cloudClass)
     {
         GameObject PointCloudUnSelected = PCClasses[cloudClass - 1].cloudClassGO;
         for (int i = 0; i < PointCloudUnSelected.transform.childCount; i++)
@@ -1168,10 +1171,11 @@ public class CloudControllerLLM : MonoBehaviour
             {
                 classToggles[cloudClass - 1].isOn = true;
             }
-            instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
             instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+            instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
             classButtons[cloudClass - 1].image.color = new Color(1, 1, 1, 0.4f);
         }
+        yield return null;
     }
 
     // Method for UI buttons to show selected cloud Classes // DEPRECATED METHOD
@@ -1573,7 +1577,7 @@ public class CloudControllerLLM : MonoBehaviour
     }
 
     // Methods to condense code for the cloud class instance Mouse selection method
-    public void MouseSelectCloudClassInstance(int cloudClass, int cloudInstance)
+    public IEnumerator MouseSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
         classInstanceSelected[cloudInstance - 1] = true;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
@@ -1591,11 +1595,11 @@ public class CloudControllerLLM : MonoBehaviour
                 instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
                 instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 //Debug.Log($"Instance {cloudInstance} in Class {cloudClass} is selected");
-                break;
             }
         }
+        yield return null;
     }
-    public void MouseUnSelectCloudClassInstance(int cloudClass, int cloudInstance)
+    public IEnumerator MouseUnSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
         classInstanceSelected[cloudInstance - 1] = false;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);
@@ -1614,9 +1618,9 @@ public class CloudControllerLLM : MonoBehaviour
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
                 instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
-                break;
             }
         }
+        yield return null;
     }
 
     // Method to show Selected cloud instance when cloud selected with mouse
@@ -1627,111 +1631,111 @@ public class CloudControllerLLM : MonoBehaviour
             case 1:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 2:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 3:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 4:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 5:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 6:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 7:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 8:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 9:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             case 10:
                 if (!classInstanceSelected[instanceInMenu - 1] && instanceInMenu <= availableInstancesInClass)
                 {
-                    MouseSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
                 else
                 {
-                    MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu);
+                    StartCoroutine(MouseUnSelectCloudClassInstance(cloudClass, instanceInMenu));
                     break;
                 }
             default:
@@ -1741,24 +1745,25 @@ public class CloudControllerLLM : MonoBehaviour
         }
     }
 
+    
     // Method to deselect classes when Color Mode is changed
     public void UnSelectOnConversion()
     {
         if (!instanceUIActive)
         {
-            for (int i = 1; i < PCClasses.Count; i++)
+            for (int i = 1; i <= PCClasses.Count; i++)
             {
-                UnSelectCloudClass(i);
+                StartCoroutine(UnSelectCloudClass(i));
             }
         }
 
-        else if (instanceUIActive)
-        {
-            for (int i = 1; i < PCInstances.Count; i++)
-            {
-                UnSelectCloudInstance(i);
-            }
-        }
+        // else if (instanceUIActive)
+        // {
+        //     for (int i = 1; i < PCInstances.Count; i++)
+        //     {
+        //         UnSelectCloudInstance(i);
+        //     }
+        // }
     }
 
     // Method to set point size based on selected class 
@@ -1772,7 +1777,11 @@ public class CloudControllerLLM : MonoBehaviour
             for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
-                if (selected == false && instanceInClass.name.StartsWith("Cloud")) // if cloud class has not been selected
+                if (!instanceInClass.name.StartsWith("Cloud"))
+                {
+                    continue; // Move to next iteration of children, if instance is not a cloud instance GO
+                }
+                if (selected == false) // if cloud class has not been selected
                 {
                     // Make Button not interactable
                     classButtons[currentClassInHierarchy].interactable = false;
@@ -1781,35 +1790,36 @@ public class CloudControllerLLM : MonoBehaviour
                     // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
                     // Save color
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
-                    // Mark class 
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); 
+                    // Do not Mark class 
+                    //StartCoroutine(StopLoadingClouds());
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                    //StartCoroutine(StartLoadingClouds());
                     // Reload Mesh
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
-                else if (selected == true && instanceInClass.name.StartsWith("Cloud")) // if cloud class has been selected
+                else if (selected == true) // if cloud class has been selected
                 {
                     // Make Button interactable
                     classButtons[currentClassInHierarchy].interactable = true;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
-                    // Do not Mark class 
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud(); 
-                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                     // // Keep point size
                     // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     // Save color 
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
+                    // Mark class 
+                    //StartCoroutine(StopLoadingClouds());
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
+                    //StartCoroutine(StartLoadingClouds());
                     // Reload Mesh
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
+
                 }
             }
 
             currentClassInHierarchy++;
             if (currentClassInHierarchy == PCClasses.Count)
             {
-                break;
+                return;
             }
         }
     }
@@ -1848,7 +1858,7 @@ public class CloudControllerLLM : MonoBehaviour
 
             if (currentClassInHierarchy == PCClasses.Count)
             {
-                break;
+                return;
             }
         }
 
@@ -1902,11 +1912,11 @@ public class CloudControllerLLM : MonoBehaviour
                         instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                         // ShutDown V2 Renderer
                         instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
-                        // Disable DynamicPointCloudSet Component
-                        instanceInClass.SetActive(false);
+                        // // Disable DynamicPointCloudSet Component
+                        // instanceInClass.SetActive(false);
 
-                        // Enable DynamicPointCloudSet Component
-                        instanceInClass.SetActive(true);
+                        // // Enable DynamicPointCloudSet Component
+                        // instanceInClass.SetActive(true);
                         // Enable Clouds
                         instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                         // Show V2 Renderer
@@ -1916,6 +1926,34 @@ public class CloudControllerLLM : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    // Method for Reloading specific Point Clous
+    public IEnumerator ReloadCloudClass(int cloudClass)
+    {
+        DirectoryInstanceLoaderLLM.PCInstances cloudClassLoaderGO = PCClasses[cloudClass-1];
+        for (int i = 0; i < cloudClassLoaderGO.cloudClassGO.transform.childCount; i++)
+        {
+            GameObject instanceInClass = cloudClassLoaderGO.cloudClassGO.transform.GetChild(i).gameObject;
+
+            if (instanceInClass.name.StartsWith("Cloud:") && classHidden[cloudClass-1] == false)
+            {
+                // Remove Clouds
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                // ShutDown V2 Renderer
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
+                // // Disable DynamicPointCloudSet Component
+                // instanceInClass.SetActive(false);
+
+                // // Enable DynamicPointCloudSet Component
+                // instanceInClass.SetActive(true);
+                // Enable Clouds
+                instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                // Show V2 Renderer
+                instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
+            }
+        }
+        yield return null;
     }
 
     // Coroutine to stop loading point clouds 
@@ -1934,8 +1972,6 @@ public class CloudControllerLLM : MonoBehaviour
                     instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                     // ShutDown V2 Renderer
                     instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
-                    // Disable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(false);
                 }
             }
         }
@@ -1955,7 +1991,6 @@ public class CloudControllerLLM : MonoBehaviour
                 if (instanceInClass.name.StartsWith("Cloud:") && classHidden[currentClass] == false)
                 {
                     // Enable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(true);
                     // Enable Clouds
                     instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                     // Show V2 Renderer
