@@ -1923,10 +1923,12 @@ public class UIInstanceController : MonoBehaviour
     private void DePrioritise() // Reset priority of classes so all are visualised as normally done
     {
         // Reset Cloud Visuals
-        int currentInstanceInClass = 0;
+        int currentInstanceInClass;
 
         for (int currentClassInHierarchy = 0; currentClassInHierarchy < PCClasses.Count;)
         {
+            currentInstanceInClass = 0;
+            
             for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;

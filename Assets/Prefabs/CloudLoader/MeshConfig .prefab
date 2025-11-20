@@ -47,7 +47,7 @@ MonoBehaviour:
   pointRadius: 1
   renderCircles: 0
   screenSize: 1
-  interpolation: 0
+  interpolation: 1
   colorMode: 0
   prioritiseCloud: 0
   cloudAlpha: 0.1

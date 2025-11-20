@@ -20,5 +20,10 @@ namespace BAPointCloudRenderer.CloudController {
             PointRenderer.Update();
             DrawDebugInfo();
         }
+
+        public void ReInitialize()
+        {
+            PointRenderer = new StaticRenderer(this, meshConfiguration);
+        }
     }
 }

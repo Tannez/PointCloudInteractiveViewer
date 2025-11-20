@@ -18,15 +18,15 @@ namespace BAPointCloudRenderer.CloudController
         /// <summary>
         /// Minimum Node Size
         /// </summary>
-        public int minNodeSize = 10;
+        public int minNodeSize = 5;
         /// <summary>
         /// Maximum number of nodes loaded per frame
         /// </summary>
-        public uint nodesLoadedPerFrame = 15;
+        public uint nodesLoadedPerFrame = 10;
         /// <summary>
         /// Maximum number of nodes having their gameobjects created per frame
         /// </summary>
-        public uint nodesGOsPerFrame = 30;
+        public uint nodesGOsPerFrame = 15;
         /// <summary>
         /// Cache Size in POints
         /// </summary>
