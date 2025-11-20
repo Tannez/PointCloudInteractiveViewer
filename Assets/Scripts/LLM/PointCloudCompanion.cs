@@ -37,6 +37,8 @@ namespace LLMPCCompanionBubble
         // reference context
         private string staticContext;
 
+        private string functionContext; 
+
         // Function Calling related variables
         private static FunctionHandler _functionHandler;
         private static FunctionHandler functionHandler
@@ -125,7 +127,7 @@ namespace LLMPCCompanionBubble
             }
             blockInput = true;
 
-            // replace vertical_tab
+            // replace vertical_tab 
             string message = inputBubble.GetText().Replace("\v", "\n");
 
             // add a bubble with the prompt send by the user in the input field
@@ -138,13 +140,15 @@ namespace LLMPCCompanionBubble
             inputBubble.SetText("");
 
             // Attempt to execute function 
-            (bool, string) applyFunction = await functionHandler.TryExecuteCommand(message);
+            (bool, string, string) applyFunction = await functionHandler.TryExecuteCommand(message);
 
             if (applyFunction.Item1 == true)
             {
                 // Test function call
                 aiBubble.SetText(applyFunction.Item2 + " \nReady for next input.");
                 AllowInput();
+
+                functionContext += applyFunction.Item3;
 
                 // Tell LLM what function has been called - not working 
                 // Send string to the LLM 
@@ -157,8 +161,16 @@ namespace LLMPCCompanionBubble
             // // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
             // await llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
 
+            string fullMessage = "User Input: " + message + "functions executed in scene: " + functionContext;
             // Send string to the LLM 
-            Task chatTask = llmCharacter.Chat(message, aiBubble.SetText, AllowInput);
+            Task chatTask = llmCharacter.Chat(fullMessage, aiBubble.SetText, AllowInput);
+
+            // clear context string when manipulations are reset
+            if (applyFunction.Item2.Contains("Clearing context string"))
+            {
+                functionContext = "";
+                Debug.Log(functionContext);
+            }
         }
         
         public void WarmUpCallback()

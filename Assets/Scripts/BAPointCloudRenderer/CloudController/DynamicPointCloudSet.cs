@@ -14,7 +14,7 @@ namespace BAPointCloudRenderer.CloudController
         /// <summary>
         /// Point Budget - Maximum Number of Points in Memory / to Render
         /// </summary>
-        public uint pointBudget = 1000000;
+        public uint pointBudget = 500000;
         /// <summary>
         /// Minimum Node Size
         /// </summary>

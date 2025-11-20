@@ -32,6 +32,7 @@ public class PCLLMFunctions : CloudControllerLLM
     }
 
     public static string functionPrompt = "";
+    public static string contextPrompt = "";
     private static int currentFocus = 0; // 0 = no class focused
     private static bool activePBMenu = false;
     private static bool activeEDLMenu = false;
@@ -48,6 +49,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.PointBudgetMenu.SetActive(!activePBMenu);
         activePBMenu = !activePBMenu;
         functionPrompt = "The Point Budget Control Menu is now active";
+        contextPrompt += functionPrompt;
         return true;
     }
 
@@ -65,6 +67,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.EDLMenu.SetActive(!activeEDLMenu);
         activeEDLMenu = !activeEDLMenu;
         functionPrompt = "The EDL Control Menu is now active";
+        contextPrompt += functionPrompt;
         return true;
     }
 
@@ -78,6 +81,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.EDLToggle.isOn = !EDLIsActive;
         EDLIsActive = !EDLIsActive;
         functionPrompt = "The EDL Toggle has been set to " + EDLIsActive;
+        contextPrompt += functionPrompt;
         return true;
     }
 
@@ -95,6 +99,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ExplodedViewMenu.SetActive(false);
         activeExpViewMenu = false;
         functionPrompt = "The active control menu has been turned off.";
+        contextPrompt += functionPrompt;
         return true;
     }
 
@@ -240,6 +245,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ZoomToClass(1);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "Class 1 (Terrain) has been prioritiesed.";
+        contextPrompt += functionPrompt;
         return true;
         
     }
@@ -268,6 +274,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ZoomToClass(2);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "Class 2 (Top) has been prioritiesed.";
+        contextPrompt += functionPrompt;
         return true;
     }
     /// <summary>
@@ -295,6 +302,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ZoomToClass(3);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "Class 3 (Walls) has been prioritiesed.";
+        contextPrompt += functionPrompt;
         return true;
     }
     /// <summary>
@@ -323,6 +331,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.classToggles[2].isOn = !cloudControllerLLM.classToggles[2].isOn;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "Class 4 (Tech) has been prioritiesed.";
+        contextPrompt += functionPrompt;
         return true;
     }
     /// <summary>
@@ -350,6 +359,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ZoomToClass(5);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "Class 5 (Bottom) has been prioritiesed.";
+        contextPrompt += functionPrompt;
         return true;
     }
     
@@ -369,7 +379,8 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ResetClassToggles();
         cloudControllerLLM.ExplodedViewSlider.value = 0;
         cloudControllerLLM.keyboardShotcutsEnabled = true;
-        functionPrompt = "I have reset all adjustments to the point cloud.";
+        functionPrompt = "I have reset all adjustments to the point cloud. Clearing context string.";
+        contextPrompt += functionPrompt;
         return true;
     }
 
@@ -398,6 +409,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their RGBA values";
         functionPrompt = "I have colored the point cloud based on point RGB values.";
+        contextPrompt += functionPrompt;
         return true;
     }
     /// <summary>
@@ -412,6 +424,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their classification";
         functionPrompt = "I have colored the point cloud based on point classification.";
+        contextPrompt += functionPrompt;
         return true;
     }
     /// <summary>
@@ -426,6 +439,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their Intensity values";
         functionPrompt = "I have colored the point cloud based on point intensity.";
+        contextPrompt += functionPrompt;
         return true;
     }
 
@@ -438,6 +452,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.SkyBoxButton();
         functionPrompt = "The Background has been set to 'Skybox'.";
+        contextPrompt += functionPrompt;
         return true;
     }
     /// <summary>
@@ -448,6 +463,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.WhiteButton();
         functionPrompt = "The Background has been set to 'White'.";
+        contextPrompt += functionPrompt;
         return true;
     }
     /// <summary>
@@ -458,6 +474,7 @@ public class PCLLMFunctions : CloudControllerLLM
     {
         cloudControllerLLM.BlackButton();
         functionPrompt = "The Background has been set to 'Black'.";
+        contextPrompt += functionPrompt;
         return true;
     }
     
@@ -472,6 +489,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ExplodedViewMenu.SetActive(!activeExpViewMenu);
         activeExpViewMenu = !activeExpViewMenu;
         functionPrompt = "The menu for exploded view should now be active. \nadjust the slider to separate classes along the y-axis.";
+        contextPrompt += functionPrompt;
         return true;
     }
 
@@ -486,6 +504,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ExplodedViewSlider.value = 16;
         cloudControllerLLM.ZoomToClass(currentFocus);
         functionPrompt = "I have 'exploded' the point cloud.";
+        contextPrompt += functionPrompt;
         return true;
     }
     
@@ -543,8 +562,8 @@ public class FunctionHandler : MonoBehaviour
     string ConstructPrompt(string message)
     {
         string prompt = "You are an AI assistant that **MUST** select **ONE** function to execute\n\n";
-        // prompt += "if the input is just a question or normal chat, you **MUST** choose the function Conversation.\n\n";
-        // prompt += "if the input is a direct command that matches a function name, then execute **THAT** function.\n\n";
+        prompt += "if the input is just a question or normal chat, you **MUST** choose the function Conversation.\n\n";
+        prompt += "if the input is a direct command that matches a function name, then execute **THAT** function.\n\n";
         prompt += "User Input:" + message + "\n";
         prompt += "Function Choices:\n";
         foreach (string functionName in GetFunctionNames()) prompt += $"- {functionName}\n";
@@ -570,7 +589,7 @@ public class FunctionHandler : MonoBehaviour
     //     playerText.interactable = true;
     // }
 
-    public async Task<(bool, string)> TryExecuteCommand(string message)
+    public async Task<(bool, string, string)> TryExecuteCommand(string message)
     {
         string functionName = await llmCharacter.Chat(ConstructPrompt(message));
 
@@ -584,7 +603,7 @@ public class FunctionHandler : MonoBehaviour
         //     return true;
         // }
 
-        return (result, PCLLMFunctions.functionPrompt);
+        return (result, PCLLMFunctions.functionPrompt, PCLLMFunctions.contextPrompt);
     }
 }
 

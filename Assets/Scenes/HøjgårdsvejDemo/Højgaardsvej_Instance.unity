@@ -13038,7 +13038,7 @@ MonoBehaviour:
   moveCenterToTransformPosition: 1
   showBoundingBox: 0
   meshConfiguration: {fileID: 1440587391}
-  pointBudget: 1000000
+  pointBudget: 500000
   minNodeSize: 10
   nodesLoadedPerFrame: 15
   nodesGOsPerFrame: 30
@@ -31008,7 +31008,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.56789, y: 0}
+  m_AnchoredPosition: {x: 160.56787, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1260676668
@@ -36240,7 +36240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.56789, y: 0}
+  m_AnchoredPosition: {x: 160.56787, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1500818156
@@ -42489,7 +42489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.06789, y: 0}
+  m_AnchoredPosition: {x: 160.06787, y: 0}
   m_SizeDelta: {x: 182.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1722789733
@@ -44304,7 +44304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.56789, y: 0}
+  m_AnchoredPosition: {x: 160.56787, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790335377

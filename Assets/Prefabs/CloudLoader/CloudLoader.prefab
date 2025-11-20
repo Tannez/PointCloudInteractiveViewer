@@ -47,7 +47,7 @@ MonoBehaviour:
   moveCenterToTransformPosition: 0
   showBoundingBox: 0
   meshConfiguration: {fileID: 0}
-  pointBudget: 1000000
+  pointBudget: 500000
   minNodeSize: 5
   nodesLoadedPerFrame: 4
   nodesGOsPerFrame: 5
