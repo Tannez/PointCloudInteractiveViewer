@@ -136,6 +136,12 @@ public class CloudInteraction : MonoBehaviour
             classSelectedwithMouse = true;
             //Debug.Log("Added Class: 5");
         }
+        else if (clickClassTarget == "Class: 6" && classSelectedwithMouse == false && uIInstanceController.classHidden[5] == false)
+        {
+            selectedClasses.Add(6);
+            classSelectedwithMouse = true;
+            //Debug.Log("Added Class: 6");
+        }
 
         classSelectedwithMouse = false;
         return;

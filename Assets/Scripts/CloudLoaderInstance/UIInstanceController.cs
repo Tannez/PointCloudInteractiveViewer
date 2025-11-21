@@ -11,6 +11,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using NUnit.Framework;
 using System.Linq;
+using BAPointCloudRenderer.Controllers;
+
 
 public enum LLMTestModes
 {
@@ -22,6 +24,7 @@ public class UIInstanceController : MonoBehaviour
 {
     //Cam Access
     Camera cam;
+    CameraController camcontrol;
 
     //Reference to pointcloud gameobject and its script
     [Header("Cloud Instantiation Components")]
@@ -128,14 +131,21 @@ public class UIInstanceController : MonoBehaviour
 
     [HideInInspector] public int availableInstancesInClass = 0;
 
-    [Header("LLM")]
-    [Tooltip("Select Type of LLM Interaction to Test. 'Chat' uses ChatBot object, while 'funtion' uses FunctionCalling Object")]
-    [SerializeField] LLMTestModes lLMTestModes;
-    [SerializeField] GameObject LLMPanelsUI;
-    [SerializeField] GameObject ChatBot;
-    [SerializeField] GameObject FunctionCalling;
-    [SerializeField] GameObject PointCloudAssistant;
-    public bool LLMMenuActive = false;
+    [Header("Zoom-To Menu")]
+    [SerializeField] Image zoomMenuBackgroundImage;
+    [SerializeField] Button[] zoomMenuButton = new Button[5];
+    private bool[] zoomToButtonActive = new bool [5];
+
+
+
+    // [Header("LLM")]
+    // [Tooltip("Select Type of LLM Interaction to Test. 'Chat' uses ChatBot object, while 'funtion' uses FunctionCalling Object")]
+    // [SerializeField] LLMTestModes lLMTestModes;
+    // [SerializeField] GameObject LLMPanelsUI;
+    // [SerializeField] GameObject ChatBot;
+    // [SerializeField] GameObject FunctionCalling;
+    // [SerializeField] GameObject PointCloudAssistant;
+    // public bool LLMMenuActive = false;
 
     [HideInInspector] public bool clickedWithMouse = false;
 
@@ -143,6 +153,7 @@ public class UIInstanceController : MonoBehaviour
     {
         // Access Main Camera
         cam = Camera.main;
+        camcontrol = cam.GetComponent<CameraController>();
 
         // Get Cloud objects
         directoryInstanceLoader = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>();
@@ -196,13 +207,13 @@ public class UIInstanceController : MonoBehaviour
     void Update()
     {
         // Use keyboard numbers to select classes
-        if (keyboardClassSelection && !LLMMenuActive)
+        if (keyboardClassSelection) //&& !LLMMenuActive)
         {
             KeyboardCloudSelection();
         }
 
         // Use keyboard to reload clouds in case they are not loading properly
-        if (Input.GetKeyDown(KeyCode.R) && !LLMMenuActive)
+        if (Input.GetKeyDown(KeyCode.R)) //&& !LLMMenuActive)
         {
             StartCoroutine(ReloadClouds());
         }
@@ -1142,12 +1153,15 @@ public class UIInstanceController : MonoBehaviour
     }
     private void LoadClassToggles()
     {
+        int ztIndex = 0;
         // Set Available toggles based on class amount
         while (classToggles.Count > PCClasses.Count)
         {
             int beforeToggles = classToggles.Count;
             // Debug.Log("Before Removal: " + beforeToggles);
             classToggles[classToggles.Count - 1].isOn = false;
+            zoomToButtonActive[ztIndex] = false;
+            ztIndex++;
             classToggles[classToggles.Count - 1].gameObject.SetActive(false);
             classToggles.Remove(classToggles[classToggles.Count - 1]);
             int afterToggles = classToggles.Count;
@@ -1968,42 +1982,42 @@ public class UIInstanceController : MonoBehaviour
         }
     }
 
-    // Show the LLM window 
-    public void ShowLLMInteract()
-    {
-        if (LLMMenuActive == false)
-        {
-            LLMPanelsUI.SetActive(true);
+    // // Show the LLM window 
+    // public void ShowLLMInteract()
+    // {
+    //     if (LLMMenuActive == false)
+    //     {
+    //         LLMPanelsUI.SetActive(true);
 
-            switch (lLMTestModes)
-            {
-                case LLMTestModes.Chat:
-                    ChatBot.SetActive(true);
-                    FunctionCalling.SetActive(false);
-                    PointCloudAssistant.SetActive(false);
-                    break;
-                case LLMTestModes.Function:
-                    FunctionCalling.SetActive(true);
-                    ChatBot.SetActive(false);
-                    PointCloudAssistant.SetActive(false);
-                    break;
-                case LLMTestModes.None:
-                    PointCloudAssistant.SetActive(true);
-                    ChatBot.SetActive(false);
-                    FunctionCalling.SetActive(false);
-                    break;
-            }
+    //         switch (lLMTestModes)
+    //         {
+    //             case LLMTestModes.Chat:
+    //                 ChatBot.SetActive(true);
+    //                 FunctionCalling.SetActive(false);
+    //                 PointCloudAssistant.SetActive(false);
+    //                 break;
+    //             case LLMTestModes.Function:
+    //                 FunctionCalling.SetActive(true);
+    //                 ChatBot.SetActive(false);
+    //                 PointCloudAssistant.SetActive(false);
+    //                 break;
+    //             case LLMTestModes.None:
+    //                 PointCloudAssistant.SetActive(true);
+    //                 ChatBot.SetActive(false);
+    //                 FunctionCalling.SetActive(false);
+    //                 break;
+    //         }
 
-            LLMMenuActive = true;
-        }
-        else if (LLMMenuActive == true)
-        {
-            ChatBot.SetActive(false);
-            FunctionCalling.SetActive(false);
-            LLMPanelsUI.SetActive(false);
-            LLMMenuActive = false;
-        }
-    }
+    //         LLMMenuActive = true;
+    //     }
+    //     else if (LLMMenuActive == true)
+    //     {
+    //         ChatBot.SetActive(false);
+    //         FunctionCalling.SetActive(false);
+    //         LLMPanelsUI.SetActive(false);
+    //         LLMMenuActive = false;
+    //     }
+    // }
 
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public IEnumerator ReloadClouds()
@@ -2130,6 +2144,55 @@ public class UIInstanceController : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(2);
+    }
+
+    // Method for positioning camerea to individual classes (class int over 0 as it does not use indecies)
+    public void ZoomToClass(int cloudClass)
+    {
+        camcontrol.CameraClassTranslation(cloudClass);
+
+        if (zoomToButtonActive[cloudClass-1] == true) // reset if same button click
+        {
+            zoomMenuButton[cloudClass-1].image.color = new Color(255, 255, 255);
+            zoomToButtonActive[cloudClass-1] = false;
+            classToggles[0].isOn = true;
+            classToggles[1].isOn = true;
+            ZoomToDefault();
+            StartCoroutine(ReloadClouds());
+            return;
+        }
+        
+        if (zoomToButtonActive.Contains(true)) // reset button selection coloring when switching between views
+        {
+
+            for (int i = 0; i < zoomToButtonActive.Count();i++)
+            {
+                if (zoomToButtonActive[i] == true)
+                {
+                    zoomMenuButton[i].image.color = new Color(255, 255, 255);
+                    zoomToButtonActive[i] = false;
+                }   
+            }
+        }
+
+        if (cloudClass == 1 && zoomToButtonActive[0] == false)
+        {
+            zoomToButtonActive[0] = true;
+            zoomMenuButton[0].image.color = new Color(0, 0, 255);
+            return;
+        }
+        if (cloudClass > 1 && cloudClass < 7 && zoomToButtonActive[cloudClass-1] == false)
+        {
+            classToggles[0].isOn = false;
+            classToggles[1].isOn = false;
+            zoomToButtonActive[cloudClass-1] = true;
+            zoomMenuButton[cloudClass-1].image.color = new Color(0, 0, 255);
+            return;
+        }
+    }
+    public void ZoomToDefault()
+    {
+        camcontrol.MoveToDefaultPosition();
     }
 
 }

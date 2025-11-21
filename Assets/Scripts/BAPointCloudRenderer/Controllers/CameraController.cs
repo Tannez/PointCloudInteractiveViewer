@@ -97,7 +97,7 @@ namespace BAPointCloudRenderer.Controllers {
             }
 
 
-            if ((uIInstanceController.LLMMenuActive == false && Input.GetKeyDown("space") && withLLM == false) || (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space") && withLLM == true)) // Use this if not LLM scene 
+            if ((/*uIInstanceController.LLMMenuActive == false &&*/ Input.GetKeyDown("space") && withLLM == false) || (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space") && withLLM == true)) // Use this if not LLM scene 
             {
                 MoveToDefaultPosition();
             }  
@@ -183,7 +183,7 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
-            if (ZoomToClass == 4) // Tech
+            if (ZoomToClass == 4) // Bottom
             {
                 movingCamera = true;
                 Camera.main.transform.position = class4CamPosition;
@@ -194,7 +194,7 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
-            if (ZoomToClass == 5) // Bottom
+            if (ZoomToClass == 5) // Tech
             {
                 movingCamera = true;
                 Camera.main.transform.position = class5CamPosition;
@@ -205,7 +205,18 @@ namespace BAPointCloudRenderer.Controllers {
                 movingCamera = false;
                 return;
             }
-            if (ZoomToClass == 6) // Explode View
+            if (ZoomToClass == 6) // Pipes
+            {
+                movingCamera = true;
+                Camera.main.transform.position = class5CamPosition;
+                currentCamPosition = class5CamPosition;
+                pitch = class5CamOrientation.x;
+                yaw = class5CamOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
+            if (ZoomToClass == 7) // Explode View
             {
                 movingCamera = true;
                 Camera.main.transform.position = ExplodedPosition;
