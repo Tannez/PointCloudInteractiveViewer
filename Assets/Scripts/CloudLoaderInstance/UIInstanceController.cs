@@ -133,6 +133,8 @@ public class UIInstanceController : MonoBehaviour
 
     [Header("Zoom-To Menu")]
     [SerializeField] Image zoomMenuBackgroundImage;
+    private bool showZoomMenu = false;
+    [SerializeField] Button showZoomButton;
     [SerializeField] Button[] zoomMenuButton = new Button[5];
     private bool[] zoomToButtonActive = new bool [5];
 
@@ -2145,7 +2147,31 @@ public class UIInstanceController : MonoBehaviour
         }
         yield return new WaitForSeconds(2);
     }
-
+    public void ShowZoomMenuUI()
+    {
+        if (showZoomMenu == false)
+        {
+            showZoomMenu = true;
+            showZoomButton.image.color = new Color(0, 0, 1, 0.4f);
+            zoomMenuBackgroundImage.gameObject.SetActive(true);
+            return;
+        }
+        else if (showZoomMenu == true)
+        {
+            showZoomMenu = false;
+            for (int i = 0; i < zoomToButtonActive.Count();i++)
+            {
+                if (zoomToButtonActive[i] == true)
+                {
+                    zoomMenuButton[i].image.color = new Color(255, 255, 255);
+                    zoomToButtonActive[i] = false;
+                }   
+            }
+            showZoomButton.image.color = new Color(1, 1, 1, 0.4f);
+            zoomMenuBackgroundImage.gameObject.SetActive(false);
+            return;  
+        }
+    }
     // Method for positioning camerea to individual classes (class int over 0 as it does not use indecies)
     public void ZoomToClass(int cloudClass)
     {
@@ -2178,7 +2204,7 @@ public class UIInstanceController : MonoBehaviour
         if (cloudClass == 1 && zoomToButtonActive[0] == false)
         {
             zoomToButtonActive[0] = true;
-            zoomMenuButton[0].image.color = new Color(0, 0, 255);
+            zoomMenuButton[0].image.color = new Color(0, 0, 125);
             return;
         }
         if (cloudClass > 1 && cloudClass < 7 && zoomToButtonActive[cloudClass-1] == false)
@@ -2186,7 +2212,7 @@ public class UIInstanceController : MonoBehaviour
             classToggles[0].isOn = false;
             classToggles[1].isOn = false;
             zoomToButtonActive[cloudClass-1] = true;
-            zoomMenuButton[cloudClass-1].image.color = new Color(0, 0, 255);
+            zoomMenuButton[cloudClass-1].image.color = new Color(0, 0, 125);
             return;
         }
     }
