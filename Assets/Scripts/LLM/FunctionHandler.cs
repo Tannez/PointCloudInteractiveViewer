@@ -258,6 +258,7 @@ public class PCLLMFunctions : CloudControllerLLM
     /// <returns>bool true</returns>
     public static bool ShowClass2Top()
     {
+        cloudControllerLLM.classToggles[1].isOn = false;
         if (currentFocus == 0)
         {
             currentFocus = 2;
@@ -286,6 +287,8 @@ public class PCLLMFunctions : CloudControllerLLM
     /// <returns>bool true</returns>
     public static bool ShowClass3Walls()
     {
+        cloudControllerLLM.classToggles[0].isOn = false;
+        cloudControllerLLM.classToggles[1].isOn = false;
         if (currentFocus == 0)
         {
             currentFocus = 3;
@@ -306,7 +309,8 @@ public class PCLLMFunctions : CloudControllerLLM
         return true;
     }
     /// <summary>
-    /// This function puts focus on the fourth class in the point cloud (the Tech of the wells). The camera is moved to an angle that gives the user the best overview of this cloud class. 
+    /// This function puts focus on the fourth class in the point cloud (the Tech of the well). 
+    /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
     /// A red highlight color is added to make the current priority more visible. 
     /// The third class (walls) is hidden as to not block for this class. 
     /// Laslty a menu is spawned that shows all instances within the class");
@@ -314,6 +318,8 @@ public class PCLLMFunctions : CloudControllerLLM
     /// <returns>bool true</returns>
     public static bool ShowClass4Tech()
     {
+        cloudControllerLLM.classToggles[0].isOn = false;
+        cloudControllerLLM.classToggles[1].isOn = false;
         if (currentFocus == 0)
         {
             currentFocus = 4;
@@ -335,14 +341,16 @@ public class PCLLMFunctions : CloudControllerLLM
         return true;
     }
     /// <summary>
-    /// This function puts focus on the fifth class in the point cloud (the bottom of the wells). 
+    /// This function puts focus on the fifth class in the point cloud (the pipes within the well). 
     /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
     /// A red highlight color is added to make the current priority more visible. 
     /// Laslty a menu is spawned that shows all instances within the class.
     /// </summary>
     /// <returns>bool true</returns>
-    public static bool ShowClass5Bottom()
+    public static bool ShowClass5Pipes()
     {
+        cloudControllerLLM.classToggles[0].isOn = false;
+        cloudControllerLLM.classToggles[1].isOn = false;
         if (currentFocus == 0)
         {
             currentFocus = 5;
@@ -358,7 +366,37 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.ZoomToClass(5);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
-        functionPrompt = "Class 5 (Bottom) has been prioritiesed.";
+        functionPrompt = "Class 5 (Pipes) has been prioritiesed.";
+        contextPrompt += functionPrompt;
+        return true;
+    }
+    /// <summary>
+    /// This function puts focus on the sixth class in the point cloud (the bottom of the well). 
+    /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
+    /// A red highlight color is added to make the current priority more visible. 
+    /// Laslty a menu is spawned that shows all instances within the class.
+    /// </summary>
+    /// <returns>bool true</returns>
+    public static bool ShowClass6Bottom()
+    {
+        cloudControllerLLM.classToggles[0].isOn = false;
+        cloudControllerLLM.classToggles[1].isOn = false;
+        if (currentFocus == 0)
+        {
+            currentFocus = 5;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+            cloudControllerLLM.ResetClassToggles();
+            currentFocus = 5;
+            cloudControllerLLM.ShowClassInstanceUI(currentFocus);
+        }
+        cloudControllerLLM.keyboardShotcutsEnabled = true;
+        cloudControllerLLM.ZoomToClass(5);
+        cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
+        functionPrompt = "Class 6 (Bottom) has been prioritiesed.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -379,7 +417,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.ResetClassToggles();
         cloudControllerLLM.ExplodedViewSlider.value = 0;
         cloudControllerLLM.keyboardShotcutsEnabled = true;
-        functionPrompt = "I have reset all adjustments to the point cloud. Clearing context string.";
+        functionPrompt = "Adjustments to the point cloud have been reset. Clearing context string.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -408,7 +446,7 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their RGBA values";
-        functionPrompt = "I have colored the point cloud based on point RGB values.";
+        functionPrompt = "Point cloud has been colored based on point RGB values.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -423,10 +461,11 @@ public class PCLLMFunctions : CloudControllerLLM
         cloudControllerLLM.keyboardShotcutsEnabled = true;
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         //return "Displaying Point Clouds as colored by their classification";
-        functionPrompt = "I have colored the point cloud based on point classification.";
+        functionPrompt = "Point cloud has been colored based on point classification.";
         contextPrompt += functionPrompt;
         return true;
     }
+    /*
     /// <summary>
     /// This function converts the point cloud into an Intensity colored version. 
     /// Each point in the cloud gets colored by its intensity.
@@ -441,7 +480,7 @@ public class PCLLMFunctions : CloudControllerLLM
         functionPrompt = "I have colored the point cloud based on point intensity.";
         contextPrompt += functionPrompt;
         return true;
-    }
+    }*/
 
     // Methods for changing background 
     /// <summary>
@@ -500,8 +539,8 @@ public class PCLLMFunctions : CloudControllerLLM
     /// <returns>bool true</returns>
     public static bool ExplodePointCloud()
     {
-        currentFocus = 6;
-        cloudControllerLLM.ExplodedViewSlider.value = 16;
+        currentFocus = 7;
+        cloudControllerLLM.ExplodedViewSlider.value = 25;
         cloudControllerLLM.ZoomToClass(currentFocus);
         functionPrompt = "I have 'exploded' the point cloud.";
         contextPrompt += functionPrompt;

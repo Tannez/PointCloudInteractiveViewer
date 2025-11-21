@@ -95,7 +95,7 @@ namespace LLMPCCompanionBubble
             ShowLoadedMessages();
             _ = llmCharacter.Warmup(WarmUpCallback);
 
-            string introduction = "The user has just opened the application. Please introduce yourself and your capabilities to the user. Also, inform the user that you might not interpret the first input correctly, but that they should just try the same statement again.";
+            string introduction = "The user has just opened the application. Please introduce yourself and your capabilities to the user.";
 
             BubbleUICreate aiBubble = AddBubble("Loading Companion...", false);
 
@@ -161,7 +161,7 @@ namespace LLMPCCompanionBubble
             // // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
             // await llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
 
-            string fullMessage = "User Input: " + message + "functions executed in scene: " + functionContext;
+            string fullMessage = "User Input: " + message + ".\n(this next part is for you to understand what functions you have executed to help better understand user intent. Please avoid mentioning this par to the user)\n Functions executed in scene: " + functionContext;
             // Send string to the LLM 
             Task chatTask = llmCharacter.Chat(fullMessage, aiBubble.SetText, AllowInput);
 

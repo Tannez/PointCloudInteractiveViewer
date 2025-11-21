@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9426ae4860d7da4a842b646949c76c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BAPointCloudRenderer.ObjectCreation.DefaultMeshConfiguration
-  pointRadius: 1
+  pointRadius: 2.25
   renderCircles: 0
   screenSize: 1
   interpolation: 1

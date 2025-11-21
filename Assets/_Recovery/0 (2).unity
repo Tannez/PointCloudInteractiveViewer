@@ -382,7 +382,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1541.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1541.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &9771889
@@ -1171,7 +1171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1401.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1401.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &28472133
@@ -1843,7 +1843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.15911865, y: -134.71887}
+  m_AnchoredPosition: {x: 0.15911865, y: -134.71886}
   m_SizeDelta: {x: -0.333, y: -1565}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &63285121
@@ -2150,7 +2150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1331.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1331.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &79372907
@@ -4370,7 +4370,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1821.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1821.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &171455576
@@ -4813,7 +4813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1681.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1681.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &181453238
@@ -5719,7 +5719,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -2031.503}
+  m_AnchoredPosition: {x: -5.5, y: -2031.5032}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &205209878
@@ -6277,7 +6277,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06244, y: -129.00006}
+  m_AnchoredPosition: {x: -323.06244, y: -129.00005}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &256248379
@@ -7032,7 +7032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06262, y: -59.000122}
+  m_AnchoredPosition: {x: -323.06256, y: -59.000168}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &285613790
@@ -9246,7 +9246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -2031.503}
+  m_AnchoredPosition: {x: -5.5, y: -2031.5032}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &361080066
@@ -9908,7 +9908,7 @@ MonoBehaviour:
   class5CamPosition: {x: 3.1, y: 5.4749, z: -3.46478}
   class5CamOrientation: {x: 53, y: 158.499, z: 0}
   ExplodedPosition: {x: -19.057764, y: 13.375973, z: -12.441812}
-  ExplodedOrientation: {x: 4.5000005, y: 59.25, z: 0}
+  ExplodedOrientation: {x: 18, y: 82.75, z: 0}
 --- !u!1 &400710438
 GameObject:
   m_ObjectHideFlags: 0
@@ -10851,16 +10851,15 @@ MonoBehaviour:
     clear conversation with the user.\r\n* Provide information about the point clouds.\r\n*
     Execute or suggest actions through Unity functions when appropriate.\r\n\r\nYou
     can manipulate the point cloud in the scene using the following controls:\r\n\r\n*
-    Show/hide Point Budget Menu (user access to slider control - point budget menu
-    is next to chat menu)\r\n* Show/hide EDL Control Menu (sliders for radius, exp
-    scale, and scale - EDL menu is next to chat menu)\r\n* Turn EDL On or Off\r\n*
-    Change Background (Skybox, Black, White)\r\n* Select/focus on point cloud class\r\n*
-    Deselect/unfocus point cloud class\r\n* Change ColorMode (RGBA, Classification)\r\n*
+    Show/hide Point Budget Menu (user access to slider control)\r\n* Show/hide EDL
+    Control Menu (sliders for radius, exp scale, and scale)\r\n* Turn EDL On or Off\r\n*
+    Change Background (Skybox, Black, White)\r\n* Show point cloud class\r\n* Hide
+    point cloud class\r\n* Select/focus on point cloud class\r\n* Deselect/unfocus
+    point cloud class\r\n* Change ColorMode (RGBA, Classification, Intensity)\r\n*
     Show/hide exploded view control menu (slider to separate point clouds from each
-    other - exploded view control menu is next to chat menu))\r\n* Explode Cloud
-    (directly sets a value that separates cloud and moves the camera)\r\n\r\n**NOTE**:
-    You can only execute ONE manipulation at a time.\r\n\r\n**IMPORTANT**: Always
-    confirm user intent before executing changes to prevent accidental adjustments.\r\n\r\n###
+    other)\r\n* Explode Cloud (directly sets a value that separates cloud and moves
+    the camera)\r\n\r\n**NOTE**: You can only execute ONE manipulation at a time.\r\n\r\n**IMPORTANT**:
+    Always confirm user intent before executing changes to prevent accidental adjustments.\r\n\r\n###
     POINT CLOUD SCENE ON START\r\n\r\nWhen the scene loads:\r\n* All 9 point cloud
     instances are automatically loaded and visible.\r\n* Point clouds are visualized
     with RGBA color values.\r\n* An EDL (eye-dome-lighting) effect is applied for
@@ -10877,16 +10876,16 @@ MonoBehaviour:
     1 in Class 2 represents the top ceiling structure of the overflow structure.\r\n\r\n##
     CLASS 3: STRUCTURE_WALL INFORMATION\r\nClass 3 consists of 1 instance.\r\nInstance
     1 in Class 3 represents the main wall of the overflow structure.\r\n\r\n## CLASS
-    4: INTERNAL_TECH INFORMATION\r\nClass 4 consists of 2 instances.\r\nInstance
-    1 in Class 4 represents the debris screen installed at the overflow point.\r\nInstance
-    2 in Class 4 represents the flow control gate mechanism.\r\n- Last inspected:
-    2025-05-01\r\n- Inspected by: Kim Baltzer Kallestrup\r\n- Status: Active\r\n\r\n##
-    CLASS 5: CONNECTION_PIPE INFORMATION\r\nClass 5 consists of 2 instances.\r\nInstance
-    1 in Class 5 represents all the inlet/outlet pipes in both the retention basin
-    and the spillway.\r\nInstance 2 in Class 5 represents all the conduit pipes within
-    the structure.\n\n## CLASS 6: STRUCTURE_BOTTOM INFORMATION\nClass 6 consists
-    of 2 instances.\nInstance 1 in Class 6 represents the retention basin floor.\nInstance
-    2 in Class 6 represents the spillway floor.\r\n\r\n### POINT CLOUD USER INTERACTION\r\n\r\nThe
+    4: STRUCTURE_BOTTOM INFORMATION\r\nClass 4 consists of 2 instances.\r\nInstance
+    1 in Class 4 represents the retention basin floor.\r\nInstance 2 in Class 4 represents
+    the spillway floor.\r\n\r\n## CLASS 5: INTERNAL_TECH INFORMATION\r\nClass 5 consists
+    of 2 instances.\r\nInstance 1 in Class 5 represents the debris screen installed
+    at the overflow point.\r\nInstance 2 in Class 5 represents the flow control gate
+    mechanism.\r\n- Last inspected: 2025-05-01\r\n- Inspected by: Kim Baltzer Kallestrup\r\n-
+    Status: Active\r\n\r\n## CLASS 6: CONNECTION_PIPE INFORMATION\r\nClass 6 consists
+    of 2 instances.\r\nInstance 1 in Class 6 represents all the inlet/outlet pipes
+    in both the retention basin and the spillway.\r\nInstance 2 in Class 6 represents
+    all the conduit pipes within the structure.\r\n\r\n### POINT CLOUD USER INTERACTION\r\n\r\nThe
     user can interact with the point cloud and AI companion as follows:\r\n\r\n*CAMERA
     CONTROLS*:\r\n\r\n* W / A / S / D / Q / E - Move in 3D space while holding right
     mouse button (forward, back, left, right, up, down)\r\n* R - Reload all active
@@ -12619,7 +12618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06244, y: -199.00006}
+  m_AnchoredPosition: {x: -323.06244, y: -199.00005}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &489218463
@@ -16173,7 +16172,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1611.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1611.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &636825666
@@ -17780,7 +17779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1891.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1891.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &678920449
@@ -18404,7 +18403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1541.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1541.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &700855829
@@ -22035,7 +22034,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.29, y: 0.85}
   m_AnchorMax: {x: 0.48, y: 1}
-  m_AnchoredPosition: {x: -336.21695, y: -337.14465}
+  m_AnchoredPosition: {x: -336.21692, y: -337.14465}
   m_SizeDelta: {x: -824.1587, y: -201}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &790063209
@@ -22072,7 +22071,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.07024, y: 0}
+  m_AnchoredPosition: {x: 160.07025, y: 0}
   m_SizeDelta: {x: 182.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790063211
@@ -23051,7 +23050,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1471.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1471.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &831668377
@@ -24025,7 +24024,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.57024, y: 0}
+  m_AnchoredPosition: {x: 160.57025, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &870594680
@@ -24646,7 +24645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1961.503}
+  m_AnchoredPosition: {x: -5.5, y: -1961.5032}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &896627490
@@ -29863,7 +29862,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1821.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1821.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1087596189
@@ -30211,7 +30210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1471.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1471.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1098247417
@@ -31474,7 +31473,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1891.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1891.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1121791995
@@ -32153,7 +32152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06244, y: -199.00006}
+  m_AnchoredPosition: {x: -323.06244, y: -199.00005}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &1157261704
@@ -34896,7 +34895,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06244, y: -129.00006}
+  m_AnchoredPosition: {x: -323.06244, y: -129.00005}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &1253637852
@@ -38115,7 +38114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1751.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1751.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1351188238
@@ -43006,7 +43005,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1331.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1331.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1555365997
@@ -43564,7 +43563,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1961.503}
+  m_AnchoredPosition: {x: -5.5, y: -1961.5032}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1566194326
@@ -46781,7 +46780,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1681.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1681.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1676580109
@@ -47165,7 +47164,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.57024, y: 0}
+  m_AnchoredPosition: {x: 160.57025, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1678430547
@@ -50295,7 +50294,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06262, y: -59.000122}
+  m_AnchoredPosition: {x: -323.06256, y: -59.000168}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &1769883706
@@ -51564,7 +51563,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1401.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1401.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1828651901
@@ -53885,7 +53884,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1751.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1751.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1923355038
@@ -55365,7 +55364,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.29, y: 0.73}
   m_AnchorMax: {x: 0.43, y: 1}
-  m_AnchoredPosition: {x: 62.253174, y: 67.84802}
+  m_AnchoredPosition: {x: 62.253174, y: 67.84801}
   m_SizeDelta: {x: -138.46973, y: -320.61}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1974999758
@@ -59175,7 +59174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1611.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1611.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2087128893
@@ -60336,7 +60335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.57024, y: 0}
+  m_AnchoredPosition: {x: 160.57025, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2141425548

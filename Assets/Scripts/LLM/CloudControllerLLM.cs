@@ -10,9 +10,30 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using BAPointCloudRenderer.Controllers;
+using LLMPCCompanionBubble;
 
 public class CloudControllerLLM : MonoBehaviour
 {
+    // LLM access
+    private static PointCloudCompanion _pointCloudCompanion;
+    private static PointCloudCompanion pointCloudCompanion
+    {
+        get
+        {
+            // If already cached and still valid, return it
+            if (_pointCloudCompanion != null)
+                return _pointCloudCompanion;
+
+            // Otherwise, find it in the scene and cache it
+            _pointCloudCompanion = FindFirstObjectByType<PointCloudCompanion>();
+
+            if (_pointCloudCompanion == null)
+                Debug.LogWarning("PointCloudCompanion not found in scene!");
+
+            return _pointCloudCompanion;
+        }
+    }
+
     //Cam Access
     Camera cam;
     CameraController camcontrol;
@@ -617,6 +638,17 @@ public class CloudControllerLLM : MonoBehaviour
             UnSelectCloudClass(5);
             classSelected[4] = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6) && classSelected[5] == false)
+        {
+            SelectCloudClass(6);
+            classSelected[5] = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6) && classSelected[5] == true)
+        {
+            UnSelectCloudClass(6);
+            classSelected[5] = false;
+        }
     }
 
     // Method For Toggling The Various Classes
@@ -1008,7 +1040,14 @@ public class CloudControllerLLM : MonoBehaviour
                 iToggle.isOn = true;
                 iToggle.gameObject.SetActive(true);
                 iToggle.graphic.enabled = true;
-                iToggle.GetComponentInChildren<Text>().text = $"Class {cloudClass}; Instance: " + (pciT + 1);
+                //iToggle.GetComponentInChildren<Text>().text = $"Class {cloudClass}; Instance: " + (pciT + 1); // Default name
+                iToggle.GetComponentInChildren<Text>().text = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(pciT).GetChild(0).name.Substring(6);
+
+                if (iToggle.GetComponentInChildren<Text>().text.Length <= 0)
+                {
+                    iToggle.GetComponentInChildren<Text>().text = classToggles[cloudClass - 1].GetComponentInChildren<Text>().text;
+                }
+
                 pciT++;
             }
             else
@@ -1402,6 +1441,9 @@ public class CloudControllerLLM : MonoBehaviour
                 //Debug.Log($"Instance {cloudInstance} in Class {cloudClass} is selected");
             }
         }
+
+        string clickPrompt = "User has clicked and selected the button for cloud instance: " + cloudInstance + " within the menu for class: " + cloudClass + ". \nLet the user know all available information about this cloud instance";
+        pointCloudCompanion.SendChatMessage(clickPrompt);
     }
     public void UnSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
