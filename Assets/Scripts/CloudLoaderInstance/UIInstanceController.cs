@@ -1109,6 +1109,7 @@ public class UIInstanceController : MonoBehaviour
         }
 
         int pciT = 0;
+        int pointLoaderChild = 0;
 
         // Set toggle instances to true and active
         foreach (Toggle iToggle in InstanceTogglesClass)
@@ -1118,8 +1119,16 @@ public class UIInstanceController : MonoBehaviour
                 iToggle.isOn = true;
                 iToggle.gameObject.SetActive(true);
                 iToggle.graphic.enabled = true;
-                iToggle.GetComponentInChildren<Text>().text = $"Class {cloudClass}; Instance: " + (pciT + 1);
+                //iToggle.GetComponentInChildren<Text>().text = $"Class {cloudClass}; Instance: " + (pciT + 1); // Default name
+                iToggle.GetComponentInChildren<Text>().text = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(pointLoaderChild).GetChild(0).name.Substring(6);
+
+                if (iToggle.GetComponentInChildren<Text>().text.Length <= 0)
+                {
+                    iToggle.GetComponentInChildren<Text>().text = classToggles[cloudClass - 1].GetComponentInChildren<Text>().text;
+                }
+
                 pciT++;
+                pointLoaderChild++;
             }
             else
             {
@@ -1291,7 +1300,7 @@ public class UIInstanceController : MonoBehaviour
         yield return null;
     }
 
-    // Method for UI buttons to show selected cloud Classes // DEPRECATED METHOD
+    /*// Method for UI buttons to show selected cloud Classes // DEPRECATED METHOD
     // public void cloudClassSelection(int cloudClass) // DEPRECATED METHOD - AVAILABLE IF WANTING TO MAKE CLOUD SELECTION PER CLASS USE THE RED COLOR FOR CLASS SELECTION
     // {
     //     if (!loadingClassButtons)
@@ -1356,7 +1365,7 @@ public class UIInstanceController : MonoBehaviour
     //             classSelected[4] = false;
     //         }
     //     }
-    // }
+    // }*/
 
     // Methods to condense code for the cloud instance selection method
     private void SelectCloudInstance(int cloudInstance)
@@ -1984,7 +1993,7 @@ public class UIInstanceController : MonoBehaviour
         }
     }
 
-    // // Show the LLM window 
+    /*// // Show the LLM window 
     // public void ShowLLMInteract()
     // {
     //     if (LLMMenuActive == false)
@@ -2019,7 +2028,7 @@ public class UIInstanceController : MonoBehaviour
     //         LLMPanelsUI.SetActive(false);
     //         LLMMenuActive = false;
     //     }
-    // }
+    // }*/
 
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public IEnumerator ReloadClouds()
