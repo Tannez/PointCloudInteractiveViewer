@@ -1109,7 +1109,6 @@ public class UIInstanceController : MonoBehaviour
         }
 
         int pciT = 0;
-        int pointLoaderChild = 0;
 
         // Set toggle instances to true and active
         foreach (Toggle iToggle in InstanceTogglesClass)
@@ -1120,7 +1119,7 @@ public class UIInstanceController : MonoBehaviour
                 iToggle.gameObject.SetActive(true);
                 iToggle.graphic.enabled = true;
                 //iToggle.GetComponentInChildren<Text>().text = $"Class {cloudClass}; Instance: " + (pciT + 1); // Default name
-                iToggle.GetComponentInChildren<Text>().text = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(pointLoaderChild).GetChild(0).name.Substring(6);
+                iToggle.GetComponentInChildren<Text>().text = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(pciT).GetChild(0).name.Substring(6);
 
                 if (iToggle.GetComponentInChildren<Text>().text.Length <= 0)
                 {
@@ -1128,7 +1127,6 @@ public class UIInstanceController : MonoBehaviour
                 }
 
                 pciT++;
-                pointLoaderChild++;
             }
             else
             {
