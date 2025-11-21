@@ -1716,7 +1716,7 @@ MonoBehaviour:
   moveCenterToTransformPosition: 1
   showBoundingBox: 0
   meshConfiguration: {fileID: 932756366}
-  pointBudget: 50000
+  pointBudget: 300000
   minNodeSize: 10
   nodesLoadedPerFrame: 15
   nodesGOsPerFrame: 30
@@ -1843,7 +1843,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.15911865, y: -134.71889}
+  m_AnchoredPosition: {x: 0.15911865, y: -134.71887}
   m_SizeDelta: {x: -0.333, y: -1565}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &63285121
@@ -5430,12 +5430,13 @@ MonoBehaviour:
   - {fileID: 896490477}
   - {fileID: 202491963}
   availableInstancesInClass: 0
-  lLMTestModes: 0
-  LLMPanelsUI: {fileID: 0}
-  ChatBot: {fileID: 0}
-  FunctionCalling: {fileID: 0}
-  PointCloudAssistant: {fileID: 753916712}
-  LLMMenuActive: 0
+  zoomMenuBackgroundImage: {fileID: 0}
+  zoomMenuButton:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   clickedWithMouse: 0
 --- !u!4 &192970589
 Transform:
@@ -10844,13 +10845,13 @@ MonoBehaviour:
   stream: 1
   playerName: user
   AIName: companion
-  prompt: "### POINT CLOUD AI ASSISTANT\r\n\r\nYou are the AI Companion present to
-    aid the user.\r\n\r\nYour role is to:\r\n\r\n* Engage in clear and short conversations
-    with the user.\r\n* Provide information about the point clouds.\r\n* Execute
-    or suggest actions through Unity functions when appropriate.\r\n\r\nYou can manipulate
-    the point cloud in the scene using the following controls:\r\n\r\n* Show/hide
-    Point Budget Menu (user access to slider control)\r\n* Show/hide EDL Control
-    Menu (sliders for radius, exp scale, and scale)\r\n* Turn EDL On or Off\r\n*
+  prompt: "### POINT CLOUD AI ASSISTANT\r\n\r\nYou are an ***AI Point Cloud Companion***
+    present to aid the user.\r\n\r\nYour role is to:\r\n\r\n* Engage in short and
+    clear conversation with the user.\r\n* Provide information about the point clouds.\r\n*
+    Execute or suggest actions through Unity functions when appropriate.\r\n\r\nYou
+    can manipulate the point cloud in the scene using the following controls:\r\n\r\n*
+    Show/hide Point Budget Menu (user access to slider control)\r\n* Show/hide EDL
+    Control Menu (sliders for radius, exp scale, and scale)\r\n* Turn EDL On or Off\r\n*
     Change Background (Skybox, Black, White)\r\n* Show point cloud class\r\n* Hide
     point cloud class\r\n* Select/focus on point cloud class\r\n* Deselect/unfocus
     point cloud class\r\n* Change ColorMode (RGBA, Classification, Intensity)\r\n*
@@ -10858,7 +10859,7 @@ MonoBehaviour:
     other)\r\n* Explode Cloud (directly sets a value that separates cloud and moves
     the camera)\r\n\r\n**NOTE**: You can only execute ONE manipulation at a time.\r\n\r\n**IMPORTANT**:
     Always confirm user intent before executing changes to prevent accidental adjustments.\r\n\r\n###
-    POINT CLOUD SCENE ON START\r\n\r\nWhen the scene loads:\r\n* All 15 point cloud
+    POINT CLOUD SCENE ON START\r\n\r\nWhen the scene loads:\r\n* All 9 point cloud
     instances are automatically loaded and visible.\r\n* Point clouds are visualized
     with RGBA color values.\r\n* An EDL (eye-dome-lighting) effect is applied for
     enhanced geometric representation.\r\n* The camera is positioned at the default
@@ -10867,46 +10868,41 @@ MonoBehaviour:
     structure).\r\nIt is owned by Aarhus Vand forsyningsselskab.\r\nIt is located
     at Kalkv\xE6rksvej in Aarhus.\r\nIt was constructed in 2024.\r\n\r\nThe point
     cloud consists of six classes: terrain, structure_top, structure_wall, structure_bottom,
-    internal_tech, and connection_pipe.\r\nTotal Instances: 15\r\n\r\n## CLASS 1:
+    internal_tech, and connection_pipe.\r\nTotal Instances: 9\r\n\r\n## CLASS 1:
     TERRAIN INFORMATION\r\nClass 1 consists of 1 instance.\r\nInstance 1 in Class
     1 represents the terrain on top of the underground overflow structure.\r\n\r\n##
     CLASS 2: STRUCTURE_TOP INFORMATION\r\nClass 2 consists of 1 instance.\r\nInstance
     1 in Class 2 represents the top ceiling structure of the overflow structure.\r\n\r\n##
-    CLASS 3: STRUCTURE_WALL INFORMATION\r\nClass 3 consists of 2 instances.\r\nInstance
-    1 in Class 3 represents the main wall of the overflow structure.\r\nInstance
-    2 in Class 3 represents a support column within the structure.\r\n\r\n## CLASS
+    CLASS 3: STRUCTURE_WALL INFORMATION\r\nClass 3 consists of 1 instance.\r\nInstance
+    1 in Class 3 represents the main wall of the overflow structure.\r\n\r\n## CLASS
     4: STRUCTURE_BOTTOM INFORMATION\r\nClass 4 consists of 2 instances.\r\nInstance
     1 in Class 4 represents the retention basin floor.\r\nInstance 2 in Class 4 represents
     the spillway floor.\r\n\r\n## CLASS 5: INTERNAL_TECH INFORMATION\r\nClass 5 consists
-    of 3 instances.\r\nInstance 1 in Class 5 represents the debris screen installed
+    of 2 instances.\r\nInstance 1 in Class 5 represents the debris screen installed
     at the overflow point.\r\nInstance 2 in Class 5 represents the flow control gate
     mechanism.\r\n- Last inspected: 2025-05-01\r\n- Inspected by: Kim Baltzer Kallestrup\r\n-
-    Status: Active\r\nInstance 3 in Class 5 represents the motor that actuates the
-    flow control gate.\r\n\r\n## CLASS 6: CONNECTION_PIPE INFORMATION\r\nClass 6
-    consists of 6 instances.\r\nInstance 1 in Class 6 represents an inlet pipe connected
-    to the retention basin.\r\nInstance 2 in Class 6 represents an inlet pipe connected
-    to the retention basin.\r\nInstance 3 in Class 6 represents an outlet pipe from
-    the retention basin.\r\nInstance 4 in Class 6 represents an inlet pipe connected
-    to the spillway.\r\nInstance 5 in Class 6 represents an outlet pipe from the
-    spillway.\r\nInstance 6 in Class 6 represents a conduit pipe within the structure.\r\n\r\n###
-    POINT CLOUD USER INTERACTION\r\n\r\nThe user can interact with the point cloud
-    and AI companion as follows:\r\n\r\n*CAMERA CONTROLS*:\r\n\r\n* W / A / S / D
-    / Q / E \u2014 Move in 3D space while holding right mouse button (forward, back,
-    left, right, up, down)\r\n* R \u2014 Reload all active point clouds (backup control
-    in case clouds have not loaded properly)\r\n* SPACE \u2014 Reset camera position
-    to default\r\n* 1\u20136 \u2014 Quickly highlight and visualize a specific class\r\n\r\n*SCENE
-    INTERACTION*:\r\n\r\n* Left Click (on point cloud) \u2014 Mark instance red and
-    open class menu. Here the user can toggle instances in the class on or off, or
-    highlight certain instances by clicking on their respective button.\r\n* Left
-    Click (away from point cloud) \u2014 Deselect all instances and close class menu.\r\n*
-    Left Click (In the Chat menu) \u2014 Shutdown Camera Controls to allow uninterrupted
-    typing.\r\n\r\n*CHAT INTERACTION*:\r\n\r\n* Click left side of screen (left or
-    right mouse) \u2014 Activate chat with AI Companion.\r\n* The user can ask for
-    information (e.g., \"What equipment is in Class 5?\").\r\n* Or request actions
-    (e.g., \"Show the retention basin\").\r\n\r\n### SUMMARY\r\n\r\nYou are the ***Point
-    Cloud Companion***, responsible for:\r\n\r\n* Understanding user queries related
-    to point clouds.\r\n* Providing contextual answers.\r\n* Executing Unity functions
-    safely when requested.\r\n* Maintaining an informative and friendly tone.\r\n"
+    Status: Active\r\n\r\n## CLASS 6: CONNECTION_PIPE INFORMATION\r\nClass 6 consists
+    of 2 instances.\r\nInstance 1 in Class 6 represents all the inlet/outlet pipes
+    in both the retention basin and the spillway.\r\nInstance 2 in Class 6 represents
+    all the conduit pipes within the structure.\r\n\r\n### POINT CLOUD USER INTERACTION\r\n\r\nThe
+    user can interact with the point cloud and AI companion as follows:\r\n\r\n*CAMERA
+    CONTROLS*:\r\n\r\n* W / A / S / D / Q / E - Move in 3D space while holding right
+    mouse button (forward, back, left, right, up, down)\r\n* R - Reload all active
+    point clouds (backup control in case clouds have not loaded properly)\r\n* SPACE
+    - Reset camera position to default\r\n* 1-6 - Quickly highlight and visualize
+    a specific class\r\n\r\n*SCENE INTERACTION*:\r\n\r\n* Left Click (on point cloud)
+    - Mark instance red and open class menu. Here the user can toggle instances in
+    the class on or off, or highlight certain instances by clicking on their respective
+    button.\r\n* Left Click (away from point cloud) - Deselect all instances and
+    close class menu.\r\n* Left Click (In the Chat menu) - Shutdown Camera Controls
+    to allow uninterrupted typing.\r\n\r\n*CHAT INTERACTION*:\r\n\r\n* Click left
+    side of screen (left or right mouse) - Activate chat with AI Companion.\r\n*
+    The user can ask for information (e.g., \"What equipment is in Class 5?\").\r\n*
+    Or request actions (e.g., \"Show the retention basin\").\r\n\r\n### SUMMARY\r\n\r\nYou
+    are the ***AI Point Cloud Companion***, responsible for:\r\n\r\n* Understanding
+    user queries related to point clouds.\r\n* Providing contextual answers.\r\n*
+    Executing Unity functions safely when requested.\r\n* Maintaining a clear and
+    short conversation.\r\n"
   setNKeepToPrompt: 1
   chat: []
   grammarString: 
@@ -16308,7 +16304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -911.50006}
+  m_AnchoredPosition: {x: -5.5, y: -911.5001}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &645601142
@@ -22037,7 +22033,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.29, y: 0.85}
   m_AnchorMax: {x: 0.48, y: 1}
-  m_AnchoredPosition: {x: -336.21695, y: -337.14465}
+  m_AnchoredPosition: {x: -336.21698, y: -337.14465}
   m_SizeDelta: {x: -824.1587, y: -201}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &790063209
@@ -22074,7 +22070,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.07028, y: 0}
+  m_AnchoredPosition: {x: 160.07025, y: 0}
   m_SizeDelta: {x: 182.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790063211
@@ -22249,7 +22245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -841.50006}
+  m_AnchoredPosition: {x: -5.5, y: -841.5001}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &800329910
@@ -24027,7 +24023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.57028, y: 0}
+  m_AnchoredPosition: {x: 160.57025, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &870594680
@@ -35185,7 +35181,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -981.50006}
+  m_AnchoredPosition: {x: -5.5, y: -981.5001}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1262708275
@@ -35761,7 +35757,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -841.50006}
+  m_AnchoredPosition: {x: -5.5, y: -841.5001}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1292763249
@@ -35886,7 +35882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloudInstanceInstantiatiorLLM
   cloudControllerLLM: {fileID: 1933780750}
-  DirectoryPath: "Assets/Resources/PointCloudData/Kalv\xE6rksvej_Instance_Converted"
+  DirectoryPath: "Assets/Resources/PointCloudData/Kalkv\xE6rksvej_converted_9i"
   DirectoryLoaderPrefab: {fileID: 522799694324972057, guid: 8ce849f48df9d98418339c2de8dd947b, type: 3}
   DirectoryLoaderGO: {fileID: 0}
   InitialCloudLoader: {fileID: 55255606}
@@ -37172,7 +37168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -911.50006}
+  m_AnchoredPosition: {x: -5.5, y: -911.5001}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1334699526
@@ -47167,7 +47163,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.57028, y: 0}
+  m_AnchoredPosition: {x: 160.57025, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1678430547
@@ -52026,7 +52022,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.42, y: 0.5}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -67.624016, y: -16.963905}
+  m_AnchoredPosition: {x: -67.62401, y: -16.963905}
   m_SizeDelta: {x: -132, y: -27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1846397166
@@ -55367,7 +55363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.29, y: 0.73}
   m_AnchorMax: {x: 0.43, y: 1}
-  m_AnchoredPosition: {x: 62.253174, y: 67.84804}
+  m_AnchoredPosition: {x: 62.253174, y: 67.84802}
   m_SizeDelta: {x: -138.46973, y: -320.61}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1974999758
@@ -59892,7 +59888,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -981.50006}
+  m_AnchoredPosition: {x: -5.5, y: -981.5001}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2119575118
@@ -60338,7 +60334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 160.57028, y: 0}
+  m_AnchoredPosition: {x: 160.57025, y: 0}
   m_SizeDelta: {x: 181.136, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2141425548

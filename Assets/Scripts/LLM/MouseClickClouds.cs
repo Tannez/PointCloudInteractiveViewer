@@ -109,11 +109,13 @@ public class MouseClickClouds : MonoBehaviour
         if (IsPointerOverUI())
         {
             //Debug.Log("Mouse over UI");
+            cloudControllerLLM.keyboardShotcutsEnabled = false;
             return;
         }
 
         else
         {
+            cloudControllerLLM.keyboardShotcutsEnabled = true;
             StartCoroutine(ClickOnPointCloud());
         }
     }
