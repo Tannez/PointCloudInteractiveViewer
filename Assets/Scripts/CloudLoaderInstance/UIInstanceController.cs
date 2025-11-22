@@ -170,6 +170,9 @@ public class UIInstanceController : MonoBehaviour
             pci.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
         }
 
+        pointBudgetSlider.value = PCPointBudget;
+        pointBudgetSliderText.text = PCPointBudget.ToString();
+
         //Debug.Log("Point Clouds available in UI: " + PCClasses.Count);
 
         // Get EDL values from EdlCamera Script
@@ -201,6 +204,7 @@ public class UIInstanceController : MonoBehaviour
         // Set Available toggles and buttons based on class amount
         LoadClassToggles();
         LoadClassSelectionButtons();
+        ZoomToDefault();
 
         // ChatBot.SetActive(false);
         // FunctionCalling.SetActive(false);
@@ -224,33 +228,26 @@ public class UIInstanceController : MonoBehaviour
     // Method For Changing Point Budget Of Point Clouds
     public void PCValueChangeCheck()
     {
-        int cloudClassIter = 0;
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
-        {
-            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-            {
-                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-
-                if (instanceInClass.name.StartsWith("Cloud:") && classHidden[cloudClassIter] == false)
-                {
-                    // Remove Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                    // ShutDown V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().PointRenderer.ShutDown();
-                    // Disable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(false);
-                }
-            }
-            cloudClassIter++;
-        }
+        // stop loading
+        StartCoroutine(StopLoadingClouds());
 
         // Change Value Of Point Budget
         PCPointBudget = (uint)pointBudgetSlider.value;
 
-        cloudClassIter = 0;
+        // set point budget for each cloud
+        StartCoroutine(SetPointBudget());
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        pointBudgetSliderText.text = PCPointBudget.ToString();
+
+        // start loading
+        StartCoroutine(StartLoadingClouds());
+    }
+    //Coroutine to set the point budget
+    IEnumerator SetPointBudget()
+    {
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryInstanceLoader.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -261,31 +258,8 @@ public class UIInstanceController : MonoBehaviour
                     instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
                 }
             }
-            cloudClassIter++;
         }
-
-        pointBudgetSliderText.text = PCPointBudget.ToString();
-
-        cloudClassIter = 0;
-
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
-        {
-            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
-            {
-                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
-
-                if (instanceInClass.name.StartsWith("Cloud:") && classHidden[cloudClassIter] == false)
-                {
-                    // Enable DynamicPointCloudSet Component
-                    instanceInClass.SetActive(true);
-                    // Enable Clouds
-                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-                    // Show V2 Renderer
-                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-                }
-            }
-            cloudClassIter++;
-        }
+        yield return null;
     }
 
     // Methods For EDL Parameters
@@ -2210,6 +2184,8 @@ public class UIInstanceController : MonoBehaviour
 
         if (cloudClass == 1 && zoomToButtonActive[0] == false)
         {
+            classToggles[0].isOn = true;
+            classToggles[1].isOn = true;
             zoomToButtonActive[0] = true;
             zoomMenuButton[0].image.color = new Color(0, 0, 125);
             return;

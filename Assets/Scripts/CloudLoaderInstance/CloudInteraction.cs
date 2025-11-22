@@ -83,16 +83,25 @@ public class CloudInteraction : MonoBehaviour
 
         // IF CLASS INSTANCE UI IS OPEN: CHECK INSTANCE STATUS
         // IF INSTANCE SELECTED WHILE OTHER INSTANCE IS ACTIVE
-        else if (uIInstanceController.classInstanceUIActive == true && uIInstanceController.classInstanceSelected.Contains(true) && uIInstanceController.clickedWithMouse == true)
+        if (uIInstanceController.classInstanceUIActive == true && uIInstanceController.classInstanceSelected.Contains(true) && uIInstanceController.clickedWithMouse == true)
         {
             // MARK INSTANCE
             uIInstanceController.cloudClassInstanceMouseSelection(uIInstanceController.activeClassInstanceInMenu, cloudInstance);
+            return;
+        }
 
-            // IF NO INSTANCES ARE ACTIVE ANYMORE: CLOSE CLASS INSTANCE UI 
-            if (!uIInstanceController.classInstanceSelected.Contains(true))
-            {
-                uIInstanceController.ShowClassInstanceUI(uIInstanceController.activeClassInstanceInMenu);
-            }
+        // IF NO INSTANCE SELECTED BUT MENU IS OPEN
+        if (uIInstanceController.classInstanceUIActive == true && uIInstanceController.clickedWithMouse == true)
+        {
+            // MARK INSTANCE
+            uIInstanceController.cloudClassInstanceMouseSelection(uIInstanceController.activeClassInstanceInMenu, cloudInstance);
+            return;
+        }
+
+        // IF NO INSTANCES ARE ACTIVE ANYMORE: CLOSE CLASS INSTANCE UI 
+        if (!uIInstanceController.classInstanceSelected.Contains(true))
+        {
+            uIInstanceController.ShowClassInstanceUI(uIInstanceController.activeClassInstanceInMenu);
             return;
         }
     }
@@ -216,8 +225,8 @@ public class CloudInteraction : MonoBehaviour
 
             if (classesSelected > 0 && instancesSelected > 0) // Must have a selected target
             {
-                displayedClassSelection = selectedClasses[classesSelected - 1];
-                displayedInstanceSelection = selectedInstances[instancesSelected - 1];
+                displayedClassSelection = selectedClasses[classesSelected/2];
+                displayedInstanceSelection = selectedInstances[classesSelected/2];
 
                 //Debug.Log("Displayed Class: " + displayedClassSelection);
                 //Debug.Log("Displayed Class: " + displayedInstanceSelection);

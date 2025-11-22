@@ -139,6 +139,8 @@ namespace LLMPCCompanionBubble
             // Clear user input bubble
             inputBubble.SetText("");
 
+            cloudControllerLLM.keyboardShotcutsEnabled = true;
+
             // Attempt to execute function 
             (bool, string, string) applyFunction = await functionHandler.TryExecuteCommand(message);
 

@@ -157,6 +157,9 @@ public class CloudControllerLLM : MonoBehaviour
             pci.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
         }
 
+        pointBudgetSlider.value = PCPointBudget;
+        pointBudgetSliderText.text = PCPointBudget.ToString();
+
         //Debug.Log("Point Clouds available in UI: " + PCClasses.Count);
 
         // Get EDL values from EdlCamera Script
@@ -188,6 +191,7 @@ public class CloudControllerLLM : MonoBehaviour
         // Set Available toggles and buttons based on class amount
         LoadClassToggles();
         LoadClassSelectionButtons();
+        ZoomToDefault();
     }
 
     void Update()
@@ -202,6 +206,13 @@ public class CloudControllerLLM : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && keyboardShotcutsEnabled == true)
         {
             StartCoroutine(ReloadClouds());
+        }
+
+        // reset clouds and turn of menu
+        if (Input.GetKeyDown(KeyCode.Escape) && keyboardShotcutsEnabled == true && classInstanceUIActive==true)
+        {
+            ShowClassInstanceUI(activeClassInstanceInMenu);
+            ResetClassToggles();
         }
     }
 
@@ -591,7 +602,7 @@ public class CloudControllerLLM : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1) && classSelected[0] == true)
         {
-            UnSelectCloudClass(1);
+            StartCoroutine(UnSelectCloudClass(1));
             classSelected[0] = false;
         }
 
@@ -602,7 +613,7 @@ public class CloudControllerLLM : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) && classSelected[1] == true)
         {
-            UnSelectCloudClass(2);
+            StartCoroutine(UnSelectCloudClass(2));
             classSelected[1] = false;
         }
 
@@ -613,7 +624,7 @@ public class CloudControllerLLM : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) && classSelected[2] == true)
         {
-            UnSelectCloudClass(3);
+            StartCoroutine(UnSelectCloudClass(3));
             classSelected[2] = false;
         }
 
@@ -624,7 +635,7 @@ public class CloudControllerLLM : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4) && classSelected[3] == true)
         {
-            UnSelectCloudClass(4);
+            StartCoroutine(UnSelectCloudClass(4));
             classSelected[3] = false;
         }
 
@@ -635,7 +646,7 @@ public class CloudControllerLLM : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5) && classSelected[4] == true)
         {
-            UnSelectCloudClass(5);
+            StartCoroutine(UnSelectCloudClass(5));
             classSelected[4] = false;
         }
 
@@ -646,7 +657,7 @@ public class CloudControllerLLM : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha6) && classSelected[5] == true)
         {
-            UnSelectCloudClass(6);
+            StartCoroutine(UnSelectCloudClass(6));
             classSelected[5] = false;
         }
     }
@@ -1442,7 +1453,7 @@ public class CloudControllerLLM : MonoBehaviour
             }
         }
 
-        string clickPrompt = "User has clicked and selected the button for cloud instance: " + cloudInstance + " within the menu for class: " + cloudClass + ". \nLet the user know all available information about this cloud instance";
+        string clickPrompt = "User has clicked and selected the button for cloud instance: " + cloudInstance + " within the menu for class: " + cloudClass + ". \nPlease let the user know only available information about this cloud instance";
         pointCloudCompanion.SendChatMessage(clickPrompt);
     }
     public void UnSelectCloudClassInstance(int cloudClass, int cloudInstance)
@@ -1639,6 +1650,9 @@ public class CloudControllerLLM : MonoBehaviour
                 //Debug.Log($"Instance {cloudInstance} in Class {cloudClass} is selected");
             }
         }
+
+        string clickPrompt = "User has clicked on cloud class: " + cloudClass + " instance: " + cloudInstance + " directly with the mouse.\n Please let them know what cloud they have currently selected and provide them with information about it.";
+        pointCloudCompanion.SendChatMessage(clickPrompt);
         yield return null;
     }
     public IEnumerator MouseUnSelectCloudClassInstance(int cloudClass, int cloudInstance)
@@ -1928,10 +1942,10 @@ public class CloudControllerLLM : MonoBehaviour
                 // ShutDown V2 Renderer
                 pci.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
                 // Disable DynamicPointCloudSet Component
-                pci.SetActive(false);
+                //pci.SetActive(false);
 
                 // Enable DynamicPointCloudSet Component
-                pci.SetActive(true);
+                //pci.SetActive(true);
                 // Enable Clouds
                 pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 // Show V2 Renderer

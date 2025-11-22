@@ -258,7 +258,7 @@ public class PCLLMFunctions : CloudControllerLLM
     /// <returns>bool true</returns>
     public static bool ShowClass2Top()
     {
-        cloudControllerLLM.classToggles[1].isOn = false;
+        cloudControllerLLM.classToggles[0].isOn = false;
         if (currentFocus == 0)
         {
             currentFocus = 2;
@@ -364,7 +364,7 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.ZoomToClass(5);
+        cloudControllerLLM.ZoomToClass(3);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "Class 5 (Pipes) has been prioritiesed.";
         contextPrompt += functionPrompt;
@@ -394,7 +394,7 @@ public class PCLLMFunctions : CloudControllerLLM
             cloudControllerLLM.ShowClassInstanceUI(currentFocus);
         }
         cloudControllerLLM.keyboardShotcutsEnabled = true;
-        cloudControllerLLM.ZoomToClass(5);
+        cloudControllerLLM.ZoomToClass(4);
         cloudControllerLLM.StartCoroutine(cloudControllerLLM.ReloadClouds());
         functionPrompt = "Class 6 (Bottom) has been prioritiesed.";
         contextPrompt += functionPrompt;
@@ -409,7 +409,7 @@ public class PCLLMFunctions : CloudControllerLLM
     /// Laslty the menu showcasing all instances within the class is hidden.
     /// </summary>
     /// <returns>bool true</returns>
-    public static bool ResetClassFocus()
+    public static bool ResetPointCloud()
     {
         currentFocus = 0;
         cloudControllerLLM.ResetSelection();
@@ -440,7 +440,7 @@ public class PCLLMFunctions : CloudControllerLLM
     /// This is the default color mode.
     /// </summary>
     /// <returns>bool true</returns>
-    public static bool RGBAColorMode()
+    public static bool RGBColorMode()
     {
         cloudControllerLLM.colorModeDropDown.value = 0;
         cloudControllerLLM.keyboardShotcutsEnabled = true;
@@ -542,7 +542,8 @@ public class PCLLMFunctions : CloudControllerLLM
         currentFocus = 7;
         cloudControllerLLM.ExplodedViewSlider.value = 25;
         cloudControllerLLM.ZoomToClass(currentFocus);
-        functionPrompt = "I have 'exploded' the point cloud.";
+        currentFocus = 0;
+        functionPrompt = "The point cloud has been 'exploded'. \n Classes are separated based on the slider value of 25 for the exploded view. \n Camera has been moved for all clouds to be visible.";
         contextPrompt += functionPrompt;
         return true;
     }

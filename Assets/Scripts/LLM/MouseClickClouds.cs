@@ -31,25 +31,6 @@ public class MouseClickClouds : MonoBehaviour
         }
     }
 
-    private static PointCloudCompanion _pointCloudCompanion;
-    private static PointCloudCompanion pointCloudCompanion
-    {
-        get
-        {
-            // If already cached and still valid, return it
-            if (_pointCloudCompanion != null)
-                return _pointCloudCompanion;
-
-            // Otherwise, find it in the scene and cache it
-            _pointCloudCompanion = FindFirstObjectByType<PointCloudCompanion>();
-
-            if (_pointCloudCompanion == null)
-                Debug.LogWarning("PointCloudCompanion not found in scene!");
-
-            return _pointCloudCompanion;
-        }
-    }
-
     public List<DirectoryInstanceLoaderLLM.PCInstances> pClasses = new List<DirectoryInstanceLoaderLLM.PCInstances>();
     Ray ray;
     bool classSelectedwithMouse = false;
@@ -127,23 +108,30 @@ public class MouseClickClouds : MonoBehaviour
         {
             cloudControllerLLM.ShowClassInstanceUI(cloudClass);
             cloudControllerLLM.cloudClassInstanceMouseSelection(cloudClass, cloudInstance);
-            string clickPrompt = "User has clicked on cloud class: " + cloudClass + " instance: " + cloudInstance + ". Let them know what cloud they have currently selected, and tell them that the menu on the right lets them control all instances in class: " + cloudClass + ".";
-            pointCloudCompanion.SendChatMessage(clickPrompt);
             return;
         }
 
         // IF CLASS INSTANCE UI IS OPEN: CHECK INSTANCE STATUS
         // IF INSTANCE SELECTED WHILE OTHER INSTANCE IS ACTIVE
-        else if (cloudControllerLLM.classInstanceUIActive == true && cloudControllerLLM.classInstanceSelected.Contains(true) && cloudControllerLLM.clickedWithMouse == true)
+        if (cloudControllerLLM.classInstanceUIActive == true && cloudControllerLLM.classInstanceSelected.Contains(true) && cloudControllerLLM.clickedWithMouse == true)
         {
             // MARK INSTANCE
             cloudControllerLLM.cloudClassInstanceMouseSelection(cloudControllerLLM.activeClassInstanceInMenu, cloudInstance);
+            return;
+        }
 
-            // IF NO INSTANCES ARE ACTIVE ANYMORE: CLOSE CLASS INSTANCE UI 
-            if (!cloudControllerLLM.classInstanceSelected.Contains(true))
-            {
-                cloudControllerLLM.ShowClassInstanceUI(cloudControllerLLM.activeClassInstanceInMenu);
-            }
+        // IF NO INSTANCE SELECTED BUT MENU IS OPEN
+        if (cloudControllerLLM.classInstanceUIActive == true && cloudControllerLLM.clickedWithMouse == true)
+        {
+            // MARK INSTANCE
+            cloudControllerLLM.cloudClassInstanceMouseSelection(cloudControllerLLM.activeClassInstanceInMenu, cloudInstance);
+            return;
+        }
+
+        // IF NO INSTANCES ARE ACTIVE ANYMORE: CLOSE CLASS INSTANCE UI 
+        if (!cloudControllerLLM.classInstanceSelected.Contains(true))
+        {
+            cloudControllerLLM.ShowClassInstanceUI(cloudControllerLLM.activeClassInstanceInMenu);
             return;
         }
     }
@@ -267,8 +255,8 @@ public class MouseClickClouds : MonoBehaviour
 
             if (classesSelected > 0 && instancesSelected > 0) // Must have a selected target
             {
-                displayedClassSelection = selectedClasses[classesSelected - 1];
-                displayedInstanceSelection = selectedInstances[instancesSelected - 1];
+                displayedClassSelection = selectedClasses[classesSelected/2];
+                displayedInstanceSelection = selectedInstances[instancesSelected/2];
 
                 //Debug.Log("Displayed Class: " + displayedClassSelection);
                 //Debug.Log("Displayed Class: " + displayedInstanceSelection);

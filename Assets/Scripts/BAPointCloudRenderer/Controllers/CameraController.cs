@@ -53,11 +53,12 @@ namespace BAPointCloudRenderer.Controllers {
         [SerializeField] private Vector3 ExplodedPosition = new Vector3(-8.85076523f, 9.89685631f, 6.88709688f);
         [SerializeField] private Vector3 ExplodedOrientation = new Vector3(18, 82.75f, 0);
 
-        void Start() {
-            //Hide the cursor
-            // Cursor.lockState = CursorLockMode.Locked;
-            // Cursor.visible = false;
-            MoveToDefaultPosition();
+        void Start() 
+        {
+            //Start scene without mouse moving camera
+            MouseClickOnScene = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         void Update()
