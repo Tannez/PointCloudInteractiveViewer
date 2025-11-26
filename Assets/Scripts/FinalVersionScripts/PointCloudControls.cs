@@ -6,18 +6,32 @@ using BAPointCloudRenderer.ObjectCreation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 using BAPointCloudRenderer.Controllers;
+using System.Linq;
+using LLMPCCompanionBubble;
 
+public class PointCloudControls : MonoBehaviour
+{
+    // LLM access
+    private static PointCloudCompanion _pointCloudCompanion;
+    private static PointCloudCompanion pointCloudCompanion
+    {
+        get
+        {
+            // If already cached and still valid, return it
+            if (_pointCloudCompanion != null)
+                return _pointCloudCompanion;
 
-public enum LLMTestModes
-{
-    None = 0,
-    Chat = 1,
-    Function = 2,
-}
-public class UIInstanceController : MonoBehaviour
-{
+            // Otherwise, find it in the scene and cache it
+            _pointCloudCompanion = FindFirstObjectByType<PointCloudCompanion>();
+
+            if (_pointCloudCompanion == null)
+                Debug.LogWarning("PointCloudCompanion not found in scene!");
+
+            return _pointCloudCompanion;
+        }
+    }
+
     //Cam Access
     Camera cam;
     CameraController camcontrol;
@@ -26,16 +40,16 @@ public class UIInstanceController : MonoBehaviour
     [Header("Cloud Instantiation Components")]
 
     [Tooltip("Before running scene, a cloud instantiator is required in hierarchy. Create empty GameObject and add a Cloud Instantiator script to it. Then insert the cloud instantiator here. Remember to set asset path and prefabs in cloud instantiator script")]
-    [SerializeField] CloudInstanceInstantiatior cloudInstantiator;
+    [SerializeField] CloudCreator cloudCreator;
     [Tooltip("Before running scene, an initial cloud loader is required in hierarchy. Create empty GameObject beneath Cloud Instantiator and add a Dynamic Loader to it. Then insert this cloud loader here.")]
     [SerializeField] GameObject InitialCloudLoader;
     [SerializeField] private GameObject clippingPlane;
-    DirectoryInstanceLoader directoryInstanceLoader;
+    DirectoryCloudLoaderFinal directoryCloudLoaderFinal;
     // // Mesh Configurations
     // [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
     [Tooltip("Adds Mesh To points. Insert GameObject Beneath the cloud instantiator, and add the DefaultMeshConfiguration script. Then insert GameObject here.")]
     [SerializeField] private DefaultMeshConfiguration defaultMeshConfiguration;
-    [SerializeField] public List<DirectoryInstanceLoader.PCInstances> PCClasses = new List<DirectoryInstanceLoader.PCInstances>();
+    [SerializeField] public List<DirectoryCloudLoaderFinal.PCInstances> PCClasses = new List<DirectoryCloudLoaderFinal.PCInstances>();
     [SerializeField] public List<GameObject> PCInstances = new List<GameObject>();
 
     //UI Inspector Components
@@ -54,7 +68,7 @@ public class UIInstanceController : MonoBehaviour
 
     [Header("EDL Components")]
     [SerializeField] private EdlCamera edlCamera;
-    [SerializeField] private Toggle EDLToggle;
+    [SerializeField] public Toggle EDLToggle;
     [SerializeField] private Slider EDLRadiusSlider;
     [SerializeField] private TextMeshProUGUI EDLRadiusSliderText;
     [SerializeField] private Slider EDLExpScaleSlider;
@@ -66,44 +80,27 @@ public class UIInstanceController : MonoBehaviour
     [Tooltip("These Toggles refer to the ones seen in the main UI, under Classification")]
     [SerializeField] public List<Toggle> classToggles = new List<Toggle>();
     private bool loadingClassToggles = true;
-    private bool loadingAllInstanceToggles = true;
-    [Tooltip("These Toggles are only shown if the Instance Menu Button in the main UI has been pressed. They will be displayed on an instance menu on the right.")]
-    [SerializeField] private List<Toggle> InstanceTogglesAll = new List<Toggle>();
     private bool loadingClassInstanceToggles = true;
     [Tooltip("These Toggles are only shown if the Class Button in the Classification Section has been pressed. They will be displayed on an instance menu on the right.")]
     [SerializeField] private List<Toggle> InstanceTogglesClass = new List<Toggle>();
 
     [Header("Instance UI")]
-    [Tooltip("This UI Image refers to the one used when using the instance menu button")]
-    [SerializeField] private Image instanceUIImageAll;
     [Tooltip("This UI Image refers to the one used when using the class buttons")]
     [SerializeField] private Image instanceUIImageClass;
-    [Tooltip("This is the instance menu button")]
-    [SerializeField] private Button instanceUIButton;
-    private bool instanceUIActive = false;
+    [HideInInspector] public bool instanceUIActive = false;
     public bool classInstanceUIActive = false;
 
     [Header("Color Mode Dropdown")]
     [SerializeField] public TMP_Dropdown colorModeDropDown;
 
-    [Header("Clipper Components")]
-    private GameObject[] Clipper = new GameObject[3];
-    private bool activeBoxClipper = false;
-    private bool activeSphereClipper = false;
-    private bool activeCylinderClipper = false;
-
-    [Header("Clipper Buttons")]
-    [SerializeField] Button boxClipButton;
-    [SerializeField] Button sphereClipButton;
-    [SerializeField] Button cylinderClipButton;
-
     [Header("Exploded View Control")]
-    [SerializeField] private Slider ExplodedViewSlider;
+    [SerializeField] public Slider ExplodedViewSlider;
 
     // selection mode variables
     [Header("Class Buttons")]
     [Tooltip("Use this button to allow for class selection using the keyboard buttons (1,2,3,4,5)")]
     [SerializeField] bool keyboardClassSelection = true;
+    public bool keyboardShotcutsEnabled = true;
     [Tooltip("Class buttons within the Classification Section of the Main UI")]
     [SerializeField] List<Button> classButtons = new List<Button>();
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassColor;
@@ -114,38 +111,21 @@ public class UIInstanceController : MonoBehaviour
     public int activeClassInstanceInMenu = 0;
 
     [Header("Instance Buttons")]
-    [Tooltip("Buttons available within the Instance Menu. Only shown when Instance Menu is active")]
-    [SerializeField] List<Button> AllInstancesButtons = new List<Button>();
     [Tooltip("Buttons available within the Instance Menu. Only shown when specific Class is selected")]
     [SerializeField] List<Button> ClassInstancesButtons = new List<Button>();
-    private bool loadingInstanceButtons = true;
-    // private bool loadingClassInstanceButtons = true;
-    private bool[] instanceSelected = new bool[10];
-    BAPointCloudRenderer.ObjectCreation.ColorMode previousInstanceColor;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassInstanceColor;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassPriorityColor;
 
     [HideInInspector] public int availableInstancesInClass = 0;
+
+    [HideInInspector] public bool clickedWithMouse = false;
 
     [Header("Zoom-To Menu")]
     [SerializeField] Image zoomMenuBackgroundImage;
     private bool showZoomMenu = false;
     [SerializeField] Button showZoomButton;
     [SerializeField] Button[] zoomMenuButton = new Button[5];
-    private bool[] zoomToButtonActive = new bool [5];
-
-
-
-    // [Header("LLM")]
-    // [Tooltip("Select Type of LLM Interaction to Test. 'Chat' uses ChatBot object, while 'funtion' uses FunctionCalling Object")]
-    // [SerializeField] LLMTestModes lLMTestModes;
-    // [SerializeField] GameObject LLMPanelsUI;
-    // [SerializeField] GameObject ChatBot;
-    // [SerializeField] GameObject FunctionCalling;
-    // [SerializeField] GameObject PointCloudAssistant;
-    // public bool LLMMenuActive = false;
-
-    [HideInInspector] public bool clickedWithMouse = false;
+    private bool[] zoomToButtonActive = new bool[5];
 
     void Start()
     {
@@ -154,17 +134,13 @@ public class UIInstanceController : MonoBehaviour
         camcontrol = cam.GetComponent<CameraController>();
 
         // Get Cloud objects
-        directoryInstanceLoader = cloudInstantiator.DirectoryLoaderGO.GetComponent<DirectoryInstanceLoader>();
-        PCClasses = directoryInstanceLoader.pointCloudClasses;
-        PCInstances = directoryInstanceLoader.allInstances;
+        directoryCloudLoaderFinal = cloudCreator.DirectoryLoaderGO.GetComponent<DirectoryCloudLoaderFinal>();
+        PCClasses = directoryCloudLoaderFinal.pointCloudClasses;
 
         // Set Initial Point Budget 
         PCPointBudget = InitialCloudLoader.GetComponent<DynamicPointCloudSet>().pointBudget;
 
-        foreach (GameObject pci in PCInstances)
-        {
-            pci.GetComponentInChildren<DynamicPointCloudSet>().pointBudget = PCPointBudget;
-        }
+        StartCoroutine(SetPointBudget());
 
         pointBudgetSlider.value = PCPointBudget;
         pointBudgetSliderText.text = PCPointBudget.ToString();
@@ -201,23 +177,27 @@ public class UIInstanceController : MonoBehaviour
         LoadClassToggles();
         LoadClassSelectionButtons();
         ZoomToDefault();
-
-        // ChatBot.SetActive(false);
-        // FunctionCalling.SetActive(false);
     }
 
     void Update()
     {
         // Use keyboard numbers to select classes
-        if (keyboardClassSelection) //&& !LLMMenuActive)
+        if (keyboardClassSelection && keyboardShotcutsEnabled == true)
         {
             KeyboardCloudSelection();
         }
 
         // Use keyboard to reload clouds in case they are not loading properly
-        if (Input.GetKeyDown(KeyCode.R)) //&& !LLMMenuActive)
+        if (Input.GetKeyDown(KeyCode.R) && keyboardShotcutsEnabled == true)
         {
             StartCoroutine(ReloadClouds());
+        }
+
+        // reset clouds and turn of menu
+        if (Input.GetKeyDown(KeyCode.Escape) && keyboardShotcutsEnabled == true && classInstanceUIActive == true)
+        {
+            ShowClassInstanceUI(activeClassInstanceInMenu);
+            ResetClassToggles();
         }
     }
 
@@ -243,7 +223,7 @@ public class UIInstanceController : MonoBehaviour
     {
         for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
-            DirectoryInstanceLoader.PCInstances cloud = PCClasses[cloudClassIter];
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -280,7 +260,7 @@ public class UIInstanceController : MonoBehaviour
     {
         int cloudRuns = 0;
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        foreach (DirectoryCloudLoaderFinal.PCInstances cloud in PCClasses)
         {
             cloud.cloudClassGO.transform.position = new Vector3(0.0f, 0.0f + ExplodedViewSlider.value * (PCClasses.Count - cloudRuns) / 10, 0.0f);
             cloudRuns++;
@@ -322,7 +302,7 @@ public class UIInstanceController : MonoBehaviour
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
             }
         }
-        //Debug.Log($"Cloud: {CloudToHide} is hidden");
+        //Debug.Log($"Cloud: {CloudToHide + 1} is hidden");
     }
     public void ShowPCClass(int CloudToShow)
     {
@@ -387,8 +367,9 @@ public class UIInstanceController : MonoBehaviour
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("CustomRenderTexture/Classification"));
         // Debug.Log("Showing Classification");
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -406,8 +387,9 @@ public class UIInstanceController : MonoBehaviour
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
         // Debug.Log("Showing RGB");
 
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -426,8 +408,9 @@ public class UIInstanceController : MonoBehaviour
     {
         // pointMeshConfiguration.material = new Material(Shader.Find("Custom/PointShader"));
         // Debug.Log("Showing Intensity");
-        foreach (DirectoryInstanceLoader.PCInstances cloud in PCClasses)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[cloudClassIter];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -464,124 +447,34 @@ public class UIInstanceController : MonoBehaviour
     // Methods For Point Size Control
     public void PointSizeUp()
     {
-        if (!instanceUIActive)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
-            foreach (DirectoryInstanceLoader.PCInstances clouds in PCClasses)
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[cloudClassIter];
+            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
-                for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
+                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
+                if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius < 5.0f)
                 {
-                    GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
-                    if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius < 5.0f)
-                    {
-                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius += 0.25f;
-                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
-                    }
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius += 0.25f;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
             }
         }
-        else if (instanceUIActive)
-        {
-            foreach (GameObject pci in PCInstances)
-            {
-                if (pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius < 5.0f)
-                {
-                    pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius += 0.25f;
-                    pci.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
-                }
-            }
-        }
-
-        // if (defaultMeshConfiguration.pointRadius < 5.0f)
-        // {
-        //     defaultMeshConfiguration.pointRadius += 0.25f;
-        //     defaultMeshConfiguration.reload = true;
-        //     // Debug.Log("Point Radius Increased");
-        // }
     }
     public void PointSizeDown()
     {
-        if (!instanceUIActive)
+        for (int cloudClassIter = 0; cloudClassIter < PCClasses.Count; cloudClassIter++)
         {
-            foreach (DirectoryInstanceLoader.PCInstances clouds in PCClasses)
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[cloudClassIter];
+            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
-                for (int i = 0; i < clouds.cloudClassGO.transform.childCount; i++)
+                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
+                if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius > 0.25f)
                 {
-                    GameObject instanceInClass = clouds.cloudClassGO.transform.GetChild(i).gameObject;
-                    if (instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius > 0.25f)
-                    {
-                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius -= 0.25f;
-                        instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
-                    }
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius -= 0.25f;
+                    instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
             }
-
-        }
-        else if (instanceUIActive)
-        {
-            foreach (GameObject pci in PCInstances)
-            {
-                if (pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius > 0.25f)
-                {
-                    pci.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius -= 0.25f;
-                    pci.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
-                }
-            }
-        }
-        // if (defaultMeshConfiguration.pointRadius > 0.25f)
-        // {
-        //     defaultMeshConfiguration.pointRadius -= 0.25f;
-        //     defaultMeshConfiguration.reload = true;
-        //     // Debug.Log("Point Radius Decreased");
-        // }
-    }
-
-    // Methods For Insantiating Primitves With Hide-Object Shader
-    public void BoxMeshClipper(GameObject clippingBox)
-    {
-        if (!activeBoxClipper)
-        {
-            Clipper[0] = Instantiate(clippingBox, new Vector3(0, 0, 0), Quaternion.identity);
-            activeBoxClipper = true;
-            boxClipButton.image.color = Color.red;
-
-        }
-        else if (activeBoxClipper)
-        {
-            GameObject.DestroyImmediate(Clipper[0], true);
-            activeBoxClipper = false;
-            boxClipButton.image.color = Color.white;
-        }
-    }
-    public void SphereMeshClipper(GameObject clippingSphere)
-    {
-        if (!activeSphereClipper)
-        {
-            Clipper[1] = Instantiate(clippingSphere, new Vector3(0, 0, 0), Quaternion.identity);
-            activeSphereClipper = true;
-            sphereClipButton.image.color = Color.red;
-
-        }
-        else if (activeSphereClipper)
-        {
-            GameObject.DestroyImmediate(Clipper[1], true);
-            activeSphereClipper = false;
-            sphereClipButton.image.color = Color.white;
-        }
-    }
-    public void CylinderMeshClipper(GameObject clippingCylinder)
-    {
-        if (!activeCylinderClipper)
-        {
-            Clipper[2] = Instantiate(clippingCylinder, new Vector3(0, 0, 0), Quaternion.identity);
-            activeCylinderClipper = true;
-            cylinderClipButton.image.color = Color.red;
-
-        }
-        else if (activeCylinderClipper)
-        {
-            GameObject.DestroyImmediate(Clipper[2], true);
-            activeCylinderClipper = false;
-            cylinderClipButton.image.color = Color.white;
         }
     }
 
@@ -590,53 +483,29 @@ public class UIInstanceController : MonoBehaviour
     {
         if (colorModeDropDown.value == 0)
         {
-            //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
             // Reset Selects
             UnSelectOnConversion();
-                      
-            // Remove Clouds
-            //StartCoroutine(StopLoadingClouds());
 
             // Change ColorMode
             RGBConversion();
-
-            //Enable Clouds
-            //StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 1)
         {
-            //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
             // Reset Selects
             UnSelectOnConversion();
 
-            // Remove Clouds
-            //StartCoroutine(StopLoadingClouds());
-
             // Change ColorMode
             ClassificationConversion();
-
-            //Enable Clouds
-            //StartCoroutine(StartLoadingClouds());
         }
 
         else if (colorModeDropDown.value == 2)
         {
-            //  <- New !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
             // Reset Selects
             UnSelectOnConversion();
 
-            // Remove Clouds
-            //StartCoroutine(StopLoadingClouds());
-
             // Change ColorMode
             IntensityConversion();
-
-            //Enable Clouds
-            //StartCoroutine(StartLoadingClouds());
         }
     }
 
@@ -651,7 +520,7 @@ public class UIInstanceController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1) && classSelected[0] == true)
         {
-            UnSelectCloudClass(1);
+            StartCoroutine(UnSelectCloudClass(1));
             classSelected[0] = false;
         }
 
@@ -662,7 +531,7 @@ public class UIInstanceController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) && classSelected[1] == true)
         {
-            UnSelectCloudClass(2);
+            StartCoroutine(UnSelectCloudClass(2));
             classSelected[1] = false;
         }
 
@@ -673,7 +542,7 @@ public class UIInstanceController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) && classSelected[2] == true)
         {
-            UnSelectCloudClass(3);
+            StartCoroutine(UnSelectCloudClass(3));
             classSelected[2] = false;
         }
 
@@ -684,7 +553,7 @@ public class UIInstanceController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4) && classSelected[3] == true)
         {
-            UnSelectCloudClass(4);
+            StartCoroutine(UnSelectCloudClass(4));
             classSelected[3] = false;
         }
 
@@ -695,15 +564,26 @@ public class UIInstanceController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5) && classSelected[4] == true)
         {
-            UnSelectCloudClass(5);
+            StartCoroutine(UnSelectCloudClass(5));
             classSelected[4] = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6) && classSelected[5] == false)
+        {
+            SelectCloudClass(6);
+            classSelected[5] = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6) && classSelected[5] == true)
+        {
+            StartCoroutine(UnSelectCloudClass(6));
+            classSelected[5] = false;
         }
     }
 
     // Method For Toggling The Various Classes
     public void classToggleChange()
     {
-        if (!loadingClassToggles && !instanceUIActive)
+        if (!loadingClassToggles)
         {
             int currentToggle = 0;
 
@@ -727,22 +607,6 @@ public class UIInstanceController : MonoBehaviour
                 }
             }
         }
-
-        else if (!loadingClassToggles && instanceUIActive)
-        {
-            int currentToggle = 0;
-
-            foreach (Toggle toggle in classToggles)
-            {
-                toggle.image.color = new Color(0.3f, 0.3f, 0.3f, 0.4f);
-                currentToggle++;
-
-                if (currentToggle == classToggles.Count)
-                {
-                    break;
-                }
-            }
-        }
     }
     // Method To Set All Toggles Active Again
     public void ResetClassToggles()
@@ -756,35 +620,7 @@ public class UIInstanceController : MonoBehaviour
         }
         StartCoroutine(ReloadClouds());
     }
-    // Method For Toggling The Various Classes
-    public void InstanceToggleChange()
-    {
-        if (!loadingAllInstanceToggles)
-        {
-            int currentToggle = 0;
-
-            foreach (Toggle toggle in InstanceTogglesAll)
-            {
-                if (toggle.isOn)
-                {
-                    ShowPCInstance(currentToggle);
-                    //Debug.Log("Cloud: " + currentToggle + " Toggle is on");
-                }
-                else if (!toggle.isOn)
-                {
-                    HidePCInstance(currentToggle);
-                    //Debug.Log("Cloud: " + currentToggle + " Toggle is off");
-                }
-                currentToggle++;
-
-                if (currentToggle == InstanceTogglesAll.Count)
-                {
-                    break;
-                }
-            }
-        }
-    }
-
+ 
     // Method for toggling instance within class
     public void ClassInstanceToggleChange()
     {
@@ -828,105 +664,6 @@ public class UIInstanceController : MonoBehaviour
                     break;
                 }
             }
-        }
-    }
-
-    // Method For Showing Instance UI And Toggling The Various Instances
-    public void ShowInstanceUI()
-    {
-        if (!instanceUIActive)
-        {
-            // show instance menu
-            instanceUIActive = true;
-            instanceUIImageAll.gameObject.SetActive(true);
-            instanceUIButton.image.color = Color.gray;
-            colorModeDropDown.value = 0;
-
-            // Disable class toggles
-            int currentToggle = 0;
-
-            foreach (Toggle toggle in classToggles)
-            {
-                toggle.image.color = new Color(0.3f, 0.3f, 0.3f, 0.4f);
-                toggle.graphic.enabled = false;
-                currentToggle++;
-
-                if (currentToggle == classToggles.Count)
-                {
-                    break;
-                }
-            }
-
-            // Disable Buttons
-            foreach (Button cb in classButtons)
-            {
-                cb.interactable = false;
-            }
-
-            // Unselect Classes 
-            int unselectClass = 1;
-            foreach (Button cb in classButtons)
-            {
-                UnSelectCloudClass(unselectClass);
-                unselectClass++;
-            }
-
-            // Load Instance Toggles and Selction Buttons
-            LoadAllInstanceToggles();
-            LoadAllInstanceSelectionButtons();
-
-            // Set toggle instances to true and active
-            foreach (Toggle iToggle in InstanceTogglesAll)
-            {
-                iToggle.isOn = true;
-                iToggle.gameObject.SetActive(true);
-            }
-
-            StartCoroutine(ReloadClouds());
-        }
-        else if (instanceUIActive)
-        {
-            instanceUIActive = false;
-            instanceUIImageAll.gameObject.SetActive(false);
-            instanceUIButton.image.color = Color.white;
-            colorModeDropDown.value = 0;
-
-            // reenable class toggles
-            int currentToggle = 0;
-
-            foreach (Toggle toggle in classToggles)
-            {
-                toggle.image.color = new Color(1, 1, 1, 1);
-                toggle.graphic.enabled = true;
-                currentToggle++;
-
-                if (currentToggle == classToggles.Count)
-                {
-                    break;
-                }
-            }
-
-            // reenable class buttons
-            foreach (Button cb in classButtons)
-            {
-                cb.interactable = true;
-            }
-
-            // Unselect Instances 
-            int unselectInstances = 1;
-            foreach (Button ib in AllInstancesButtons)
-            {
-                UnSelectCloudInstance(unselectInstances);
-                unselectInstances++;
-            }
-
-            // Hide Instance Toggles
-            foreach (Toggle iToggle in InstanceTogglesAll)
-            {
-                iToggle.gameObject.SetActive(false);
-            }
-
-            StartCoroutine(ReloadClouds());
         }
     }
 
@@ -1037,6 +774,7 @@ public class UIInstanceController : MonoBehaviour
         blinkRoutine = null;
     }
 
+    // Method that hides the class instance ui and deprioritises all point clouds
     public void ResetSelection()
     {
         if (classInstanceUIActive)
@@ -1132,15 +870,13 @@ public class UIInstanceController : MonoBehaviour
     }
     private void LoadClassToggles()
     {
-        int ztIndex = 0;
+        loadingClassToggles = true;
         // Set Available toggles based on class amount
         while (classToggles.Count > PCClasses.Count)
         {
             int beforeToggles = classToggles.Count;
             // Debug.Log("Before Removal: " + beforeToggles);
             classToggles[classToggles.Count - 1].isOn = false;
-            zoomToButtonActive[ztIndex] = false;
-            ztIndex++;
             classToggles[classToggles.Count - 1].gameObject.SetActive(false);
             classToggles.Remove(classToggles[classToggles.Count - 1]);
             int afterToggles = classToggles.Count;
@@ -1163,58 +899,7 @@ public class UIInstanceController : MonoBehaviour
         }
         loadingClassToggles = false;
     }
-    private void LoadAllInstanceToggles()
-    {
-        loadingAllInstanceToggles = true;
 
-        // Set Available toggles based on instance amount
-        while (InstanceTogglesAll.Count > PCInstances.Count)
-        {
-            int beforeToggles = InstanceTogglesAll.Count;
-            // Debug.Log("Before Removal: " + beforeToggles);
-            InstanceTogglesAll[InstanceTogglesAll.Count - 1].isOn = false;
-            InstanceTogglesAll[InstanceTogglesAll.Count - 1].gameObject.SetActive(false);
-            InstanceTogglesAll.Remove(InstanceTogglesAll[InstanceTogglesAll.Count - 1]);
-            int afterToggles = InstanceTogglesAll.Count;
-            // Debug.Log("After Removal: " + afterToggles);
-
-            if (beforeToggles == afterToggles) // Avoid infinite Loop
-            {
-                break;
-            }
-        }
-
-        int pci = 0;
-
-        foreach (Toggle iToggle in InstanceTogglesAll)
-        {
-            iToggle.GetComponentInChildren<Text>().text = "Cloud Instance: " + (pci + 1);
-            pci++;
-        }
-        loadingAllInstanceToggles = false;
-    }
-
-    // Methods For Loading Selection Buttons Showing Either Selected Class or Selected Instance
-    private void LoadAllInstanceSelectionButtons() // Selected Instances
-    {
-        loadingInstanceButtons = true;
-        // Set Available buttons based on instance amount
-        while (AllInstancesButtons.Count > PCInstances.Count)
-        {
-            int beforeButtons = AllInstancesButtons.Count;
-            // Debug.Log("Before Removal: " + beforeToggles);
-            AllInstancesButtons[AllInstancesButtons.Count - 1].gameObject.SetActive(false);
-            AllInstancesButtons.Remove(AllInstancesButtons[AllInstancesButtons.Count - 1]);
-            int afterButtons = AllInstancesButtons.Count;
-            // Debug.Log("After Removal: " + afterToggles);
-
-            if (beforeButtons == afterButtons) // Avoid infinite Loop
-            {
-                break;
-            }
-        }
-        loadingInstanceButtons = false;
-    }
     private void LoadClassSelectionButtons() // Selected Buttons
     {
         // Set Available toggles based on class amount
@@ -1268,211 +953,6 @@ public class UIInstanceController : MonoBehaviour
         yield return null;
     }
 
-    /*// Method for UI buttons to show selected cloud Classes // DEPRECATED METHOD
-    // public void cloudClassSelection(int cloudClass) // DEPRECATED METHOD - AVAILABLE IF WANTING TO MAKE CLOUD SELECTION PER CLASS USE THE RED COLOR FOR CLASS SELECTION
-    // {
-    //     if (!loadingClassButtons)
-    //     {
-    //         // Class 1
-    //         if (classSelected[0] == false && cloudClass == 1)
-    //         {
-    //             SelectCloudClass(1);
-    //             classSelected[0] = true;
-    //         }
-    //         else if (classSelected[0] == true && cloudClass == 1)
-    //         {
-    //             UnSelectCloudClass(1);
-    //             classSelected[0] = false;
-    //         }
-
-    //         // Class 2
-    //         if (classSelected[1] == false && cloudClass == 2)
-    //         {
-    //             SelectCloudClass(2);
-    //             classSelected[1] = true;
-    //         }
-    //         else if (classSelected[1] == true && cloudClass == 2)
-    //         {
-    //             UnSelectCloudClass(2);
-    //             classSelected[1] = false;
-    //         }
-
-    //         // Class 3
-    //         if (classSelected[2] == false && cloudClass == 3)
-    //         {
-    //             SelectCloudClass(3);
-    //             classSelected[2] = true;
-    //         }
-    //         else if (classSelected[2] == true && cloudClass == 3)
-    //         {
-    //             UnSelectCloudClass(3);
-    //             classSelected[2] = false;
-    //         }
-
-    //         // Class 4
-    //         if (classSelected[3] == false && cloudClass == 4)
-    //         {
-    //             SelectCloudClass(4);
-    //             classSelected[3] = true;
-    //         }
-    //         else if (classSelected[3] == true && cloudClass == 4)
-    //         {
-    //             UnSelectCloudClass(4);
-    //             classSelected[3] = false;
-    //         }
-
-    //         // Class 5
-    //         if (classSelected[4] == false && cloudClass == 5)
-    //         {
-    //             SelectCloudClass(5);
-    //             classSelected[4] = true;
-    //         }
-    //         else if (classSelected[4] == true && cloudClass == 5)
-    //         {
-    //             UnSelectCloudClass(5);
-    //             classSelected[4] = false;
-    //         }
-    //     }
-    // }*/
-
-    // Methods to condense code for the cloud instance selection method
-    private void SelectCloudInstance(int cloudInstance)
-    {
-        GameObject PointInstanceSelected = PCInstances[cloudInstance - 1];
-        previousInstanceColor = PointInstanceSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
-        PointInstanceSelected.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-        PointInstanceSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = BAPointCloudRenderer.ObjectCreation.ColorMode.Selected;
-        PointInstanceSelected.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-        AllInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
-    }
-    private void UnSelectCloudInstance(int cloudInstance)
-    {
-        GameObject PointInstanceUnSelected = PCInstances[cloudInstance - 1];
-        PointInstanceUnSelected.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-        PointInstanceUnSelected.GetComponentInChildren<DefaultMeshConfiguration>().colorMode = previousInstanceColor;
-        if (InstanceTogglesAll[cloudInstance - 1].isOn == false)
-        {
-            InstanceTogglesAll[cloudInstance - 1].isOn = true;
-        }
-        PointInstanceUnSelected.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-        AllInstancesButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);
-    }
-
-    // Method for Instance Menu Buttons to show selected cloud instance
-    public void cloudInstanceSelection(int cloudInstance)
-    {
-        if (!loadingInstanceButtons)
-        {
-            // Instance 1
-            if (instanceSelected[0] == false && cloudInstance == 1)
-            {
-                SelectCloudInstance(1);
-                instanceSelected[0] = true;
-            }
-            else if (instanceSelected[0] == true && cloudInstance == 1)
-            {
-                UnSelectCloudInstance(1);
-                instanceSelected[0] = false;
-            }
-
-            // Instance 2
-            if (instanceSelected[1] == false && cloudInstance == 2)
-            {
-                SelectCloudInstance(2);
-                instanceSelected[1] = true;
-            }
-            else if (instanceSelected[1] == true && cloudInstance == 2)
-            {
-                UnSelectCloudInstance(2);
-                instanceSelected[1] = false;
-            }
-
-            // Instance 3
-            if (instanceSelected[2] == false && cloudInstance == 3)
-            {
-                SelectCloudInstance(3);
-                instanceSelected[2] = true;
-            }
-            else if (instanceSelected[2] == true && cloudInstance == 3)
-            {
-                UnSelectCloudInstance(3);
-                instanceSelected[2] = false;
-            }
-
-            // Instance 4
-            if (instanceSelected[3] == false && cloudInstance == 4)
-            {
-                SelectCloudInstance(4);
-                instanceSelected[3] = true;
-            }
-            else if (instanceSelected[3] == true && cloudInstance == 4)
-            {
-                UnSelectCloudInstance(4);
-                instanceSelected[3] = false;
-            }
-
-            // Instance 5
-            if (instanceSelected[4] == false && cloudInstance == 5)
-            {
-                SelectCloudInstance(5);
-                instanceSelected[4] = true;
-            }
-            else if (instanceSelected[4] == true && cloudInstance == 5)
-            {
-                UnSelectCloudInstance(5);
-                instanceSelected[4] = false;
-            }
-
-            // Instance 6
-            if (instanceSelected[5] == false && cloudInstance == 6)
-            {
-                SelectCloudInstance(6);
-                instanceSelected[5] = true;
-            }
-            else if (instanceSelected[5] == true && cloudInstance == 6)
-            {
-                UnSelectCloudInstance(6);
-                instanceSelected[5] = false;
-            }
-
-            // Instance 7
-            if (instanceSelected[6] == false && cloudInstance == 7)
-            {
-                SelectCloudInstance(7);
-                instanceSelected[6] = true;
-            }
-            else if (instanceSelected[6] == true && cloudInstance == 7)
-            {
-                UnSelectCloudInstance(7);
-                instanceSelected[6] = false;
-            }
-
-            // Instance 8
-            if (instanceSelected[7] == false && cloudInstance == 8)
-            {
-                SelectCloudInstance(8);
-                instanceSelected[7] = true;
-            }
-            else if (instanceSelected[7] == true && cloudInstance == 8)
-            {
-                UnSelectCloudInstance(8);
-                instanceSelected[7] = false;
-            }
-
-            // Instance 9
-            if (instanceSelected[8] == false && cloudInstance == 9)
-            {
-                SelectCloudInstance(9);
-                instanceSelected[8] = true;
-            }
-            else if (instanceSelected[8] == true && cloudInstance == 9)
-            {
-                UnSelectCloudInstance(9);
-                instanceSelected[8] = false;
-            }
-        }
-    }
-
     // Methods to condense code for the cloud class instance selection method
     public void SelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
@@ -1490,9 +970,11 @@ public class UIInstanceController : MonoBehaviour
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 //Debug.Log($"Instance {cloudInstance} in Class {cloudClass} is selected");
-                return;
             }
         }
+
+        string clickPrompt = "User has clicked and selected the button for cloud instance: " + cloudInstance + " within the menu for class: " + cloudClass + ". \nPlease let the user know only available information about this cloud instance";
+        pointCloudCompanion.SendChatMessage(clickPrompt);
     }
     public void UnSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
@@ -1532,22 +1014,6 @@ public class UIInstanceController : MonoBehaviour
             cloudClass++;
         }
 
-        // Get Instance Count For Class
-        // int instancesInClass = 0;
-        // for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
-        // {
-        //     GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
-        //     if (instanceInClass.name.StartsWith("Cloud"))
-        //     {
-        //         instancesInClass++;
-        //     }
-
-        // }
-        // Debug.Log("Instances i Class: " + instancesInClass);
-
-        // // Select Cloud Class Instance
-        // for (int i = 0; i < instancesInClass; i++)
-        // {
         switch (instanceInMenu)
         {
             case 1:
@@ -1688,6 +1154,9 @@ public class UIInstanceController : MonoBehaviour
                 //Debug.Log($"Instance {cloudInstance} in Class {cloudClass} is selected");
             }
         }
+
+        string clickPrompt = "User has clicked on cloud class: " + cloudClass + " instance: " + cloudInstance + " directly with the mouse.\n Please let them know what cloud they have currently selected and provide them with information about it.";
+        pointCloudCompanion.SendChatMessage(clickPrompt);
         yield return null;
     }
     public IEnumerator MouseUnSelectCloudClassInstance(int cloudClass, int cloudInstance)
@@ -1836,24 +1305,14 @@ public class UIInstanceController : MonoBehaviour
         }
     }
 
+
     // Method to deselect classes when Color Mode is changed
     public void UnSelectOnConversion()
     {
-        if (!instanceUIActive)
+        for (int i = 1; i <= PCClasses.Count; i++)
         {
-            for (int i = 1; i <= PCClasses.Count; i++)
-            {
-                StartCoroutine(UnSelectCloudClass(i));
-            }
+            StartCoroutine(UnSelectCloudClass(i));
         }
-
-        // else if (instanceUIActive)
-        // {
-        //     for (int i = 1; i < PCInstances.Count; i++)
-        //     {
-        //         UnSelectCloudInstance(i);
-        //     }
-        // }
     }
 
     // Method to set point size based on selected class 
@@ -1876,14 +1335,10 @@ public class UIInstanceController : MonoBehaviour
                     // Make Button not interactable
                     classButtons[currentClassInHierarchy].interactable = false;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(false);
-                    // Reduce alpha channel
-                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
                     // Save color
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
                     // Do not Mark class 
-                    //StartCoroutine(StopLoadingClouds());
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = false;
-                    //StartCoroutine(StartLoadingClouds());
                     // Reload Mesh
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
                 }
@@ -1892,17 +1347,12 @@ public class UIInstanceController : MonoBehaviour
                     // Make Button interactable
                     classButtons[currentClassInHierarchy].interactable = true;
                     classButtons[currentClassInHierarchy].gameObject.SetActive(true);
-                    // // Keep point size
-                    // instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().pointRadius = 1f;
                     // Save color 
                     previousClassPriorityColor = instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().colorMode;
                     // Mark class 
-                    //StartCoroutine(StopLoadingClouds());
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().prioritiseCloud = true;
-                    //StartCoroutine(StartLoadingClouds());
                     // Reload Mesh
                     instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
-
                 }
             }
 
@@ -1916,12 +1366,10 @@ public class UIInstanceController : MonoBehaviour
     private void DePrioritise() // Reset priority of classes so all are visualised as normally done
     {
         // Reset Cloud Visuals
-        int currentInstanceInClass;
+        int currentInstanceInClass = 0;
 
         for (int currentClassInHierarchy = 0; currentClassInHierarchy < PCClasses.Count;)
         {
-            currentInstanceInClass = 0;
-            
             for (int i = 0; i < PCClasses[currentClassInHierarchy].cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = PCClasses[currentClassInHierarchy].cloudClassGO.transform.GetChild(i).gameObject;
@@ -1961,116 +1409,53 @@ public class UIInstanceController : MonoBehaviour
         }
     }
 
-    /*// // Show the LLM window 
+    // Show the LLM window 
     // public void ShowLLMInteract()
     // {
-    //     if (LLMMenuActive == false)
-    //     {
-    //         LLMPanelsUI.SetActive(true);
-
-    //         switch (lLMTestModes)
-    //         {
-    //             case LLMTestModes.Chat:
-    //                 ChatBot.SetActive(true);
-    //                 FunctionCalling.SetActive(false);
-    //                 PointCloudAssistant.SetActive(false);
-    //                 break;
-    //             case LLMTestModes.Function:
-    //                 FunctionCalling.SetActive(true);
-    //                 ChatBot.SetActive(false);
-    //                 PointCloudAssistant.SetActive(false);
-    //                 break;
-    //             case LLMTestModes.None:
-    //                 PointCloudAssistant.SetActive(true);
-    //                 ChatBot.SetActive(false);
-    //                 FunctionCalling.SetActive(false);
-    //                 break;
-    //         }
-
-    //         LLMMenuActive = true;
-    //     }
-    //     else if (LLMMenuActive == true)
-    //     {
-    //         ChatBot.SetActive(false);
-    //         FunctionCalling.SetActive(false);
-    //         LLMPanelsUI.SetActive(false);
-    //         LLMMenuActive = false;
-    //     }
-    // }*/
+    // }
 
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public IEnumerator ReloadClouds()
     {
-        if (instanceUIActive)
-        {
-            foreach (GameObject pci in PCInstances)
-            {
-                // Remove Clouds
-                pci.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                // ShutDown V2 Renderer
-                pci.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
-                // Disable DynamicPointCloudSet Component
-                //pci.SetActive(false);
 
-                // Enable DynamicPointCloudSet Component
-                //pci.SetActive(true);
-                // Enable Clouds
-                pci.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-                // Show V2 Renderer
-                pci.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-            }
-        }
-
-        else if (!instanceUIActive)
+        for (int currentClass = 0; currentClass < PCClasses.Count; currentClass++)
         {
-            for (int currentClass = 0; currentClass < PCClasses.Count; currentClass++)
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[currentClass];
+            for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
-                DirectoryInstanceLoader.PCInstances cloud = PCClasses[currentClass];
-                for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
+                GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
+
+                if (instanceInClass.name.StartsWith("Cloud:") && classHidden[currentClass] == false)
                 {
-                    GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
+                    // Remove Clouds
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
+                    // ShutDown V2 Renderer
+                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
 
-                    if (instanceInClass.name.StartsWith("Cloud:") && classHidden[currentClass] == false)
-                    {
-                        // Remove Clouds
-                        instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
-                        // ShutDown V2 Renderer
-                        instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
-                        // Disable DynamicPointCloudSet Component
-                        //instanceInClass.SetActive(false);
-
-                        // Enable DynamicPointCloudSet Component
-                        //instanceInClass.SetActive(true);
-                        // Enable Clouds
-                        instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
-                        // Show V2 Renderer
-                        instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
-                    }
+                    // Enable Clouds
+                    instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
+                    // Show V2 Renderer
+                    instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().ReInitialize();
                 }
             }
-            yield return null;
         }
+        yield return null;
     }
 
     // Method for Reloading specific Point Clous
     public IEnumerator ReloadCloudClass(int cloudClass)
     {
-        DirectoryInstanceLoader.PCInstances cloudClassLoaderGO = PCClasses[cloudClass-1];
+        DirectoryCloudLoaderFinal.PCInstances cloudClassLoaderGO = PCClasses[cloudClass - 1];
         for (int i = 0; i < cloudClassLoaderGO.cloudClassGO.transform.childCount; i++)
         {
             GameObject instanceInClass = cloudClassLoaderGO.cloudClassGO.transform.GetChild(i).gameObject;
 
-            if (instanceInClass.name.StartsWith("Cloud:") && classHidden[cloudClass-1] == false)
+            if (instanceInClass.name.StartsWith("Cloud:") && classHidden[cloudClass - 1] == false)
             {
                 // Remove Clouds
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().RemovePointCloud();
                 // ShutDown V2 Renderer
                 instanceInClass.GetComponentInChildren<DynamicPointCloudSet>().StopRendering();
-                // // Disable DynamicPointCloudSet Component
-                // instanceInClass.SetActive(false);
-
-                // // Enable DynamicPointCloudSet Component
-                // instanceInClass.SetActive(true);
                 // Enable Clouds
                 instanceInClass.GetComponentInChildren<PointCloudLoader>().LoadPointCloud();
                 // Show V2 Renderer
@@ -2085,7 +1470,7 @@ public class UIInstanceController : MonoBehaviour
     {
         for (int currentClass = 0; currentClass < PCClasses.Count; currentClass++)
         {
-            DirectoryInstanceLoader.PCInstances cloud = PCClasses[currentClass];
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[currentClass];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -2099,7 +1484,7 @@ public class UIInstanceController : MonoBehaviour
                 }
             }
         }
-        yield return new WaitForSeconds(2);;
+        yield return null;
     }
 
     // Coroutine to start loading point clouds 
@@ -2107,7 +1492,7 @@ public class UIInstanceController : MonoBehaviour
     {
         for (int currentClass = 0; currentClass < PCClasses.Count; currentClass++)
         {
-            DirectoryInstanceLoader.PCInstances cloud = PCClasses[currentClass];
+            DirectoryCloudLoaderFinal.PCInstances cloud = PCClasses[currentClass];
             for (int i = 0; i < cloud.cloudClassGO.transform.childCount; i++)
             {
                 GameObject instanceInClass = cloud.cloudClassGO.transform.GetChild(i).gameObject;
@@ -2122,8 +1507,9 @@ public class UIInstanceController : MonoBehaviour
                 }
             }
         }
-        yield return new WaitForSeconds(2);
+        yield return null;
     }
+
     public void ShowZoomMenuUI()
     {
         if (showZoomMenu == false)
@@ -2136,45 +1522,44 @@ public class UIInstanceController : MonoBehaviour
         else if (showZoomMenu == true)
         {
             showZoomMenu = false;
-            for (int i = 0; i < zoomToButtonActive.Count();i++)
+            for (int i = 0; i < zoomToButtonActive.Count(); i++)
             {
                 if (zoomToButtonActive[i] == true)
                 {
                     zoomMenuButton[i].image.color = new Color(255, 255, 255);
                     zoomToButtonActive[i] = false;
-                }   
+                }
             }
             showZoomButton.image.color = new Color(1, 1, 1, 0.4f);
             zoomMenuBackgroundImage.gameObject.SetActive(false);
-            return;  
+            return;
         }
     }
-    // Method for positioning camerea to individual classes (class int over 0 as it does not use indecies)
-    public void ZoomToClass(int cloudClass)
+
+    public void ZoomToClassButton(int cloudClass)
     {
         camcontrol.CameraClassTranslation(cloudClass);
 
-        if (zoomToButtonActive[cloudClass-1] == true) // reset if same button click
+        if (zoomToButtonActive[cloudClass - 1] == true) // reset if same button click
         {
-            zoomMenuButton[cloudClass-1].image.color = new Color(255, 255, 255);
-            zoomToButtonActive[cloudClass-1] = false;
+            zoomMenuButton[cloudClass - 1].image.color = new Color(255, 255, 255);
+            zoomToButtonActive[cloudClass - 1] = false;
             classToggles[0].isOn = true;
             classToggles[1].isOn = true;
             ZoomToDefault();
             StartCoroutine(ReloadClouds());
             return;
         }
-        
+
         if (zoomToButtonActive.Contains(true)) // reset button selection coloring when switching between views
         {
-
-            for (int i = 0; i < zoomToButtonActive.Count();i++)
+            for (int i = 0; i < zoomToButtonActive.Count(); i++)
             {
                 if (zoomToButtonActive[i] == true)
                 {
                     zoomMenuButton[i].image.color = new Color(255, 255, 255);
                     zoomToButtonActive[i] = false;
-                }   
+                }
             }
         }
 
@@ -2186,18 +1571,23 @@ public class UIInstanceController : MonoBehaviour
             zoomMenuButton[0].image.color = new Color(0, 0, 125);
             return;
         }
-        if (cloudClass > 1 && cloudClass < 7 && zoomToButtonActive[cloudClass-1] == false)
+        if (cloudClass > 1 && cloudClass < 7 && zoomToButtonActive[cloudClass - 1] == false)
         {
             classToggles[0].isOn = false;
             classToggles[1].isOn = false;
-            zoomToButtonActive[cloudClass-1] = true;
-            zoomMenuButton[cloudClass-1].image.color = new Color(0, 0, 125);
+            zoomToButtonActive[cloudClass - 1] = true;
+            zoomMenuButton[cloudClass - 1].image.color = new Color(0, 0, 125);
             return;
         }
+    }
+
+    // Method for positioning camerea to individual classes (class int over 0 as it does not use indecies)
+    public void ZoomToClassLLM(int cloudClass)
+    {
+        camcontrol.CameraClassTranslation(cloudClass);
     }
     public void ZoomToDefault()
     {
         camcontrol.MoveToDefaultPosition();
     }
-
 }

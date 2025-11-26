@@ -45,7 +45,7 @@ namespace LLMUnity
         /// <summary> Size of the prompt context (0 = context size of the model).
         /// This is the number of tokens the model can take as input when generating responses. </summary>
         [Tooltip("Size of the prompt context (0 = context size of the model). This is the number of tokens the model can take as input when generating responses.")]
-        [DynamicRange("minContextLength", "maxContextLength", false), Model] public int contextSize = 8192;
+        [DynamicRange("minContextLength", "maxContextLength", false), Model] public int contextSize = 5000;
         /// <summary> Batch size for prompt processing. </summary>
         [Tooltip("Batch size for prompt processing.")]
         [ModelAdvanced] public int batchSize = 512;

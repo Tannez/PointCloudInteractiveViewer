@@ -7,7 +7,7 @@ using System.IO;
 
 namespace LLMPCCompanionBubble
 {
-    public class PointCloudCompanion : MonoBehaviour
+    public class PointCloudAI : MonoBehaviour
     {
         // CHATBOT COMPONENTS
         public Transform chatContainer;
@@ -24,7 +24,7 @@ namespace LLMPCCompanionBubble
         public Button stopButton;
 
         // Reference to the cloud controller for function calling 
-        [SerializeField] public CloudControllerLLM cloudControllerLLM;
+        [SerializeField] public PointCloudControls pointCloudControls;
 
         // Reference to bubble setup and user input in bubbles
         private LLMInputBubble inputBubble;
@@ -40,22 +40,22 @@ namespace LLMPCCompanionBubble
         private string functionContext; 
 
         // Function Calling related variables
-        private static FunctionHandler _functionHandler;
-        private static FunctionHandler functionHandler
+        private static LLMFunctionHandler _LLMfunctionHandler;
+        private static LLMFunctionHandler LLMfunctionHandler
         {
             get
             {
                 // If already cached and still valid, return it
-                if (_functionHandler != null)
-                    return _functionHandler;
+                if (_LLMfunctionHandler != null)
+                    return _LLMfunctionHandler;
 
                 // Otherwise, find it in the scene and cache it
-                _functionHandler = FindFirstObjectByType<FunctionHandler>();
+                _LLMfunctionHandler = FindFirstObjectByType<LLMFunctionHandler>();
 
-                if (_functionHandler == null)
+                if (_LLMfunctionHandler == null)
                     Debug.LogWarning("FunctionHandler not found in scene!");
 
-                return _functionHandler;
+                return _LLMfunctionHandler;
             }
         }
 
@@ -81,11 +81,11 @@ namespace LLMPCCompanionBubble
             aiUI.leftPosition = 1;
 
             // Add context to the user prompt - only if file exists
-            // string contextPath = "Assets/Resources/PCRAG/PointCloudContext.md";
-            // if (File.Exists(contextPath))
-            // {
-            //     staticContext = File.ReadAllText(contextPath);
-            // }
+            string contextPath = "Assets/Resources/PCRAG/PointCloudContext.md";
+            if (File.Exists(contextPath))
+            {
+                staticContext = File.ReadAllText(contextPath);
+            }
 
             inputBubble = new LLMInputBubble(chatContainer, playerUI, "InputBubble", "Loading...", 4);
             inputBubble.AddSubmitListener(onInputFieldSubmit);
@@ -139,10 +139,10 @@ namespace LLMPCCompanionBubble
             // Clear user input bubble
             inputBubble.SetText("");
 
-            cloudControllerLLM.keyboardShotcutsEnabled = true;
+            pointCloudControls.keyboardShotcutsEnabled = true;
 
             // Attempt to execute function 
-            (bool, string, string) applyFunction = await functionHandler.TryExecuteCommand(message);
+            (bool, string, string) applyFunction = await LLMfunctionHandler.TryExecuteCommand(message);
 
             if (applyFunction.Item1 == true)
             {
@@ -235,11 +235,11 @@ namespace LLMPCCompanionBubble
 
         void Update()
         {
-            if (cloudControllerLLM.keyboardShotcutsEnabled == true)
+            if (pointCloudControls.keyboardShotcutsEnabled == true)
             {
                 inputBubble.setInteractable(false);
             }
-            else if (cloudControllerLLM.keyboardShotcutsEnabled == false)
+            else if (pointCloudControls.keyboardShotcutsEnabled == false)
             {
                 if (!inputBubble.inputFocused() && warmUpDone)
                 {

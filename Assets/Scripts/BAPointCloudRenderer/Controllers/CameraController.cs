@@ -11,6 +11,7 @@ namespace BAPointCloudRenderer.Controllers {
 
         [SerializeField] UIInstanceController uIInstanceController; // Use this if not LLM scene 
         [SerializeField] CloudControllerLLM cloudControllerLLM; // Use this if LLM scene 
+        [SerializeField] PointCloudControls pointCloudControls; // Final Version 
         public bool MouseClickOnScene = true;
         public bool withLLM = true;
 
@@ -97,8 +98,8 @@ namespace BAPointCloudRenderer.Controllers {
                 Cursor.visible = true;
             }
 
-
-            if ((/*uIInstanceController.LLMMenuActive == false &&*/ Input.GetKeyDown("space") && withLLM == false) || (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space") && withLLM == true)) // Use this if not LLM scene 
+            // if ((/*uIInstanceController.LLMMenuActive == false &&*/ Input.GetKeyDown("space") && withLLM == false) || (cloudControllerLLM.keyboardShotcutsEnabled == true && Input.GetKeyDown("space") && withLLM == true)) // Use this if not LLM scene 
+            if(Input.GetKeyDown("space") && pointCloudControls.keyboardShotcutsEnabled == true)
             {
                 MoveToDefaultPosition();
             }  
