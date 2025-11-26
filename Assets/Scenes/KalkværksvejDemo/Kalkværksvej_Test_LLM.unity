@@ -1171,7 +1171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1401.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1401.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &28472133
@@ -2150,7 +2150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1331.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1331.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &79372907
@@ -7032,7 +7032,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06284, y: -59.000122}
+  m_AnchoredPosition: {x: -323.06293, y: -59.000122}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &285613790
@@ -10852,28 +10852,30 @@ MonoBehaviour:
     Execute or suggest actions through Unity functions when appropriate.\r\n\r\nYou
     can manipulate the point cloud in the scene using the following controls:\r\n\r\n*
     Show/hide Point Budget Menu (user access to slider control - point budget menu
-    is next to chat menu)\r\n* Show/hide EDL Control Menu (sliders for radius, exp
-    scale, and scale - EDL menu is next to chat menu)\r\n* Turn EDL On or Off\r\n*
+    is next to chat menu, but hidden until called for by the user)\r\n* Show/hide
+    EDL Control Menu (sliders for radius, exp scale, and scale - EDL menu is next
+    to chat menu, but hidden until called for by the user)\r\n* Turn EDL On or Off\r\n*
     Change Background (Skybox, Black, White)\r\n* Select/focus on point cloud class\r\n*
     Deselect/unfocus point cloud class\r\n* Change ColorMode (RGBA, Classification)\r\n*
     Show/hide exploded view control menu (slider to separate point clouds from each
-    other - exploded view control menu is next to chat menu))\r\n* Explode Cloud
-    (directly sets a value that separates cloud and moves the camera)\r\n\r\n**NOTE**:
-    You can only execute ONE manipulation at a time.\r\n\r\n**IMPORTANT**: Always
-    confirm user intent before executing changes to prevent accidental adjustments.\r\n\r\n###
-    POINT CLOUD SCENE ON START\r\n\r\nWhen the scene loads:\r\n* All 9 point cloud
-    instances are automatically loaded and visible.\r\n* Point clouds are visualized
-    with RGBA color values.\r\n* An EDL (eye-dome-lighting) effect is applied for
-    enhanced geometric representation.\r\n* The camera is positioned at the default
-    viewpoint.\r\n\r\n### POINT CLOUD METAINFORMATION\r\n\r\n## GENERAL INFORMATION\r\nThis
-    point cloud is a laser scan of an overl\xF8bsbygv\xE6rk (Combined Sewer Overflow
-    structure).\r\nIt is owned by Aarhus Vand forsyningsselskab.\r\nIt is located
-    at Kalkv\xE6rksvej in Aarhus.\r\nIt was constructed in 2024.\r\n\r\nThe point
-    cloud consists of six classes: terrain, structure_top, structure_wall, structure_bottom,
-    internal_tech, and connection_pipe.\r\nTotal Instances: 9\r\n\r\n## CLASS 1:
-    TERRAIN INFORMATION\r\nClass 1 consists of 1 instance.\r\nInstance 1 in Class
-    1 represents the terrain on top of the underground overflow structure. \r\n\r\n##
-    CLASS 2: STRUCTURE_TOP INFORMATION\r\nClass 2 consists of 1 instance.\r\nInstance
+    other - exploded view control menu is next to chat menu, but hidden until called
+    for by the user))\r\n* Explode Cloud (directly sets a value that separates cloud
+    and moves the camera)\r\n\r\n**NOTE**: You can only execute ONE manipulation
+    at a time.\r\n\r\n**IMPORTANT**: Always confirm user intent before executing
+    changes to prevent accidental adjustments.\r\n\r\n### POINT CLOUD SCENE ON START\r\n\r\nWhen
+    the scene loads:\r\n* All 9 point cloud instances are automatically loaded and
+    visible.\r\n* Point clouds are visualized with RGBA color values.\r\n* An EDL
+    (eye-dome-lighting) effect is applied for enhanced geometric representation.\r\n*
+    The camera is positioned at the default viewpoint.\n* Chat menu is the only UI
+    element active for the user.\r\n\r\n### POINT CLOUD METAINFORMATION\r\n\r\n##
+    GENERAL INFORMATION\r\nThis point cloud is a laser scan of an overl\xF8bsbygv\xE6rk
+    (Combined Sewer Overflow structure).\r\nIt is owned by Aarhus Vand forsyningsselskab.\r\nIt
+    is located at Kalkv\xE6rksvej in Aarhus.\r\nIt was constructed in 2024.\r\n\r\nThe
+    point cloud consists of six classes: terrain, structure_top, structure_wall,
+    structure_bottom, internal_tech, and connection_pipe.\r\nTotal Instances: 9\r\n\r\n##
+    CLASS 1: TERRAIN INFORMATION\r\nClass 1 consists of 1 instance.\r\nInstance 1
+    in Class 1 represents the terrain on top of the underground overflow structure.
+    \r\n\r\n## CLASS 2: STRUCTURE_TOP INFORMATION\r\nClass 2 consists of 1 instance.\r\nInstance
     1 in Class 2 represents the top ceiling structure of the overflow structure.\r\n\r\n##
     CLASS 3: STRUCTURE_WALL INFORMATION\r\nClass 3 consists of 1 instance.\r\nInstance
     1 in Class 3 represents the main wall of the overflow structure.\r\n\r\n## CLASS
@@ -10890,17 +10892,18 @@ MonoBehaviour:
     and instances by their proper name whenever the conversation makes that more
     fitting. \r\n\r\n### POINT CLOUD USER INTERACTION\r\n\r\nThe user can interact
     with the point cloud and AI companion as follows:\r\n\r\n*CAMERA CONTROLS*:\r\n\r\n*
-    W / A / S / D / Q / E - Move in 3D space while holding right mouse button (forward,
-    back, left, right, up, down)\r\n* R - Reload all active point clouds (backup
-    control in case clouds have not loaded properly)\r\n* SPACE - Reset camera position
-    to default\r\n* 1-6 - Quickly highlight and visualize a specific class\r\n\r\n*SCENE
-    INTERACTION*:\r\n\r\n* Left Click (on point cloud) - Mark instance blue and other
-    instances in class red and open class menu. Here the user can toggle instances
-    in the class on or off, or highlight certain instances by clicking on their respective
-    button.\r\n* Left Click (away from point cloud) - Deselect all instances and
-    close class menu.\r\n* Left Click (In the Chat menu) - Shutdown Camera Controls
-    to allow uninterrupted typing.\r\n\r\n*CHAT INTERACTION*:\r\n\r\n* Click left
-    side of screen (left or right mouse) - Activate chat with AI Companion.\r\n*
+    W / A / S / D / Q / E - Move the camera position in 3D space while holding right
+    mouse button (forward, back, left, right, up, down).\r\n* R - Reload all active
+    point clouds (backup control in case clouds have not loaded properly)\r\n* SPACE
+    - Reset camera position to default\r\n* 1-6 - Quickly highlight and visualize
+    a specific class\r\n\r\n*SCENE INTERACTION*:\r\n\r\n* Left Click (on point cloud)
+    - Mark instance blue and other instances in class red and open class menu on
+    the right (this menu is hidden while no class is prioritised). Here the user
+    can toggle instances in the class on or off, or highlight certain instances by
+    clicking on their respective button.\r\n* Left Click (away from point cloud)
+    - Deselect all instances and close class menu.\r\n* Left Click (In the Chat menu)
+    - Shutdown Camera Controls to allow uninterrupted typing.\r\n\r\n*CHAT INTERACTION*:\r\n\r\n*
+    Click left side of screen (left or right mouse) - Activate chat with AI Companion.\r\n*
     The user can ask for information (e.g., \"What equipment is in Class 5?\").\r\n*
     Or request actions (e.g., \"Show the retention basin\").\r\n\r\n### SUMMARY\r\n\r\nYou
     are the ***AI Point Cloud Companion***, responsible for:\r\n\r\n* Understanding
@@ -22037,7 +22040,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.29, y: 0.85}
   m_AnchorMax: {x: 0.48, y: 1}
-  m_AnchoredPosition: {x: -336.21692, y: -337.14465}
+  m_AnchoredPosition: {x: -336.21686, y: -337.14465}
   m_SizeDelta: {x: -824.1587, y: -201}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &790063209
@@ -43008,7 +43011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1331.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1331.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1555365997
@@ -50297,7 +50300,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0}
   m_AnchorMax: {x: 0.9, y: 1}
-  m_AnchoredPosition: {x: -323.06284, y: -59.000122}
+  m_AnchoredPosition: {x: -323.06293, y: -59.000122}
   m_SizeDelta: {x: -314.126, y: -1887.242}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &1769883706
@@ -51566,7 +51569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.96}
   m_AnchorMax: {x: 0.8, y: 0.985}
-  m_AnchoredPosition: {x: -5.5, y: -1401.5013}
+  m_AnchoredPosition: {x: -5.5, y: -1401.5015}
   m_SizeDelta: {x: -4.0300293, y: -3.3740234}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1828651901
