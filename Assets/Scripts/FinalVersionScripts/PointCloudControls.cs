@@ -13,22 +13,26 @@ using LLMPCCompanionBubble;
 public class PointCloudControls : MonoBehaviour
 {
     // LLM access
-    private static PointCloudCompanion _pointCloudCompanion;
-    private static PointCloudCompanion pointCloudCompanion
+    [Header("AI Interface")]
+    [SerializeField] Button ShowAIAssistantButton;
+    [SerializeField] GameObject LLMMenu; 
+    [HideInInspector] public bool showAIAssistantButtonActive = false;
+    private static PointCloudAI _pointCloudAI;
+    private static PointCloudAI pointCloudAI
     {
         get
         {
             // If already cached and still valid, return it
-            if (_pointCloudCompanion != null)
-                return _pointCloudCompanion;
+            if (_pointCloudAI != null)
+                return _pointCloudAI;
 
             // Otherwise, find it in the scene and cache it
-            _pointCloudCompanion = FindFirstObjectByType<PointCloudCompanion>();
+            _pointCloudAI = FindFirstObjectByType<PointCloudAI>();
 
-            if (_pointCloudCompanion == null)
+            if (_pointCloudAI == null)
                 Debug.LogWarning("PointCloudCompanion not found in scene!");
 
-            return _pointCloudCompanion;
+            return _pointCloudAI;
         }
     }
 
@@ -126,6 +130,7 @@ public class PointCloudControls : MonoBehaviour
     [SerializeField] Button showZoomButton;
     [SerializeField] Button[] zoomMenuButton = new Button[5];
     private bool[] zoomToButtonActive = new bool[5];
+
 
     void Start()
     {
@@ -805,7 +810,7 @@ public class PointCloudControls : MonoBehaviour
         //Debug.Log("Instances in Class: " + instancesInClass);
         availableInstancesInClass = instancesInClass;
 
-        for (int i = 29; i > (instancesInClass - 1); i--)
+        for (int i = 19; i > (instancesInClass - 1); i--)
         {
             //Debug.Log("Removing toggle " + i);
             InstanceTogglesClass[i].isOn = false;
@@ -974,7 +979,7 @@ public class PointCloudControls : MonoBehaviour
         }
 
         string clickPrompt = "User has clicked and selected the button for cloud instance: " + cloudInstance + " within the menu for class: " + cloudClass + ". \nPlease let the user know only available information about this cloud instance";
-        pointCloudCompanion.SendChatMessage(clickPrompt);
+        pointCloudAI.SendChatMessage(clickPrompt);
     }
     public void UnSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
@@ -1156,7 +1161,7 @@ public class PointCloudControls : MonoBehaviour
         }
 
         string clickPrompt = "User has clicked on cloud class: " + cloudClass + " instance: " + cloudInstance + " directly with the mouse.\n Please let them know what cloud they have currently selected and provide them with information about it.";
-        pointCloudCompanion.SendChatMessage(clickPrompt);
+        pointCloudAI.SendChatMessage(clickPrompt);
         yield return null;
     }
     public IEnumerator MouseUnSelectCloudClassInstance(int cloudClass, int cloudInstance)
@@ -1410,9 +1415,28 @@ public class PointCloudControls : MonoBehaviour
     }
 
     // Show the LLM window 
-    // public void ShowLLMInteract()
-    // {
-    // }
+    public void ShowLLMInteract()
+    {
+        if (showAIAssistantButtonActive == false)
+        {
+            // Show LLM menu
+            LLMMenu.gameObject.SetActive(true);
+            ShowAIAssistantButton.image.color = new Color(0, 0, 1, 0.4f);
+            keyboardShotcutsEnabled = false;
+            showAIAssistantButtonActive = true;
+            return;
+        }
+
+        if (showAIAssistantButtonActive == true)
+        {            
+            // Hide LLM menu
+            LLMMenu.gameObject.SetActive(false);
+            ShowAIAssistantButton.image.color = new Color(1, 1, 1, 0.4f);
+            keyboardShotcutsEnabled = true;
+            showAIAssistantButtonActive = false;
+            return;
+        }
+    }
 
     // Method for Reloading Point Clouds, in case some have not loaded properly
     public IEnumerator ReloadClouds()

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using System.Threading.Tasks;
 using LLMUnity;
 using UnityEngine.UI;
@@ -37,7 +38,7 @@ namespace LLMPCCompanionBubble
         // reference context
         private string staticContext;
 
-        private string functionContext; 
+        private string functionContext;
 
         // Function Calling related variables
         private static LLMFunctionHandler _LLMfunctionHandler;
@@ -59,47 +60,11 @@ namespace LLMPCCompanionBubble
             }
         }
 
+        private bool LLMLoaded = false;
+
         void Start()
         {
-            if (font == null) font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            playerUI = new BubbleUI
-            {
-                sprite = sprite,
-                font = font,
-                fontSize = fontSize,
-                fontColor = fontColor,
-                bubbleColor = playerColor,
-                bottomPosition = 0,
-                leftPosition = 0,
-                textPadding = textPadding,
-                bubbleOffset = bubbleSpacing,
-                bubbleWidth = bubbleWidth,
-                bubbleHeight = -1
-            };
-            aiUI = playerUI;
-            aiUI.bubbleColor = aiColor;
-            aiUI.leftPosition = 1;
 
-            // Add context to the user prompt - only if file exists
-            string contextPath = "Assets/Resources/PCRAG/PointCloudContext.md";
-            if (File.Exists(contextPath))
-            {
-                staticContext = File.ReadAllText(contextPath);
-            }
-
-            inputBubble = new LLMInputBubble(chatContainer, playerUI, "InputBubble", "Loading...", 4);
-            inputBubble.AddSubmitListener(onInputFieldSubmit);
-            inputBubble.AddValueChangedListener(onValueChanged);
-            inputBubble.setInteractable(false);
-            stopButton.gameObject.SetActive(true);
-            ShowLoadedMessages();
-            _ = llmCharacter.Warmup(WarmUpCallback);
-
-            string introduction = "The user has just opened the application. Please introduce yourself and your capabilities to the user.";
-
-            BubbleUICreate aiBubble = AddBubble("Loading Companion...", false);
-
-            Task chatTask = llmCharacter.Chat(introduction, aiBubble.SetText, AllowInput);
         }
 
         BubbleUICreate AddBubble(string message, bool isPlayerMessage)
@@ -174,7 +139,7 @@ namespace LLMPCCompanionBubble
                 Debug.Log(functionContext);
             }
         }
-        
+
         public void WarmUpCallback()
         {
             warmUpDone = true;
@@ -186,7 +151,7 @@ namespace LLMPCCompanionBubble
         {
             blockInput = false;
             inputBubble.ReActivateInputField();
-        }     
+        }
 
         public void CancelRequests()
         {
@@ -235,29 +200,82 @@ namespace LLMPCCompanionBubble
 
         void Update()
         {
-            if (pointCloudControls.keyboardShotcutsEnabled == true)
+            if (pointCloudControls.showAIAssistantButtonActive == true && LLMLoaded == false)
             {
-                inputBubble.setInteractable(false);
+                StartCoroutine(LoadAI());
+                LLMLoaded = true;
             }
-            else if (pointCloudControls.keyboardShotcutsEnabled == false)
+
+            else if (pointCloudControls.showAIAssistantButtonActive == true && LLMLoaded == true)
             {
-                if (!inputBubble.inputFocused() && warmUpDone)
+                if (pointCloudControls.keyboardShotcutsEnabled == true)
                 {
-                    inputBubble.ActivateInputField();
-                    StartCoroutine(BlockInteraction());
+                    inputBubble.setInteractable(false);
                 }
-            
-                if (lastBubbleOutsideFOV != -1)
+                else if (pointCloudControls.keyboardShotcutsEnabled == false)
                 {
-                    // destroy bubbles outside the container
-                    for (int i = 0; i <= lastBubbleOutsideFOV; i++)
+                    if (!inputBubble.inputFocused() && warmUpDone)
                     {
-                        chatBubbles[i].Destroy();
+                        inputBubble.ActivateInputField();
+                        StartCoroutine(BlockInteraction());
                     }
-                    chatBubbles.RemoveRange(0, lastBubbleOutsideFOV + 1);
-                    lastBubbleOutsideFOV = -1;
+
+                    if (lastBubbleOutsideFOV != -1)
+                    {
+                        // destroy bubbles outside the container
+                        for (int i = 0; i <= lastBubbleOutsideFOV; i++)
+                        {
+                            chatBubbles[i].Destroy();
+                        }
+                        chatBubbles.RemoveRange(0, lastBubbleOutsideFOV + 1);
+                        lastBubbleOutsideFOV = -1;
+                    }
                 }
             }
+        }
+
+        IEnumerator LoadAI()
+        {
+            if (font == null) font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            playerUI = new BubbleUI
+            {
+                sprite = sprite,
+                font = font,
+                fontSize = fontSize,
+                fontColor = fontColor,
+                bubbleColor = playerColor,
+                bottomPosition = 0,
+                leftPosition = 0,
+                textPadding = textPadding,
+                bubbleOffset = bubbleSpacing,
+                bubbleWidth = bubbleWidth,
+                bubbleHeight = -1
+            };
+            aiUI = playerUI;
+            aiUI.bubbleColor = aiColor;
+            aiUI.leftPosition = 1;
+
+            // Add context to the user prompt - only if file exists
+            string contextPath = "Assets/Resources/PCRAG/PointCloudContext.md";
+            if (File.Exists(contextPath))
+            {
+                staticContext = File.ReadAllText(contextPath);
+            }
+
+            inputBubble = new LLMInputBubble(chatContainer, playerUI, "InputBubble", "Loading...", 4);
+            inputBubble.AddSubmitListener(onInputFieldSubmit);
+            inputBubble.AddValueChangedListener(onValueChanged);
+            inputBubble.setInteractable(false);
+            stopButton.gameObject.SetActive(true);
+            ShowLoadedMessages();
+            _ = llmCharacter.Warmup(WarmUpCallback);
+
+            string introduction = "The user has just opened the AI Assistant Menu to chat with you. Please introduce yourself and your capabilities to the user.";
+
+            BubbleUICreate aiBubble = AddBubble("Loading Companion...", false);
+
+            Task chatTask = llmCharacter.Chat(introduction, aiBubble.SetText, AllowInput);
+            yield return null;
         }
 
         // Method for mouse click selection to inform llm of user interaction
