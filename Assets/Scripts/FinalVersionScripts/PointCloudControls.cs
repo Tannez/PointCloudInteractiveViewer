@@ -16,7 +16,7 @@ public class PointCloudControls : MonoBehaviour
     [Header("AI Interface")]
     [SerializeField] Button ShowAIAssistantButton;
     [SerializeField] GameObject LLMMenu; 
-    [HideInInspector] public bool showAIAssistantButtonActive = false;
+    [HideInInspector] public bool AIAssistantActive = false;
     private static PointCloudAI _pointCloudAI;
     private static PointCloudAI pointCloudAI
     {
@@ -964,6 +964,14 @@ public class PointCloudControls : MonoBehaviour
         classInstanceSelected[cloudInstance - 1] = true;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
 
+        camcontrol.CameraInstanceTranslation(cloudClass, cloudInstance);
+
+        if (cloudClass >= 4)
+        {
+            classToggles[0].isOn = false;
+            classToggles[1].isOn = false;
+        }
+        
         for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
         {
             GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
@@ -978,13 +986,18 @@ public class PointCloudControls : MonoBehaviour
             }
         }
 
-        string clickPrompt = "User has clicked and selected the button for cloud instance: " + cloudInstance + " within the menu for class: " + cloudClass + ". \nPlease let the user know only available information about this cloud instance";
-        pointCloudAI.SendChatMessage(clickPrompt);
+        if (AIAssistantActive == true)
+        {
+            string clickPrompt = "User has clicked and selected the button for cloud instance: " + cloudInstance + " within the menu for class: " + cloudClass + ". \nPlease let the user know only available information about this cloud instance";
+            pointCloudAI.SendChatMessage(clickPrompt);
+        }
     }
+
     public void UnSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
         classInstanceSelected[cloudInstance - 1] = false;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);
+
         for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
         {
             GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
@@ -1160,10 +1173,15 @@ public class PointCloudControls : MonoBehaviour
             }
         }
 
-        string clickPrompt = "User has clicked on cloud class: " + cloudClass + " instance: " + cloudInstance + " directly with the mouse.\n Please let them know what cloud they have currently selected and provide them with information about it.";
-        pointCloudAI.SendChatMessage(clickPrompt);
+        if (AIAssistantActive == true)
+        {
+            string clickPrompt = "User has clicked on cloud class: " + cloudClass + " instance: " + cloudInstance + " directly with the mouse.\n Please let them know what cloud they have currently selected and provide them with information about it.";
+            pointCloudAI.SendChatMessage(clickPrompt);
+        }
+
         yield return null;
     }
+
     public IEnumerator MouseUnSelectCloudClassInstance(int cloudClass, int cloudInstance)
     {
         classInstanceSelected[cloudInstance - 1] = false;
@@ -1417,23 +1435,23 @@ public class PointCloudControls : MonoBehaviour
     // Show the LLM window 
     public void ShowLLMInteract()
     {
-        if (showAIAssistantButtonActive == false)
+        if (AIAssistantActive == false)
         {
             // Show LLM menu
             LLMMenu.gameObject.SetActive(true);
             ShowAIAssistantButton.image.color = new Color(0, 0, 1, 0.4f);
             keyboardShotcutsEnabled = false;
-            showAIAssistantButtonActive = true;
+            AIAssistantActive = true;
             return;
         }
 
-        if (showAIAssistantButtonActive == true)
+        if (AIAssistantActive == true)
         {            
             // Hide LLM menu
             LLMMenu.gameObject.SetActive(false);
             ShowAIAssistantButton.image.color = new Color(1, 1, 1, 0.4f);
             keyboardShotcutsEnabled = true;
-            showAIAssistantButtonActive = false;
+            AIAssistantActive = false;
             return;
         }
     }

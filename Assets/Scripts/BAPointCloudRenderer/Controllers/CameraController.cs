@@ -54,6 +54,25 @@ namespace BAPointCloudRenderer.Controllers {
         [SerializeField] private Vector3 ExplodedPosition = new Vector3(-8.85076523f, 9.89685631f, 6.88709688f);
         [SerializeField] private Vector3 ExplodedOrientation = new Vector3(18, 82.75f, 0);
 
+        [Header("Instance Level Positions")]
+        // Class 4 instances (Tech)
+        [SerializeField] private Vector3 class4Instance1CamPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        [SerializeField] private Vector3 class4Instance1CamOrientation = new Vector3(0.0f, 0.0f, 0.0f);  
+        [SerializeField] private Vector3 class4Instance2CamPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        [SerializeField] private Vector3 class4Instance2CamOrientation = new Vector3(0.0f, 0.0f, 0.0f); 
+
+        // Class 5 instances (Pipes)
+        [SerializeField] private Vector3 class5Instance1CamPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        [SerializeField] private Vector3 class5Instance1CamOrientation = new Vector3(0.0f, 0.0f, 0.0f);  
+        [SerializeField] private Vector3 class5Instance2CamPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        [SerializeField] private Vector3 class5Instance2CamOrientation = new Vector3(0.0f, 0.0f, 0.0f);  
+        
+        // Class 6 instances (Bottom)
+        [SerializeField] private Vector3 class6Instance1CamPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        [SerializeField] private Vector3 class6Instance1CamOrientation = new Vector3(0.0f, 0.0f, 0.0f); 
+        [SerializeField] private Vector3 class6Instance2CamPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        [SerializeField] private Vector3 class6Instance2CamOrientation = new Vector3(0.0f, 0.0f, 0.0f);   
+
         void Start() 
         {
             //Start scene without mouse moving camera
@@ -86,6 +105,7 @@ namespace BAPointCloudRenderer.Controllers {
                     MouseClickOnScene = true;
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
+                    pointCloudControls.keyboardShotcutsEnabled = true;
                     //cloudControllerLLM.keyboardShotcutsEnabled = true;
                 }
             }
@@ -225,6 +245,80 @@ namespace BAPointCloudRenderer.Controllers {
                 currentCamPosition = ExplodedPosition;
                 pitch = ExplodedOrientation.x;
                 yaw = ExplodedOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
+        }
+
+        public void CameraInstanceTranslation(int cloudClass, int ZoomToInstance)
+        {
+            if (cloudClass < 4)
+            {
+                return;
+            }
+            if (cloudClass == 4 && ZoomToInstance == 1) // 04_01
+            {
+                movingCamera = true;
+                Camera.main.transform.position = class4Instance1CamPosition;
+                currentCamPosition = class4Instance1CamPosition;
+                pitch = class4Instance1CamOrientation.x;
+                yaw = class4Instance1CamOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
+            if (cloudClass == 4 && ZoomToInstance == 2) // 04_02
+            {
+                movingCamera = true;
+                Camera.main.transform.position = class4Instance2CamPosition;
+                currentCamPosition = class4Instance2CamPosition;
+                pitch = class4Instance2CamOrientation.x;
+                yaw = class4Instance2CamOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
+            if (cloudClass == 5 && ZoomToInstance == 1) // 05_01
+            {
+                movingCamera = true;
+                Camera.main.transform.position = class5Instance1CamPosition;
+                currentCamPosition = class5Instance1CamPosition;
+                pitch = class5Instance1CamOrientation.x;
+                yaw = class5Instance1CamOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
+            if (cloudClass == 5 && ZoomToInstance == 2) // 05_02
+            {
+                movingCamera = true;
+                Camera.main.transform.position = class5Instance2CamPosition;
+                currentCamPosition = class5Instance2CamPosition;
+                pitch = class5Instance2CamOrientation.x;
+                yaw = class5Instance2CamOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
+            if (cloudClass == 6 && ZoomToInstance == 1) // 06_01
+            {
+                movingCamera = true;
+                Camera.main.transform.position = class6Instance1CamPosition;
+                currentCamPosition = class6Instance1CamPosition;
+                pitch = class6Instance1CamOrientation.x;
+                yaw = class6Instance1CamOrientation.y;
+                transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
+                movingCamera = false;
+                return;
+            }
+            if (cloudClass == 6 && ZoomToInstance == 2) // 06_02
+            {
+                movingCamera = true;
+                Camera.main.transform.position = class6Instance2CamPosition;
+                currentCamPosition = class6Instance2CamPosition;
+                pitch = class6Instance2CamOrientation.x;
+                yaw = class6Instance2CamOrientation.y;
                 transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
                 movingCamera = false;
                 return;

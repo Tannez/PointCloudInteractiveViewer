@@ -370,7 +370,7 @@ public class LLMFunctionHandler : MonoBehaviour
     string[] GetFunctionNames()
     {
         List<string> functionNames = new List<string>();
-        foreach (var function in typeof(PCLLMFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)) functionNames.Add(function.Name);
+        foreach (var function in typeof(PCAIFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)) functionNames.Add(function.Name);
         return functionNames.ToArray();
     }
     // // Get the available functions within the Functions class
@@ -405,7 +405,7 @@ public class LLMFunctionHandler : MonoBehaviour
     // Function within the function class which the LLM will try and call
     bool CallFunction(string functionName)
     {
-        return (bool)typeof(PCLLMFunctions).GetMethod(functionName).Invoke(null, null);
+        return (bool)typeof(PCAIFunctions).GetMethod(functionName).Invoke(null, null);
     }
 
     // Method for when prompt has been submitted
@@ -432,7 +432,7 @@ public class LLMFunctionHandler : MonoBehaviour
         //     return true;
         // }
 
-        return (result, PCLLMFunctions.functionPrompt, PCLLMFunctions.contextPrompt);
+        return (result, PCAIFunctions.functionPrompt, PCAIFunctions.contextPrompt);
     }
 }
 

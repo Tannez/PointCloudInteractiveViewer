@@ -200,13 +200,13 @@ namespace LLMPCCompanionBubble
 
         void Update()
         {
-            if (pointCloudControls.showAIAssistantButtonActive == true && LLMLoaded == false)
+            if (pointCloudControls.AIAssistantActive == true && LLMLoaded == false)
             {
                 StartCoroutine(LoadAI());
                 LLMLoaded = true;
             }
 
-            else if (pointCloudControls.showAIAssistantButtonActive == true && LLMLoaded == true)
+            else if (pointCloudControls.AIAssistantActive == true && LLMLoaded == true)
             {
                 if (pointCloudControls.keyboardShotcutsEnabled == true)
                 {
