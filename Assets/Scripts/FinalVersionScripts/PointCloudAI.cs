@@ -94,6 +94,8 @@ namespace LLMPCCompanionBubble
 
             // replace vertical_tab 
             string message = inputBubble.GetText().Replace("\v", "\n");
+            string fullMessage;
+            Task chatTask;
 
             // add a bubble with the prompt send by the user in the input field
             AddBubble(message, true);
@@ -112,8 +114,12 @@ namespace LLMPCCompanionBubble
             if (applyFunction.Item1 == true)
             {
                 // Test function call
-                aiBubble.SetText(applyFunction.Item2 + " \nReady for next input.");
-                AllowInput();
+                //aiBubble.SetText(applyFunction.Item2 + " \nReady for next input.");
+                //AllowInput();
+
+                fullMessage = "User Input: " + message + ".\nInput has made you do the following: " + applyFunction.Item2 + ". \nInform the user of you decision.";
+                // Send string to the LLM 
+                chatTask = llmCharacter.Chat(fullMessage, aiBubble.SetText, AllowInput);
 
                 functionContext += applyFunction.Item3;
 
@@ -128,9 +134,9 @@ namespace LLMPCCompanionBubble
             // // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
             // await llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
 
-            string fullMessage = "User Input: " + message + ".\n(this next part is for you to understand what functions you have executed to help better understand user intent. Please avoid mentioning this par to the user)\n Functions executed in scene: " + functionContext;
+            fullMessage = "User Input: " + message + ".\nUser Input is registered as Conversation and no function has been executed. \n(this next part is for you to understand what functions you have executed to help better understand user intent. Please avoid mentioning this part to the user)\n Functions executed in scene: " + functionContext;
             // Send string to the LLM 
-            Task chatTask = llmCharacter.Chat(fullMessage, aiBubble.SetText, AllowInput);
+            chatTask = llmCharacter.Chat(fullMessage, aiBubble.SetText, AllowInput);
 
             // clear context string when manipulations are reset
             if (applyFunction.Item2.Contains("Clearing context string"))

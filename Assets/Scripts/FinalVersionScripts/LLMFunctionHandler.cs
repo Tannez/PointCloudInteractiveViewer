@@ -45,7 +45,7 @@ public class PCAIFunctions : PointCloudControls
     {
         pointCloudControls.EDLToggle.isOn = !EDLIsActive;
         EDLIsActive = !EDLIsActive;
-        functionPrompt = "The EDL Toggle has been set to " + EDLIsActive;
+        functionPrompt = "You have set the EDL toggle to: " + EDLIsActive;
         contextPrompt += functionPrompt;
         return true;
     }
@@ -75,7 +75,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.ZoomToClassLLM(1);
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Class 1 (Terrain) has been prioritiesed.";
+        functionPrompt = "You have prioritiesed the Terrain (Class 1).";
         contextPrompt += functionPrompt;
         return true;
         
@@ -105,7 +105,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.ZoomToClassLLM(2);
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Class 2 (Top) has been prioritiesed.";
+        functionPrompt = "You have prioritiesed the Top (Class 2).";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -135,7 +135,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.ZoomToClassLLM(3);
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Class 3 (Walls) has been prioritiesed.";
+        functionPrompt = "You have prioritiesed the Walls (Class 3).";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -165,7 +165,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.ZoomToClassLLM(4);
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Class 4 (Tech) has been prioritiesed.";
+        functionPrompt = "You have prioritiesed the Internal Tech (Class 4).";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -195,7 +195,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.ZoomToClassLLM(3);
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Class 5 (Pipes) has been prioritiesed.";
+        functionPrompt = "You have prioritiesed the Connection Pipes (Class 5).";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -225,7 +225,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.ZoomToClassLLM(4);
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Class 6 (Bottom) has been prioritiesed.";
+        functionPrompt = "You have prioritiesed the Bottom (Class 6).";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -257,7 +257,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.SelectCloudClassInstance(currentFocus, 1);
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Showcasing the Debris Screen (instance 1) within Class 4.";
+        functionPrompt = "You are showcasing the Debris Screen (instance 1) within Class 4.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -289,7 +289,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.SelectCloudClassInstance(currentFocus, 2);
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Showcasing the Flow Control Gate (instance 2) within Class 4.";
+        functionPrompt = "You are showcasing the Flow Control Gate (instance 2) within Class 4.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -321,7 +321,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.SelectCloudClassInstance(currentFocus, 1);
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Showcasing the Inlet and Outlet Pipes (instance 1) within Class 5.";
+        functionPrompt = "You are showcasing the Inlet and Outlet Pipes (instance 1) within Class 5.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -353,7 +353,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.SelectCloudClassInstance(currentFocus, 2);
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Showcasing the Conduit (instance 2) within Class 5.";
+        functionPrompt = "You are showcasing the Conduit (instance 2) within Class 5.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -385,7 +385,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.SelectCloudClassInstance(currentFocus, 1);
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Showcasing the Retention Bassin (instance 1) within Class 6.";
+        functionPrompt = "You are showcasing the Retention Bassin (instance 1) within Class 6.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -417,7 +417,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.SelectCloudClassInstance(currentFocus, 2);
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Showcasing the Spillway (instance 2) within Class 6.";
+        functionPrompt = "You are showcasing the Spillway (instance 2) within Class 6.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -438,7 +438,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.ResetClassToggles();
         pointCloudControls.ExplodedViewSlider.value = 0;
         pointCloudControls.keyboardShotcutsEnabled = true;
-        functionPrompt = "Adjustments to the point cloud have been reset. Clearing context string.";
+        functionPrompt = "You have reset the point cloud to default setup.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -456,7 +456,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
         //return "Displaying Point Clouds as colored by their RGBA values";
-        functionPrompt = "Point cloud has been colored based on point RGB values.";
+        functionPrompt = "You have colored points in the point clouds, based RGB values.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -471,7 +471,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
         //return "Displaying Point Clouds as colored by their classification";
-        functionPrompt = "Point cloud has been colored based on point classification.";
+        functionPrompt = "You have colored points in the point clouds, based on classification.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -522,7 +522,7 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.ExplodedViewSlider.value = 25;
         pointCloudControls.ZoomToClassLLM(currentFocus);
         currentFocus = 0;
-        functionPrompt = "The point cloud has been 'exploded'. \n Classes are separated based on the slider value of 25 for the exploded view. \n Camera has been moved for all clouds to be visible.";
+        functionPrompt = "You have 'exploded' the point cloud. \n Classes are separated based on the slider value of 25 for the exploded view. \n Camera has been moved for all clouds to be visible.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -535,7 +535,7 @@ public class PCAIFunctions : PointCloudControls
     /// <returns>bool false</returns>
     public static bool Conversation()
     {
-        functionPrompt = "The function Conversation has been selected";
+        functionPrompt = "You are engaging in conversation.";
         return false;
     }
 }
