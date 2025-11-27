@@ -142,8 +142,7 @@ public class PCAIFunctions : PointCloudControls
     /// <summary>
     /// This function puts focus on the fourth class in the point cloud (the Tech of the well). 
     /// The camera is moved to an angle that gives the user the best overview of this cloud class. 
-    /// A red highlight color is added to make the current priority more visible. 
-    /// The third class (walls) is hidden as to not block for this class. 
+    /// A red highlight color is added to make the current priority more visible.
     /// Laslty a menu is spawned that shows all instances within the class");
     /// </summary>
     /// <returns>bool true</returns>
@@ -165,7 +164,6 @@ public class PCAIFunctions : PointCloudControls
         }
         pointCloudControls.keyboardShotcutsEnabled = true;
         pointCloudControls.ZoomToClassLLM(4);
-        pointCloudControls.classToggles[2].isOn = !pointCloudControls.classToggles[2].isOn;
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
         functionPrompt = "Class 4 (Tech) has been prioritiesed.";
         contextPrompt += functionPrompt;
@@ -214,6 +212,102 @@ public class PCAIFunctions : PointCloudControls
         pointCloudControls.classToggles[1].isOn = false;
         if (currentFocus == 0)
         {
+            currentFocus = 6;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+            pointCloudControls.ResetClassToggles();
+            currentFocus = 6;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        pointCloudControls.keyboardShotcutsEnabled = true;
+        pointCloudControls.ZoomToClassLLM(4);
+        pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
+        functionPrompt = "Class 6 (Bottom) has been prioritiesed.";
+        contextPrompt += functionPrompt;
+        return true;
+    }
+    
+    /// <summary>
+    /// This function puts focus on the instance 'debris_screen' in the point cloud for class 4 (the internal tech class). 
+    /// The camera is moved to an angle that gives the user the best overview of this instance. 
+    /// A blue highlight color is added to make the current instance more visible. 
+    /// Other instances are marked red (if not also selected).
+    /// Laslty the menu for instances in class is spawned.
+    /// </summary>
+    /// <returns>bool true</returns>
+    public static bool FindDebrisScreen()
+    {
+        pointCloudControls.classToggles[0].isOn = false;
+        pointCloudControls.classToggles[1].isOn = false;
+        if (currentFocus == 0)
+        {
+            currentFocus = 4;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+            pointCloudControls.ResetClassToggles();
+            currentFocus = 4;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        pointCloudControls.SelectCloudClassInstance(currentFocus, 1);
+        pointCloudControls.keyboardShotcutsEnabled = true;
+        pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
+        functionPrompt = "Showcasing the Debris Screen (instance 1) within Class 4.";
+        contextPrompt += functionPrompt;
+        return true;
+    }
+
+    /// <summary>
+    /// This function puts focus on the instance 'flow_control_gate' in the point cloud for class 4 (the internal tech class). 
+    /// The camera is moved to an angle that gives the user the best overview of this instance. 
+    /// A blue highlight color is added to make the current instance more visible. 
+    /// Other instances are marked red (if not also selected).
+    /// Laslty the menu for instances in class is spawned.
+    /// </summary>
+    /// <returns>bool true</returns>
+    public static bool FindFlowControlGate()
+    {
+        pointCloudControls.classToggles[0].isOn = false;
+        pointCloudControls.classToggles[1].isOn = false;
+        if (currentFocus == 0)
+        {
+            currentFocus = 4;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+            pointCloudControls.ResetClassToggles();
+            currentFocus = 4;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        pointCloudControls.SelectCloudClassInstance(currentFocus, 2);
+        pointCloudControls.keyboardShotcutsEnabled = true;
+        pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
+        functionPrompt = "Showcasing the Flow Control Gate (instance 2) within Class 4.";
+        contextPrompt += functionPrompt;
+        return true;
+    }
+
+    /// <summary>
+    /// This function puts focus on the instance 'inlet_outlet' in the point cloud for class 5 (the Pipes class). 
+    /// The camera is moved to an angle that gives the user the best overview of this instance. 
+    /// A blue highlight color is added to make the current instance more visible. 
+    /// Other instances are marked red (if not also selected).
+    /// Laslty the menu for instances in class is spawned.
+    /// </summary>
+    /// <returns>bool true</returns>
+    public static bool FindInletOutlet()
+    {
+        pointCloudControls.classToggles[0].isOn = false;
+        pointCloudControls.classToggles[1].isOn = false;
+        if (currentFocus == 0)
+        {
             currentFocus = 5;
             pointCloudControls.ShowClassInstanceUI(currentFocus);
         }
@@ -224,10 +318,106 @@ public class PCAIFunctions : PointCloudControls
             currentFocus = 5;
             pointCloudControls.ShowClassInstanceUI(currentFocus);
         }
+        pointCloudControls.SelectCloudClassInstance(currentFocus, 1);
         pointCloudControls.keyboardShotcutsEnabled = true;
-        pointCloudControls.ZoomToClassLLM(4);
         pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
-        functionPrompt = "Class 6 (Bottom) has been prioritiesed.";
+        functionPrompt = "Showcasing the Inlet and Outlet Pipes (instance 1) within Class 5.";
+        contextPrompt += functionPrompt;
+        return true;
+    }
+
+    /// <summary>
+    /// This function puts focus on the instance 'conduit' in the point cloud for class 5 (the Pipes class). 
+    /// The camera is moved to an angle that gives the user the best overview of this instance. 
+    /// A blue highlight color is added to make the current instance more visible. 
+    /// Other instances are marked red (if not also selected).
+    /// Laslty the menu for instances in class is spawned.
+    /// </summary>
+    /// <returns>bool true</returns>
+    public static bool FindConduit()
+    {
+        pointCloudControls.classToggles[0].isOn = false;
+        pointCloudControls.classToggles[1].isOn = false;
+        if (currentFocus == 0)
+        {
+            currentFocus = 5;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+            pointCloudControls.ResetClassToggles();
+            currentFocus = 5;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        pointCloudControls.SelectCloudClassInstance(currentFocus, 2);
+        pointCloudControls.keyboardShotcutsEnabled = true;
+        pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
+        functionPrompt = "Showcasing the Conduit (instance 2) within Class 5.";
+        contextPrompt += functionPrompt;
+        return true;
+    }
+
+    /// <summary>
+    /// This function puts focus on the instance 'retention_bassin' in the point cloud for class 6 (the Bottom class). 
+    /// The camera is moved to an angle that gives the user the best overview of this instance. 
+    /// A blue highlight color is added to make the current instance more visible. 
+    /// Other instances are marked red (if not also selected).
+    /// Laslty the menu for instances in class is spawned.
+    /// </summary>
+    /// <returns>bool true</returns>
+    public static bool FindRetentionBassin()
+    {
+        pointCloudControls.classToggles[0].isOn = false;
+        pointCloudControls.classToggles[1].isOn = false;
+        if (currentFocus == 0)
+        {
+            currentFocus = 6;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+            pointCloudControls.ResetClassToggles();
+            currentFocus = 6;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        pointCloudControls.SelectCloudClassInstance(currentFocus, 1);
+        pointCloudControls.keyboardShotcutsEnabled = true;
+        pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
+        functionPrompt = "Showcasing the Retention Bassin (instance 1) within Class 6.";
+        contextPrompt += functionPrompt;
+        return true;
+    }
+
+    /// <summary>
+    /// This function puts focus on the instance 'spillway' in the point cloud for class 6 (the Bottom class). 
+    /// The camera is moved to an angle that gives the user the best overview of this instance. 
+    /// A blue highlight color is added to make the current instance more visible. 
+    /// Other instances are marked red (if not also selected).
+    /// Laslty the menu for instances in class is spawned.
+    /// </summary>
+    /// <returns>bool true</returns>
+    public static bool FindSpillway()
+    {
+        pointCloudControls.classToggles[0].isOn = false;
+        pointCloudControls.classToggles[1].isOn = false;
+        if (currentFocus == 0)
+        {
+            currentFocus = 6;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        else
+        {
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+            pointCloudControls.ResetClassToggles();
+            currentFocus = 6;
+            pointCloudControls.ShowClassInstanceUI(currentFocus);
+        }
+        pointCloudControls.SelectCloudClassInstance(currentFocus, 2);
+        pointCloudControls.keyboardShotcutsEnabled = true;
+        pointCloudControls.StartCoroutine(pointCloudControls.ReloadClouds());
+        functionPrompt = "Showcasing the Spillway (instance 2) within Class 6.";
         contextPrompt += functionPrompt;
         return true;
     }
@@ -373,13 +563,6 @@ public class LLMFunctionHandler : MonoBehaviour
         foreach (var function in typeof(PCAIFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)) functionNames.Add(function.Name);
         return functionNames.ToArray();
     }
-    // // Get the available functions within the Functions class
-    // string[] GetFunctionDescriptions()
-    // {
-    //     List<string> functionDescription = new List<string>();
-    //     foreach (var function in typeof(PCLLMFunctions).GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)) functionDescription.Add(function.
-    //     return functionDescription.ToArray();
-    // }
 
     // Specfify grammar setup for the LLM (This one is set up for multiple choice responses)
     string MultipleChoiceGrammar()
@@ -396,8 +579,6 @@ public class LLMFunctionHandler : MonoBehaviour
         prompt += "User Input:" + message + "\n";
         prompt += "Function Choices:\n";
         foreach (string functionName in GetFunctionNames()) prompt += $"- {functionName}\n";
-        // prompt += "\nFunction Descriptions:\n";
-        // foreach (string functionDescription in GetFunctionDescriptions()) prompt += $"- {functionDescription}\n";
 
         return prompt;
     }
@@ -408,29 +589,11 @@ public class LLMFunctionHandler : MonoBehaviour
         return (bool)typeof(PCAIFunctions).GetMethod(functionName).Invoke(null, null);
     }
 
-    // Method for when prompt has been submitted
-    // async void onInputFieldSubmit(string message)
-    // {
-    //     playerText.interactable = false;
-    //     string functionName = await llmCharacter.Chat(ConstructPrompt(message));
-    //     string result = CallFunction(functionName);
-    //     AIText.text = $"Calling {functionName}\n{result}";
-    //     playerText.interactable = true;
-    // }
-
     public async Task<(bool, string, string)> TryExecuteCommand(string message)
     {
         string functionName = await llmCharacter.Chat(ConstructPrompt(message));
 
         bool result = CallFunction(functionName);
-
-        // if (result == true && message.Contains("background") && functionName.Contains("SetBackground"))
-        // {
-        //     if (message.Contains("black")) PCFunctions.SetBackground("Black");
-        //     else if (message.Contains("white")) PCFunctions.SetBackground("White");
-        //     else if (message.Contains("skybox")) PCFunctions.SetBackground("Skybox");
-        //     return true;
-        // }
 
         return (result, PCAIFunctions.functionPrompt, PCAIFunctions.contextPrompt);
     }

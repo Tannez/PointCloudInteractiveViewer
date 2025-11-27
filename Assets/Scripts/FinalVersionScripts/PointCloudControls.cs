@@ -1449,7 +1449,7 @@ public class PointCloudControls : MonoBehaviour
         {            
             // Hide LLM menu
             LLMMenu.gameObject.SetActive(false);
-            ShowAIAssistantButton.image.color = new Color(1, 1, 1, 0.4f);
+            ShowAIAssistantButton.image.color = new Color(255, 255, 255, 1);
             keyboardShotcutsEnabled = true;
             AIAssistantActive = false;
             return;
@@ -1572,7 +1572,7 @@ public class PointCloudControls : MonoBehaviour
                     zoomToButtonActive[i] = false;
                 }
             }
-            showZoomButton.image.color = new Color(1, 1, 1, 0.4f);
+            showZoomButton.image.color = new Color(255, 255, 255, 1);
             zoomMenuBackgroundImage.gameObject.SetActive(false);
             return;
         }
