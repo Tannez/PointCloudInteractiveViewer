@@ -117,6 +117,7 @@ public class PointCloudControls : MonoBehaviour
     [Header("Instance Buttons")]
     [Tooltip("Buttons available within the Instance Menu. Only shown when specific Class is selected")]
     [SerializeField] List<Button> ClassInstancesButtons = new List<Button>();
+    [SerializeField] GameObject cloudInformationUI;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassInstanceColor;
     BAPointCloudRenderer.ObjectCreation.ColorMode previousClassPriorityColor;
 
@@ -965,6 +966,7 @@ public class PointCloudControls : MonoBehaviour
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
 
         camcontrol.CameraInstanceTranslation(cloudClass, cloudInstance);
+        DisplayCloudInformation(true);
 
         if (cloudClass >= 4)
         {
@@ -998,6 +1000,8 @@ public class PointCloudControls : MonoBehaviour
         classInstanceSelected[cloudInstance - 1] = false;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);
 
+        DisplayCloudInformation(false);
+
         for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
         {
             GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
@@ -1013,6 +1017,12 @@ public class PointCloudControls : MonoBehaviour
                 instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
             }
         }
+    }
+
+    // Method for displaying cloud information UI when instances in class have been selected
+    public void DisplayCloudInformation(bool status)
+    {
+        cloudInformationUI.SetActive(status);
     }
 
     // Method for Instance Menu Buttons to show selected cloud instance

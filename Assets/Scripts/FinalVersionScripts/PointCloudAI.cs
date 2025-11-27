@@ -117,7 +117,7 @@ namespace LLMPCCompanionBubble
                 //aiBubble.SetText(applyFunction.Item2 + " \nReady for next input.");
                 //AllowInput();
 
-                fullMessage = "User Input: " + message + ".\nInput has made you do the following: " + applyFunction.Item2 + ". \nInform the user of you decision.";
+                fullMessage = "User Input: " + message + ".\nInput has made you do the following: " + applyFunction.Item2 + ". \nInform the user of your decision.";
                 // Send string to the LLM 
                 chatTask = llmCharacter.Chat(fullMessage, aiBubble.SetText, AllowInput);
 
@@ -134,7 +134,7 @@ namespace LLMPCCompanionBubble
             // // Send combined string to the LLM + run async to ensure Unity waits for the response instead of spawning orphaned background tasks.
             // await llmCharacter.Chat(combinedPrompt, aiBubble.SetText, AllowInput);
 
-            fullMessage = "User Input: " + message + ".\nUser Input is registered as Conversation and no function has been executed. \n(this next part is for you to understand what functions you have executed to help better understand user intent. Please avoid mentioning this part to the user)\n Functions executed in scene: " + functionContext;
+            fullMessage = "User Input: " + message + ".\nUser Input is registered as Conversation and no function has been executed. \n(this next part is for you to understand what functions you have already executed to help better understand user intent. Please avoid mentioning this part to the user)\n Functions executed in scene: " + functionContext;
             // Send string to the LLM 
             chatTask = llmCharacter.Chat(fullMessage, aiBubble.SetText, AllowInput);
 
