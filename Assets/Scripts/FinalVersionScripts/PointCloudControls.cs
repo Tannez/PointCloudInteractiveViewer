@@ -966,6 +966,7 @@ public class PointCloudControls : MonoBehaviour
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
 
         camcontrol.CameraInstanceTranslation(cloudClass, cloudInstance);
+        
         DisplayCloudInformation(true);
 
         if (cloudClass >= 4)
@@ -1168,6 +1169,8 @@ public class PointCloudControls : MonoBehaviour
         classInstanceSelected[cloudInstance - 1] = true;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(0, 0, 1, 0.4f);
 
+        DisplayCloudInformation(true);
+
         for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
         {
             GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
@@ -1197,6 +1200,9 @@ public class PointCloudControls : MonoBehaviour
     {
         classInstanceSelected[cloudInstance - 1] = false;
         ClassInstancesButtons[cloudInstance - 1].image.color = new Color(1, 1, 1, 0.4f);
+
+        DisplayCloudInformation(false);
+
         for (int i = 0; i < PCClasses[cloudClass - 1].cloudClassGO.transform.childCount; i++)
         {
             GameObject instanceInClass = PCClasses[cloudClass - 1].cloudClassGO.transform.GetChild(i).gameObject;
