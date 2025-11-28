@@ -1023,6 +1023,7 @@ public class PointCloudControls : MonoBehaviour
     public void DisplayCloudInformation(bool status)
     {
         cloudInformationUI.SetActive(status);
+        cloudInformationUI.GetComponent<CloudInformationRegulator>().ChangeInformation();
     }
 
     // Method for Instance Menu Buttons to show selected cloud instance
