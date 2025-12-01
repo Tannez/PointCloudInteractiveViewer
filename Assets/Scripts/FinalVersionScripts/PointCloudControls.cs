@@ -709,6 +709,8 @@ public class PointCloudControls : MonoBehaviour
             classInstanceUIActive = false;
             instanceUIImageClass.gameObject.SetActive(false);
 
+            DisplayCloudInformation(false);
+
             DePrioritise();
 
             activeClassInstanceInMenu = 0;
@@ -956,6 +958,8 @@ public class PointCloudControls : MonoBehaviour
             instanceInClass.GetComponentInChildren<DefaultMeshConfiguration>().reload = true;
             classButtons[cloudClass - 1].image.color = new Color(1, 1, 1, 0.4f);
         }
+
+        DisplayCloudInformation(false);
         yield return null;
     }
 
