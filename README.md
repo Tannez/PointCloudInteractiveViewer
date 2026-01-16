@@ -25,6 +25,4 @@ combining their chat system with their Function handler to create an AI assitant
 or as general conversation. 
 
 The current prototype uses a point cloud that is separated into 6 classes and 9 instances, and uses a file naming convention of 01_01 or 04_02 to load point cloud files within their proper class,
-with the first number representing the class and second number the instance. Future work should attempt to enable more instance for more specific control, 
-but can be hindered by the current method of rendering instances (or the hardware itself), as it creates multiple V2renderers that have to operate at the same time for each instance, 
-while also having to leave room in the GPU for the LLM model to operate as desired. 
+with the first number representing the class and second number the instance. Future work should attempt to integrate more instances to allow for more control when searching for specific  information, but can be hindered by the current method of rendering instances, and maybe also the hardware itself. The system currently creates multiple V2renderers that have to operate at the same time (one for each instance), while also having to leave room in the GPU for the LLM model to operate as desired. Other improvements could be to explore other features and tools used within other 3D viewing software, or to make the current system more fluid and dynamic to account for other types of point clouds. 
