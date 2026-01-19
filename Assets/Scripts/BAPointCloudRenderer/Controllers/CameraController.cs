@@ -9,8 +9,6 @@ namespace BAPointCloudRenderer.Controllers {
      */
     public class CameraController : MonoBehaviour {
 
-        [SerializeField] UIInstanceController uIInstanceController; // Use this if not LLM scene 
-        [SerializeField] CloudControllerLLM cloudControllerLLM; // Use this if LLM scene 
         [SerializeField] PointCloudControls pointCloudControls; // Final Version 
         public bool MouseClickOnScene = true;
         public bool withLLM = true;

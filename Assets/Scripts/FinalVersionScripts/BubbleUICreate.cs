@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System;
 using LLMUnity;
 
-namespace PointCloudAISystem
+namespace LLMPCCompanionBubble
 {
     struct BubbleUI
     {
