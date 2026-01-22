@@ -94,7 +94,7 @@ public class CloudInformationRegulator : MonoBehaviour
             //Last Inspected
             cloudInfoText[5].text = "01-05-2025";
             //Inspector
-            cloudInfoText[6].text = "Kim Kallestrup";
+            cloudInfoText[6].text = "Andreas Andersen";
             //Status
             cloudInfoText[7].text = "Active";
 
@@ -116,7 +116,7 @@ public class CloudInformationRegulator : MonoBehaviour
             //Last Inspected
             cloudInfoText[5].text = "01-05-2025";
             //Inspector
-            cloudInfoText[6].text = "Kim Kallestrup";
+            cloudInfoText[6].text = "Andreas Andersen";
             //Status
             cloudInfoText[7].text = "Active";
 
@@ -139,7 +139,7 @@ public class CloudInformationRegulator : MonoBehaviour
             //Last Inspected
             cloudInfoText[5].text = "22-03-2019";
             //Inspector
-            cloudInfoText[6].text = "Kent Andersen";
+            cloudInfoText[6].text = "Kent Nielsen";
             //Status
             cloudInfoText[7].text = "Active";
 
@@ -161,7 +161,7 @@ public class CloudInformationRegulator : MonoBehaviour
             //Last Inspected
             cloudInfoText[5].text = "22-03-2019";
             //Inspector
-            cloudInfoText[6].text = "Kent Andersen";
+            cloudInfoText[6].text = "Kent Nielsen";
             //Status
             cloudInfoText[7].text = "Active";
 
@@ -183,7 +183,7 @@ public class CloudInformationRegulator : MonoBehaviour
             //Last Inspected
             cloudInfoText[5].text = "01-07-2022";
             //Inspector
-            cloudInfoText[6].text = "Gert Nielsen";
+            cloudInfoText[6].text = "Gert Jensen";
             //Status
             cloudInfoText[7].text = "Active";
 
@@ -205,7 +205,7 @@ public class CloudInformationRegulator : MonoBehaviour
             //Last Inspected
             cloudInfoText[5].text = "01-07-2022";
             //Inspector
-            cloudInfoText[6].text = "Gert Nielsen";
+            cloudInfoText[6].text = "Gert Jensen";
             //Status
             cloudInfoText[7].text = "Inactive";
 
