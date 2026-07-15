@@ -47,7 +47,6 @@ public class PointCloudControls : MonoBehaviour
     [SerializeField] CloudCreator cloudCreator;
     [Tooltip("Before running scene, an initial cloud loader is required in hierarchy. Create empty GameObject beneath Cloud Instantiator and add a Dynamic Loader to it. Then insert this cloud loader here.")]
     [SerializeField] GameObject InitialCloudLoader;
-    [SerializeField] private GameObject clippingPlane;
     DirectoryCloudLoaderFinal directoryCloudLoaderFinal;
     // // Mesh Configurations
     // [SerializeField] private PointMeshConfiguration pointMeshConfiguration;
@@ -276,20 +275,17 @@ public class PointCloudControls : MonoBehaviour
     // Methods For Changing Skybox/Background Color In Scene
     public void SkyBoxButton()
     {
-        clippingPlane.SetActive(false);
         cam.clearFlags = CameraClearFlags.Skybox;
         //Debug.Log("SkyBox Button Pressed!");
     }
     public void BlackButton()
     {
-        clippingPlane.SetActive(true);
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = Color.black;
         //Debug.Log("Black Button Pressed!");
     }
     public void WhiteButton()
     {
-        clippingPlane.SetActive(true);
         cam.clearFlags = CameraClearFlags.SolidColor;
         cam.backgroundColor = Color.white;
         //Debug.Log("White Button Pressed!");
